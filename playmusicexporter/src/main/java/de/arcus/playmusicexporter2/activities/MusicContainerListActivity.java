@@ -279,7 +279,7 @@ public class MusicContainerListActivity extends AppCompatActivity
                 musicTrackListFragment.setMusicTrackList(dataSourcePlaylist.getAll());
                 break;
             case Rated:
-                // Load all reated albums to the list
+                // Load all created albums to the list
                 AlbumDataSource dataSourceRatedAlbum = new AlbumDataSource(mPlayMusicManager);
                 dataSourceRatedAlbum.setOfflineOnly(true);
                 dataSourceRatedAlbum.setRatedOnly(true);
