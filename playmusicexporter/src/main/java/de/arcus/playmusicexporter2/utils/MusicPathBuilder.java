@@ -182,6 +182,7 @@ public class MusicPathBuilder {
     {
         // Forbidden chars
         filename = filename.replace('\\', '-');
+        filename = filename.replace('/', '-');
         filename = filename.replace(':', '-');
         filename = filename.replace('*', '-');
         filename = filename.replace('?', '-');
