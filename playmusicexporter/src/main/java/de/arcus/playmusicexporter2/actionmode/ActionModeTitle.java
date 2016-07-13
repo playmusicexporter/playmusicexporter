@@ -29,8 +29,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import de.arcus.playmusicexporter2.R;
-import de.arcus.playmusicexporter2.activities.MusicTrackListActivity;
 import de.arcus.playmusicexporter2.activities.MusicContainerListActivity;
+import de.arcus.playmusicexporter2.activities.MusicTrackListActivity;
+import de.arcus.playmusicexporter2.fragments.MusicTrackListFragment;
 import de.arcus.playmusicexporter2.items.SelectedTrackList;
 
 /**
@@ -88,6 +89,11 @@ public class ActionModeTitle implements ActionMode.Callback {
                     MusicTrackListActivity trackDetailActivity = (MusicTrackListActivity)mSelectionList.getActivity();
 
                     trackDetailActivity.selectAll();
+                } else if (mSelectionList.getActivity() instanceof  MusicContainerListActivity) {
+                    MusicContainerListActivity trackDetailContainerActivity = (MusicContainerListActivity)mSelectionList.getActivity();
+                    MusicTrackListFragment trackDetailFragment = (MusicTrackListFragment) trackDetailContainerActivity.getSupportFragmentManager()
+                            .findFragmentById(R.id.track_detail_container);
+                    trackDetailFragment.selectAll();
                 }
 
                 return true;
@@ -97,6 +103,11 @@ public class ActionModeTitle implements ActionMode.Callback {
                     MusicTrackListActivity trackDetailActivity = (MusicTrackListActivity)mSelectionList.getActivity();
 
                     trackDetailActivity.deselectAll();
+                } else if (mSelectionList.getActivity() instanceof  MusicContainerListActivity) {
+                    MusicContainerListActivity trackDetailContainerActivity = (MusicContainerListActivity)mSelectionList.getActivity();
+                    MusicTrackListFragment trackDetailFragment = (MusicTrackListFragment) trackDetailContainerActivity.getSupportFragmentManager()
+                            .findFragmentById(R.id.track_detail_container);
+                    trackDetailFragment.deselectAll();
                 }
 
                 return true;
