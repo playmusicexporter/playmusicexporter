@@ -245,12 +245,12 @@ public class MusicTrackListFragment extends Fragment {
             PlayMusicExporterSettings settings = new PlayMusicExporterSettings(getActivity());
 
             // Default structure
-            String pathStructure = "{album-artist}/{album}/{disc=CD $}/{no=$$.} {title}.mp3";
+            String pathStructure = "{album-artist} - {title}.mp3";
 
             // Track is exported from a group (playlist or artist)
             if (!TextUtils.isEmpty(musicTrack.getContainerName()))
             {
-                pathStructure = "{group}/{group-no=$$.} {title}.mp3";
+                pathStructure = "{group}/{album-artist} - {title}.mp3";
             }
 
             // Build the path
