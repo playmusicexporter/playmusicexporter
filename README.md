@@ -19,5 +19,5 @@ You can find his old/inactive repository [here](https://github.com/Arcus92/PlayM
 
 ### Copyright
 
-Copyright (c) 2016 Jan Christian Grünhage. See LICENSE.txt for details.
+Copyright (c) 2016 Jan Christian Grünhage. See LICENSE.txt for details.  
 Copyright (c) 2015 David Schulte. See LICENSE.txt for details.
