@@ -1,0 +1,23 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:title="System Requirements"
+        android:summary="Automated export requires Android 5.0 Lollipop, so enabling this on lower Android versions won't do anything."/>
+    <PreferenceCategory android:title="Automation Settings">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference_automatic_export_enabled"
+            android:title="Enable Automatic Export" />
+        <ListPreference
+            android:entries="@array/settings_export_frequency_value_names"
+            android:entryValues="@array/settings_export_frequency_values"
+            android:key="preference_automatic_export_frequency"
+            android:title="Export Interval" />
+        <CheckBoxPreference
+            android:key="preference_automatic_export_require_charging"
+            android:title="Require Charging?" />
+        <CheckBoxPreference
+            android:key="preference_automatic_export_require_unmetered"
+            android:title="Require Unmetered Network?" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

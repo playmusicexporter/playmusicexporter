@@ -20,36 +20,16 @@
  * THE SOFTWARE.
  */
 
+package re.jcg.playmusicexporter;
 
+import android.app.Application;
+import android.test.ApplicationTestCase;
 
-apply plugin: 'com.android.application'
-
-android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
-
-    defaultConfig {
-        applicationId "re.jcg.playmusicexporter"
-        minSdkVersion 21
-        targetSdkVersion 25
-        versionCode 102
-        versionName '2.4.2'
-        vectorDrawables.useSupportLibrary = true
+/**
+ * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
+ */
+public class ApplicationTest extends ApplicationTestCase<Application> {
+    public ApplicationTest() {
+        super(Application.class);
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-}
-
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':framework')
-    compile project(':playmusiclib')
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:support-v4:25.1.0'
-    compile 'com.android.support:design:25.1.0'
-    compile 'com.android.support:support-vector-drawable:25.1.0'
 }

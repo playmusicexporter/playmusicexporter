@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2015 David Schulte
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -62,65 +61,57 @@
 
     <string name="settings_category_export">Export settings</string>
     <string name="settings_category_extra">Extras</string>
+    <string name="settings_category_about_original_developer">About the original developer</string>
     <string name="settings_category_about_me">About me</string>
     <string name="settings_category_thanks">Thanks to</string>
-    <string name="settings_category_develop">Develop</string>
+    <string name="settings_category_develop">About this version</string>
+    <string name="settings_category_debug">Debug</string>
 
-    <string name="settings_export_path">Location</string>
-    <string name="settings_export_structure_albums">Subdirectory structure for albums</string>
+    <string name="settings_version_number">Version Number</string>
+    <string name="settings_build_date">Build date</string>
+
+    <string name="settings_category_export_location">Export Location</string>
+    <string name="settings_export_path">Export Base Path</string>
+    <string name="settings_export_subdirectory_structure_dialog_message">Use / for a new folder \n Available Tags: \n - {album-artist} \n - {album} \n - {artist} \n - {title} \n - {disc=CD $} \n - {no=$$.} \n - {year} \n - {genre} \n</string>
+
+    <string name="settings_export_structure_alba">Subdirectory structure for albums</string>
+    <string name="settings_export_subdirectory_structure_album">Set your subdirectory structure</string>
+    <string name="settings_export_subdirectory_structure_album_example">Example: Beatles/Help!/13. Yesterday.mp3</string>
+
     <string name="settings_export_structure_groups">Subdirectory structure for playlists</string>
+    <string name="settings_export_subdirectory_structure_group">Set your subdirectory structure</string>
+    <string name="settings_export_subdirectory_structure_group_example">Example: Great Songs/4. Beatles - Yesterday.mp3</string>
 
-    <string name="settings_export_id3">MP3 metadata</string>
+    <string name="settings_export_id3">ID3 Tags</string>
     <string name="settings_export_id3_with_cover">Metadata with cover</string>
     <string name="settings_export_id3_without_cover">Metadata without cover</string>
     <string name="settings_export_id3_disabled">No metadata</string>
 
+    <string name="settings_category_metadata">Metadata</string>
     <string name="settings_export_id3_artwork_size">Maximum artwork size</string>
     <string name="settings_export_id3_artwork_size_summary">If the artwork original size is larger than this setting the app will size down the artwork to this size.</string>
-    <string name="settings_export_id3_artwork_size_128px" translatable="false">128x128px</string>
-    <string name="settings_export_id3_artwork_size_256px" translatable="false">256x256px</string>
-    <string name="settings_export_id3_artwork_size_512px" translatable="false">512x512px</string>
-    <string name="settings_export_id3_artwork_size_1024px" translatable="false">1024x1024px</string>
-
-    <string-array name="settings_export_id3_artwork_size_value_names" translatable="false">
-        <item>@string/settings_export_id3_artwork_size_128px</item>
-        <item>@string/settings_export_id3_artwork_size_256px</item>
-        <item>@string/settings_export_id3_artwork_size_512px</item>
-        <item>@string/settings_export_id3_artwork_size_1024px</item>
-    </string-array>
-    <string-array name="settings_export_id3_artwork_size_values" translatable="false">
-        <item>128</item>
-        <item>256</item>
-        <item>512</item>
-        <item>1024</item>
-    </string-array>
 
     <string name="settings_export_path_custom">Custom path</string>
-    <string-array name="settings_export_id3_value_names">
-        <item>@string/settings_export_id3_with_cover</item>
-        <item>@string/settings_export_id3_without_cover</item>
-        <item>@string/settings_export_id3_disabled</item>
-    </string-array>
-    <string-array name="settings_export_id3_values" translatable="false">
-        <item>id3_with_cover</item>
-        <item>id3_without_cover</item>
-        <item>id3_disabled</item>
-    </string-array>
 
+    <string name="settings_open_old_homepage_title" translatable="false">David-Schulte.de</string>
+    <string name="settings_open_old_homepage_url" translatable="false"><![CDATA[http://www.david-schulte.de/]]></string>
 
-
-    <string name="settings_open_homepage_title" translatable="false">David-Schulte.de</string>
-    <string name="settings_open_homepage_url" translatable="false"><![CDATA[http://www.david-schulte.de/]]></string>
+    <string name="settings_open_homepage_title" translatable="false">jcg.re</string>
+    <string name="settings_open_homepage_url" translatable="false"><![CDATA[https://jcg.re/]]></string>
 
     <string name="settings_mp3agic_title" translatable="false">Mp3agic ID3 Libary</string>
     <string name="settings_mp3agic_summery" translatable="false">Michael Patricios &#169; 2006&#8211;2013</string>
     <string name="settings_mp3agic_url" translatable="false"><![CDATA[https://github.com/mpatric/mp3agic]]></string>
 
-    <string name="settings_donation_title">Support me</string>
-    <string name="settings_donation_summery">Donate to me via PayPal</string>
-    <string name="settings_donation_url" translatable="false"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A2VD24Z5E32RU]]></string>
-
-    <string name="settings_build_date">Build date</string>
+    <string name="settings_donation_old_title">Support the original developer</string>
+    <string name="settings_donation_old_summery">Donate to David Schulte via PayPal</string>
+    <string name="settings_donation_old_url" translatable="false"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A2VD24Z5E32RU]]></string>
 
     <string name="action_mode_track_selection">%d tracks selected</string>
+    <string name="pref_header_export">Export</string>
+    <string name="pref_header_automation">Automation</string>
+    <string name="pref_header_about">About</string>
+    <string name="settings_export_structure_alba_default_value" translatable="false">{album-artist}/{album}/{disc=CD $}/{no=$$.} {title}.mp3</string>
+    <string name="settings_export_structure_groups_default_value" translatable="false">{group}/{group-no=$$.} {artist} - {title}.mp3</string>
+    <string name="debug_trigger_export_all_title">Trigger ExportAllService now</string>
 </resources>

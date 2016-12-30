@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="settings_export_frequency_value_names">
+        <item>Alle 6 Hours</item>
+        <item>Alle 12 Stunden</item>
+        <item>Alle Tag</item>
+        <item>Alle 2 Tage</item>
+        <item>Jede Woche</item>
+        <item>Nie</item>
+    </string-array>
+</resources>

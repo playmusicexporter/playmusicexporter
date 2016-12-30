@@ -36,10 +36,7 @@
     <string name="settings_category_export">Export-Einstellungen</string>
     <string name="settings_category_extra">Extras</string>
     <string name="settings_category_thanks">Dank an</string>
-    <string name="settings_donation_summery">Spende über PayPal</string>
-    <string name="settings_donation_title">Unterstützt mich</string>
     <string name="settings_export_path">Speicherort</string>
-    <string name="settings_export_structure_albums">Verzeichnisbaum für Alben</string>
     <string name="settings_export_structure_groups">Verzeichnisbaum für Playlists</string>
     <string name="settings_export_id3">MP3 Metadaten</string>
     <string name="settings_export_id3_disabled">Ohne Metadaten</string>
@@ -67,4 +64,19 @@
     <string name="dialog_storage_access_denied_title">Daten-Zugriff verweigert</string>
     <string name="dialog_storage_access_denied">Der PlayMusicExpoerter benötigt Schreibrechte auf der SD-Karte. Dies ist Teil des Marshmallow-Fix.\n\nBitte starten Sie die App neu und erlauben Sie die Berechtigung.</string>
     <string name="text_okay">OK</string>
+    <string name="pref_header_about">Über</string>
+    <string name="pref_header_automation">Automatisierung</string>
+    <string name="pref_header_export">Export</string>
+    <string name="settings_category_about_original_developer">Über den ursprünglichen Entwickler</string>
+    <string name="settings_category_export_location">Export Speicherort</string>
+    <string name="settings_category_metadata">Metadaten</string>
+    <string name="settings_donation_old_summery">Spende an David Schulte via PayPal</string>
+    <string name="settings_donation_old_title">Unterstützt den ursprünglichen Entwickler</string>
+    <string name="settings_export_structure_alba">Verzeichnisbaum für Alben</string>
+    <string name="settings_export_subdirectory_structure_album">Setze den Verzeichnisbaum</string>
+    <string name="settings_export_subdirectory_structure_album_example">Beispiel: Beatles/Help!/13. Yesterday.mp3</string>
+    <string name="settings_export_subdirectory_structure_dialog_message">"Nutze / für einen neuen Order.   Available Tags:   - {album-artist}   - {album}   - {artist}   - {title}   - {disc=CD $}   - {no=$$.}   - {year}   - {genre}  "</string>
+    <string name="settings_export_subdirectory_structure_group">Setze den Verzeichnisbaum</string>
+    <string name="settings_export_subdirectory_structure_group_example">Beispiel: Great Songs/4. Beatles - Yesterday.mp3</string>
+    <string name="settings_version_number">Versionsnummer</string>
 </resources>

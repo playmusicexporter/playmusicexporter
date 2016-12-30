@@ -1,0 +1,47 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/settings_category_export_location">
+        <Preference
+            android:key="preference_export_path"
+            android:title="@string/settings_export_path">
+        </Preference>
+
+        <!-- Path structure for albums -->
+        <EditTextPreference
+            android:defaultValue="@string/settings_export_structure_alba_default_value"
+            android:dialogMessage="@string/settings_export_subdirectory_structure_dialog_message"
+            android:dialogTitle="@string/settings_export_subdirectory_structure_album"
+            android:hint="@string/settings_export_structure_alba_default_value"
+            android:key="preference_structure_alba"
+            android:summary="@string/settings_export_subdirectory_structure_album_example"
+            android:title="@string/settings_export_structure_alba" />
+
+        <!-- Path structure for groups -->
+        <EditTextPreference
+            android:defaultValue="@string/settings_export_structure_groups_default_value"
+            android:dialogMessage="@string/settings_export_subdirectory_structure_dialog_message"
+            android:dialogTitle="@string/settings_export_subdirectory_structure_group"
+            android:hint="@string/settings_export_structure_groups_default_value"
+            android:key="preference_structure_groups"
+            android:summary="@string/settings_export_subdirectory_structure_group_example"
+            android:title="@string/settings_export_structure_groups" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_category_metadata">
+        <!-- ID3 settings -->
+        <ListPreference
+            android:defaultValue="id3_with_cover"
+            android:entries="@array/settings_export_id3_value_names"
+            android:entryValues="@array/settings_export_id3_values"
+            android:key="preference_id3"
+            android:title="@string/settings_export_id3" />
+
+        <!-- ID3 artwork size -->
+        <ListPreference
+            android:defaultValue="512"
+            android:entries="@array/settings_export_id3_artwork_size_value_names"
+            android:entryValues="@array/settings_export_id3_artwork_size_values"
+            android:key="preference_id3_artwork_size"
+            android:summary="@string/settings_export_id3_artwork_size_summary"
+            android:title="@string/settings_export_id3_artwork_size" />
+    </PreferenceCategory>
+</PreferenceScreen>

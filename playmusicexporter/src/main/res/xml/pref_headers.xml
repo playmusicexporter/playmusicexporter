@@ -1,0 +1,24 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- These settings headers are only used on tablets. -->
+
+    <header
+        android:fragment="re.jcg.playmusicexporter.activities.SettingsActivity$ExportPreferenceFragment"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="@string/pref_header_export" />
+
+    <header
+        android:fragment="re.jcg.playmusicexporter.activities.SettingsActivity$AutomationPreferenceFragment"
+        android:icon="@drawable/ic_sync_black_24dp"
+        android:title="@string/pref_header_automation" />
+
+    <header
+        android:fragment="re.jcg.playmusicexporter.activities.SettingsActivity$AboutPreferenceFragment"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="@string/pref_header_about" />
+    <header
+        android:fragment="re.jcg.playmusicexporter.activities.SettingsActivity$DebugPreferenceFragment"
+        android:icon="@drawable/ic_action_settings"
+        android:title="Debug" />
+
+</preference-headers>

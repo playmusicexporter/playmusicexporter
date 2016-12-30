@@ -33,7 +33,7 @@
     <!-- As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
     <fragment android:id="@+id/fragment_main"
-        android:name="de.arcus.playmusicexporter2.fragments.MusicContainerListFragment"
+        android:name="re.jcg.playmusicexporter.fragments.MusicContainerListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".TrackListActivity"
@@ -50,7 +50,7 @@
         android:layout_width="@dimen/navigation_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:name="de.arcus.playmusicexporter2.fragments.NavigationDrawerFragment"
+        android:name="re.jcg.playmusicexporter.fragments.NavigationDrawerFragment"
         tools:layout="@layout/fragment_navigation_drawer" />
 
 
