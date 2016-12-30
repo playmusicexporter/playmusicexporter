@@ -96,7 +96,7 @@
     <string name="settings_open_old_homepage_title" translatable="false">David-Schulte.de</string>
     <string name="settings_open_old_homepage_url" translatable="false"><![CDATA[http://www.david-schulte.de/]]></string>
 
-    <string name="settings_open_homepage_title" translatable="false">jcg.re</string>
+    <string name="settings_open_homepage_title" translatable="false">Website</string>
     <string name="settings_open_homepage_url" translatable="false"><![CDATA[https://jcg.re/]]></string>
 
     <string name="settings_mp3agic_title" translatable="false">Mp3agic ID3 Libary</string>

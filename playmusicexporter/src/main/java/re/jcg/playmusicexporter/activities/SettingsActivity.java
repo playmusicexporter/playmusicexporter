@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 
+import re.jcg.playmusicexporter.BuildConfig;
 import re.jcg.playmusicexporter.R;
 import re.jcg.playmusicexporter.services.ExportAllService;
 
@@ -148,6 +149,16 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.pref_headers, target);
+
+        // Remove the Debug Fragment
+        if (!BuildConfig.DEBUG) {
+            for (int i = 0; i < target.size(); i++) {
+                if ("Debug".equals(target.get(i).title)){
+                    target.remove(i);
+                    break;
+                }
+            }
+        }
     }
 
     /**

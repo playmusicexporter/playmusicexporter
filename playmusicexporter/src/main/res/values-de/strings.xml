@@ -79,4 +79,6 @@
     <string name="settings_export_subdirectory_structure_group">Setze den Verzeichnisbaum</string>
     <string name="settings_export_subdirectory_structure_group_example">Beispiel: Great Songs/4. Beatles - Yesterday.mp3</string>
     <string name="settings_version_number">Versionsnummer</string>
+    <string name="debug_trigger_export_all_title">Jetzt den ExportAllService starten</string>
+    <string name="settings_category_debug">Debug</string>
 </resources>
