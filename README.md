@@ -14,11 +14,10 @@ This project uses the [mp3agic library](https://github.com/mpatric/mp3agic) by [
 
 ### Notice
 
-The project will be rewritten and the complete source will be a available soon.
-The android package id is currently <em>"re.jcg.playmusicexporter"</em>. This will be replaced by the old id <em>"de.arcus.playmusicexporter"</em> when the new code is done.
-
-You can get the <em>old</em> working version [here](https://www.david-schulte.de/en/play-music-exporter-updater/)!
+I recently forked this repository and most of the work has been done by [David Schulte](https://www.david-schulte.de/).
+You can find his old/inactive repository [here](https://github.com/Arcus92/PlayMusicExporter).
 
 ### Copyright
 
+Copyright (c) 2016 Jan Christian Grünhage. See LICENSE.txt for details.
 Copyright (c) 2015 David Schulte. See LICENSE.txt for details.
