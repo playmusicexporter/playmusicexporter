@@ -32,6 +32,7 @@ android {
         applicationId "re.jcg.playmusicexporter"
         minSdkVersion 21
         targetSdkVersion 25
+        // TODO Change Version with releases
         versionCode 102
         versionName '2.4.2'
         vectorDrawables.useSupportLibrary = true

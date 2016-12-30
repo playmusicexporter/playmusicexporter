@@ -47,6 +47,7 @@
 
     <!-- Develop -->
     <PreferenceCategory android:title="@string/settings_category_develop">
+        <!-- TODO change Version number and build date with releases -->
         <!-- Version number-->
         <Preference
             android:summary="3.0.0"

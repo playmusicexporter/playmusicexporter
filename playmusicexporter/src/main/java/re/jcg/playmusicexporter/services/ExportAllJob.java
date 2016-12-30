@@ -31,18 +31,14 @@ public class ExportAllJob extends JobService {
         boolean lRequireCharging = lPreferences.getBoolean("settings", true);
 
         JobScheduler lJobScheduler = (JobScheduler) pContext.getSystemService(JOB_SCHEDULER_SERVICE);
-        if (lInterval == -1) {
-            lJobScheduler.cancel(42);
-        } else {
-            ComponentName lComponentName = new ComponentName(pContext, ExportAllJob.class);
-            JobInfo.Builder lBuilder = new JobInfo.Builder(42, lComponentName);
-            lBuilder.setPeriodic(lInterval);
-            lBuilder.setPersisted(true);
-            if (lRequireUnmeteredNetwork)
-                lBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED);
-            lBuilder.setRequiresCharging(lRequireCharging);
-            lJobScheduler.schedule(lBuilder.build());
-        }
+        ComponentName lComponentName = new ComponentName(pContext, ExportAllJob.class);
+        JobInfo.Builder lBuilder = new JobInfo.Builder(42, lComponentName);
+        lBuilder.setPeriodic(lInterval);
+        lBuilder.setPersisted(true);
+        if (lRequireUnmeteredNetwork)
+            lBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED);
+        lBuilder.setRequiresCharging(lRequireCharging);
+        lJobScheduler.schedule(lBuilder.build());
     }
 
     @Override
