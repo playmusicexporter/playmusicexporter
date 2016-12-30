@@ -1,3 +1,4 @@
+Copyright (c) 2016 Jan Christian Grünhage
 Copyright (c) 2015 David Schulte
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
