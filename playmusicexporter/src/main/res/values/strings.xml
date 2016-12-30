@@ -65,10 +65,24 @@
     <string name="settings_category_about_me">About me</string>
     <string name="settings_category_thanks">Thanks to</string>
     <string name="settings_category_develop">About this version</string>
+    <string name="settings_category_auto_export_conditions">Export conditions</string>
+    <string name="settings_category_auto_export_path_subdir">Export path and subdirectory structure</string>
     <string name="settings_category_debug">Debug</string>
+
 
     <string name="settings_version_number">Version Number</string>
     <string name="settings_build_date">Build date</string>
+
+    <string name="settings_auto_export_enable_checkbox">Enable automatic export</string>
+    <string name="settings_auto_export_require_unmetered_checkbox">Require unmetered network?</string>
+    <string name="settings_auto_export_require_charging_checkbox">Require charging?</string>
+    <string name="settings_auto_export_interval_list">Export interval</string>
+    <string name="settings_auto_export_different_path_switch">Use a different export path</string>
+    <string name="settings_auto_export_different_path_switch_summary">Off means that the automatic export uses the same export path as alba.</string>
+    <string name="settings_auto_export_different_path">Export path</string>
+    <string name="settings_auto_export_different_structure_switch">Use a different subdirectory structure</string>
+    <string name="settings_auto_export_different_structure_switch_summary">Off means that the automatic export uses the same subdirectory structure as alba.</string>
+    <string name="settings_auto_export_different_structure">Subdirectory structure</string>
 
     <string name="settings_category_export_location">Export Location</string>
     <string name="settings_export_path">Export Base Path</string>
@@ -108,10 +122,14 @@
     <string name="settings_donation_old_url" translatable="false"><![CDATA[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A2VD24Z5E32RU]]></string>
 
     <string name="action_mode_track_selection">%d tracks selected</string>
+
     <string name="pref_header_export">Export</string>
     <string name="pref_header_automation">Automation</string>
     <string name="pref_header_about">About</string>
+    <string name="pref_header_debug">Debug</string>
+
     <string name="settings_export_structure_alba_default_value" translatable="false">{album-artist}/{album}/{disc=CD $}/{no=$$.} {title}.mp3</string>
     <string name="settings_export_structure_groups_default_value" translatable="false">{group}/{group-no=$$.} {artist} - {title}.mp3</string>
+
     <string name="debug_trigger_export_all_title">Trigger ExportAllService now</string>
 </resources>
