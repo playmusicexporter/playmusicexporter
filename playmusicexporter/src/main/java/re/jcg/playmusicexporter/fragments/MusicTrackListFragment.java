@@ -22,10 +22,8 @@
 
 package re.jcg.playmusicexporter.fragments;
 
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -44,7 +42,7 @@ import re.jcg.playmusicexporter.activities.MusicTrackListActivity;
 import re.jcg.playmusicexporter.adapter.MusicTrackListAdapter;
 import re.jcg.playmusicexporter.items.SelectedTrack;
 import re.jcg.playmusicexporter.items.SelectedTrackList;
-import re.jcg.playmusicexporter.settings.PlayMusicExporterSettings;
+import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
 import re.jcg.playmusicexporter.utils.ArtworkViewLoader;
 import re.jcg.playmusicexporter.utils.MusicPathBuilder;
 import de.arcus.playmusiclib.PlayMusicManager;
@@ -113,7 +111,7 @@ public class MusicTrackListFragment extends Fragment {
      */
     public void selectAll() {
         // Select all tracks
-        for(int i = 0; i < mMusicTrackAdapter.getCount(); i++ ) {
+        for (int i = 0; i < mMusicTrackAdapter.getCount(); i++) {
             MusicTrack musicTrack = mMusicTrackAdapter.getItem(i);
 
             selectTrack(musicTrack, null, TrackSelectionState.Select);
@@ -127,7 +125,7 @@ public class MusicTrackListFragment extends Fragment {
      */
     public void deselectAll() {
         // Deselect all tracks
-        for(int i = 0; i < mMusicTrackAdapter.getCount(); i++ ) {
+        for (int i = 0; i < mMusicTrackAdapter.getCount(); i++) {
             MusicTrack musicTrack = mMusicTrackAdapter.getItem(i);
 
             selectTrack(musicTrack, null, TrackSelectionState.Deselect);
@@ -141,7 +139,7 @@ public class MusicTrackListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_MUSIC_TRACK_LIST_ID)
-         && getArguments().containsKey(ARG_MUSIC_TRACK_LIST_TYPE)) {
+                && getArguments().containsKey(ARG_MUSIC_TRACK_LIST_TYPE)) {
 
             // Loads the track list
             long id = getArguments().getLong(ARG_MUSIC_TRACK_LIST_ID);
@@ -162,7 +160,7 @@ public class MusicTrackListFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mMusicTrackList != null) {
-            mListView = (ListView)rootView.findViewById(R.id.list_music_track);
+            mListView = (ListView) rootView.findViewById(R.id.list_music_track);
             mMusicTrackAdapter = new MusicTrackListAdapter(getActivity());
 
             mMusicTrackAdapter.setShowArtworks(mMusicTrackList.getShowArtworkInTrack());
@@ -174,17 +172,17 @@ public class MusicTrackListFragment extends Fragment {
             ImageView imageView;
 
             // Sets the artwork image
-            imageView = (ImageView)headerView.findViewById(R.id.image_music_track_artwork);
+            imageView = (ImageView) headerView.findViewById(R.id.image_music_track_artwork);
 
             // Loads the artwork
             ArtworkViewLoader.loadImage(mMusicTrackList, imageView, R.drawable.cd_case);
 
             // Sets the title
-            textView = (TextView)headerView.findViewById(R.id.text_music_track_list_title);
+            textView = (TextView) headerView.findViewById(R.id.text_music_track_list_title);
             textView.setText(mMusicTrackList.getTitle());
 
             // Sets the description
-            textView = (TextView)headerView.findViewById(R.id.text_music_track_list_description);
+            textView = (TextView) headerView.findViewById(R.id.text_music_track_list_description);
             textView.setText(mMusicTrackList.getDescription());
 
             mListView.addHeaderView(headerView);
@@ -212,12 +210,12 @@ public class MusicTrackListFragment extends Fragment {
             });
 
             // The floating action button
-            mFloatingButtonExport = (FloatingActionButton)rootView.findViewById(R.id.floating_button_export);
+            mFloatingButtonExport = (FloatingActionButton) rootView.findViewById(R.id.floating_button_export);
             mFloatingButtonExport.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // Export all selected tracks
-                    for(SelectedTrack selectedTrack : SelectedTrackList.getInstance().getSelectedItems()) {
+                    for (SelectedTrack selectedTrack : SelectedTrackList.getInstance().getSelectedItems()) {
                         selectedTrack.export(getActivity());
                     }
 
@@ -231,33 +229,37 @@ public class MusicTrackListFragment extends Fragment {
         return rootView;
     }
 
-    private enum TrackSelectionState { Deselect, Select, Toggle }
+    private enum TrackSelectionState {Deselect, Select, Toggle}
 
     /**
      * Select a track
+     *
      * @param musicTrack The track
-     * @param view The view
-     * @param state Selection state
+     * @param view       The view
+     * @param state      Selection state
      */
     private void selectTrack(MusicTrack musicTrack, View view, TrackSelectionState state) {
         // Track is available
         if (musicTrack.isOfflineAvailable()) {
 
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            PlayMusicExporterPreferences.init(getContext());
 
-            // Default structure
-            String pathStructure = preferences.getString("preference_structure_alba", "{album-artist}/{album}/{disc=CD $}/{no=$$.} {title}.mp3");
+            //Creating Variables
+            String pathStructure;
+            Uri uri;
 
             // Track is exported from a group (playlist or artist)
-            if (!TextUtils.isEmpty(musicTrack.getContainerName())) {
-                pathStructure = preferences.getString("preference_structure_groups", "{group}/{group-no=$$.} {artist} - {title}.mp3");
+            if (TextUtils.isEmpty(musicTrack.getContainerName())) {
+                pathStructure = PlayMusicExporterPreferences.getAlbaExportStructure();
+                uri = PlayMusicExporterPreferences.getAlbaExportPath();
+            } else {
+                pathStructure = PlayMusicExporterPreferences.getGroupsExportStructure();
+                uri = PlayMusicExporterPreferences.getGroupsExportPath();
             }
 
             // Build the path
             String path = MusicPathBuilder.Build(musicTrack, pathStructure);
 
-            // Gets the root uri
-            Uri uri = Uri.parse(preferences.getString("preference_export_tree_uri", Uri.EMPTY.toString()));
 
 
             // Prevent the closing

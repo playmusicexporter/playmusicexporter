@@ -5,8 +5,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,8 +14,6 @@ import android.preference.PreferenceActivity;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
@@ -25,10 +21,9 @@ import android.support.v4.app.NavUtils;
 import re.jcg.playmusicexporter.BuildConfig;
 import re.jcg.playmusicexporter.R;
 import re.jcg.playmusicexporter.services.ExportAllService;
+import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
 
 import java.util.List;
-
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -43,7 +38,8 @@ import static android.os.Build.VERSION_CODES.LOLLIPOP;
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
     private static final String TAG = "MusicExporter_Settings";
-    private static final int OPEN_DOCUMENT_TREE_REQUEST_CODE = 0;
+    private static final int REQUEST_CODE_OPEN_DOCUMENT_TREE_ALBA_PATH = 0;
+    private static final int REQUEST_CODE_OPEN_DOCUMENT_TREE_GROUPS_PATH = 1;
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -84,26 +80,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
     }
 
-    /**
-     * Binds a preference's summary to its value. More specifically, when the
-     * preference's value is changed, its summary (line of text below the
-     * preference title) is updated to reflect the value. The summary is also
-     * immediately updated upon calling this method. The exact display format is
-     * dependent on the type of preference.
-     *
-     * @see #sBindPreferenceSummaryToValueListener
-     */
-    private static void bindPreferenceSummaryToValue(Preference preference) {
-        // Set the listener to watch for value changes.
-        preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
-
-        // Trigger the listener immediately with the preference's
-        // current value.
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +150,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     public static class ExportPreferenceFragment extends PreferenceFragment {
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -181,10 +158,17 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             setHasOptionsMenu(true);
 
 
-            findPreference("preference_export_path").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            findPreference("preference_alba_export_path").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    startActivityForResult(new Intent("android.intent.action.OPEN_DOCUMENT_TREE"), OPEN_DOCUMENT_TREE_REQUEST_CODE);
+                    startActivityForResult(new Intent("android.intent.action.OPEN_DOCUMENT_TREE"), REQUEST_CODE_OPEN_DOCUMENT_TREE_ALBA_PATH);
+                    return true;
+                }
+            });
+            findPreference("preference_groups_export_path").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivityForResult(new Intent("android.intent.action.OPEN_DOCUMENT_TREE"), REQUEST_CODE_OPEN_DOCUMENT_TREE_GROUPS_PATH);
                     return true;
                 }
             });
@@ -192,10 +176,21 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
             switch (requestCode) {
-                case OPEN_DOCUMENT_TREE_REQUEST_CODE:
+                case REQUEST_CODE_OPEN_DOCUMENT_TREE_ALBA_PATH:
                     if (resultCode == RESULT_OK) {
                         Uri treeUri = resultData.getData();
-                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("preference_export_tree_uri", treeUri.toString()).apply();
+                        PlayMusicExporterPreferences.init(getActivity());
+                        PlayMusicExporterPreferences.setAlbaExportPath(treeUri);
+                        getActivity().getContentResolver().takePersistableUriPermission(treeUri,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        Log.i(TAG, "Selected " + treeUri.toString());
+                    }
+                    break;
+                case REQUEST_CODE_OPEN_DOCUMENT_TREE_GROUPS_PATH:
+                    if (resultCode == RESULT_OK) {
+                        Uri treeUri = resultData.getData();
+                        PlayMusicExporterPreferences.init(getActivity());
+                        PlayMusicExporterPreferences.setGroupsExportPath(treeUri);
                         getActivity().getContentResolver().takePersistableUriPermission(treeUri,
                                 Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                         Log.i(TAG, "Selected " + treeUri.toString());

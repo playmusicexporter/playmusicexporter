@@ -23,6 +23,7 @@
 package re.jcg.playmusicexporter.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.PorterDuff;
@@ -44,7 +45,7 @@ import android.widget.Button;
 
 import re.jcg.playmusicexporter.R;
 import re.jcg.playmusicexporter.activities.SettingsActivity;
-import re.jcg.playmusicexporter.settings.PlayMusicExporterSettings;
+import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -74,7 +75,15 @@ public class NavigationDrawerFragment extends Fragment {
     private Button mButtonSettings;
 
     public enum ViewType {
-        Album, Artist, Playlist, Rated
+        Album, Artist, Playlist, Rated;
+
+        public static ViewType fromName(String name) {
+            for (ViewType type : values()) {
+                if (type.name().equals(name)) return type;
+            }
+            return Album;
+        }
+
     }
 
     private ViewType mViewType;
@@ -103,8 +112,8 @@ public class NavigationDrawerFragment extends Fragment {
         mViewType = viewType;
 
         // Save the selection
-        PlayMusicExporterSettings appSettings = new PlayMusicExporterSettings(getActivity());
-        appSettings.setEnum(PlayMusicExporterSettings.PREF_DRAWER_SELECTED_TYPE, viewType);
+        PlayMusicExporterPreferences.init(getContext());
+        PlayMusicExporterPreferences.setDrawerViewType(viewType);
 
         // Close the drawer
         if (mDrawerLayout != null)
@@ -119,9 +128,9 @@ public class NavigationDrawerFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         // Load the settings
-        PlayMusicExporterSettings appSettings = new PlayMusicExporterSettings(getActivity());
-        mUserLearnedDrawer = appSettings.getBoolean(PlayMusicExporterSettings.PREF_DRAWER_LEARNED, false);
-        mViewType = appSettings.getEnum(PlayMusicExporterSettings.PREF_DRAWER_SELECTED_TYPE, ViewType.Album);
+        PlayMusicExporterPreferences.init(getContext());
+        mUserLearnedDrawer = PlayMusicExporterPreferences.getDrawerLearned();
+        mViewType = PlayMusicExporterPreferences.getDrawerViewType();
 
 
     }
@@ -140,12 +149,12 @@ public class NavigationDrawerFragment extends Fragment {
                 R.layout.fragment_navigation_drawer, container, false);
 
         // Gets all buttons
-        mButtonTypeAlbum = (Button)view.findViewById(R.id.button_type_album);
-        mButtonTypeArtist = (Button)view.findViewById(R.id.button_type_artist);
-        mButtonTypePlaylist = (Button)view.findViewById(R.id.button_type_playlist);
-        mButtonTypeRated = (Button)view.findViewById(R.id.button_type_rated);
+        mButtonTypeAlbum = (Button) view.findViewById(R.id.button_type_album);
+        mButtonTypeArtist = (Button) view.findViewById(R.id.button_type_artist);
+        mButtonTypePlaylist = (Button) view.findViewById(R.id.button_type_playlist);
+        mButtonTypeRated = (Button) view.findViewById(R.id.button_type_rated);
 
-        mButtonSettings = (Button)view.findViewById(R.id.button_setting);
+        mButtonSettings = (Button) view.findViewById(R.id.button_setting);
 
         // Set the default
         setViewType(mViewType);
@@ -202,6 +211,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     /**
      * Format the button
+     *
      * @param button The button
      * @param active Active
      */
@@ -282,8 +292,8 @@ public class NavigationDrawerFragment extends Fragment {
                     // The user manually opened the drawer; store this flag to prevent auto-showing
                     // the navigation drawer automatically in the future.
                     mUserLearnedDrawer = true;
-                    PlayMusicExporterSettings appSettings = new PlayMusicExporterSettings(getActivity());
-                    appSettings.setBoolean(PlayMusicExporterSettings.PREF_DRAWER_LEARNED, mUserLearnedDrawer);
+                    PlayMusicExporterPreferences.init(getContext());
+                    PlayMusicExporterPreferences.setDrawerLearned(mUserLearnedDrawer);
                 }
 
                 getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
@@ -308,10 +318,10 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mCallbacks = (NavigationDrawerCallbacks) activity;
+            mCallbacks = (NavigationDrawerCallbacks) context;
         } catch (ClassCastException e) {
             throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
         }
