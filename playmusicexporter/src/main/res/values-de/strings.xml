@@ -59,7 +59,7 @@
     <string name="action_mode_track_selection">%d Titel ausgewählt</string>
     <string name="action_deselect_all">Auswahl aufheben</string>
     <string name="toast_error_track_not_offline">Sie können nur offline Titel exportieren. Versuchen Sie das Album in Play Music offline herunterzuladen.</string>
-    <string name="settings_build_date">Build date</string>
+    <string name="settings_build_date">Kompilationsdatum</string>
     <string name="settings_category_develop">Entwicklung</string>
     <string name="dialog_storage_access_denied_title">Daten-Zugriff verweigert</string>
     <string name="dialog_storage_access_denied">Der PlayMusicExpoerter benötigt Schreibrechte auf der SD-Karte. Dies ist Teil des Marshmallow-Fix.\n\nBitte starten Sie die App neu und erlauben Sie die Berechtigung.</string>
@@ -81,4 +81,21 @@
     <string name="settings_version_number">Versionsnummer</string>
     <string name="debug_trigger_export_all_title">Jetzt den ExportAllService starten</string>
     <string name="settings_category_debug">Debug</string>
+    <string name="pref_header_debug">Debug</string>
+    <string name="settings_auto_export_different_path">Export Pfad</string>
+    <string name="settings_auto_export_different_path_switch">Nutze einen anderen Export Pfad</string>
+    <string name="settings_auto_export_different_path_switch_summary">Wenn dieser Schalter aus ist nutzt der automatische Export den gleichen Pfad wie der manuelle Export von Alben</string>
+    <string name="settings_auto_export_different_structure">Verzeichnisbaum</string>
+    <string name="settings_auto_export_different_structure_switch">Nutze einen anderen Verzeichnisbaum</string>
+    <string name="settings_auto_export_different_structure_switch_summary">Wenn dieser Schalter aus ist nutzt der automatische Export den gleichen Verzeichnisbaum wie der manuelle Export von Alben</string>
+    <string name="settings_auto_export_enable_checkbox">Automatischer Export aktiviert</string>
+    <string name="settings_auto_export_interval_list">Export Interval</string>
+    <string name="settings_auto_export_require_charging_checkbox">Setze laden voraus</string>
+    <string name="settings_auto_export_require_unmetered_checkbox">Setze eine unbeschränkte Netzwerkverbindung voraus</string>
+    <string name="settings_category_alba_export">Export Speichereinstellungen Alben</string>
+    <string name="settings_category_auto_export_conditions">Export Bedingungen</string>
+    <string name="settings_category_auto_export_path_subdir">Export Pfad und Verzeichnisbaum</string>
+    <string name="settings_category_groups_export">Export Speichereinstellungen für Playlists</string>
+    <string name="settings_export_path_alba">Export Pfad für Alben</string>
+    <string name="settings_export_path_groups">Export Pfad für Playlists</string>
 </resources>
