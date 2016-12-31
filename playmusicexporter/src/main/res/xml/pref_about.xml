@@ -47,13 +47,14 @@
 
     <!-- Develop -->
     <PreferenceCategory android:title="@string/settings_category_develop">
+        <!-- TODO change Version number and build date with releases -->
         <!-- Version number-->
         <Preference
-            android:summary="3.0.0"
+            android:summary="0.9.1"
             android:title="@string/settings_version_number" />
         <!-- Build date-->
         <Preference
-            android:summary="29.11.2016"
+            android:summary="31.12.2016"
             android:title="@string/settings_build_date" />
     </PreferenceCategory>
 

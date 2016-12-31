@@ -3,14 +3,13 @@ package re.jcg.playmusicexporter.services;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 import java.util.List;
 
+import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
 import re.jcg.playmusicexporter.utils.MusicPathBuilder;
 import de.arcus.playmusiclib.PlayMusicManager;
 import de.arcus.playmusiclib.datasources.AlbumDataSource;
@@ -50,7 +49,7 @@ public class ExportAllService extends IntentService {
     }
 
     private void export() {
-        SharedPreferences lPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        PlayMusicExporterPreferences.init(this);
         PlayMusicManager lPlayMusicManager = new PlayMusicManager(this);
 
         try {
@@ -58,10 +57,9 @@ public class ExportAllService extends IntentService {
         } catch (PlayMusicNotFoundException | NoSuperUserException | CouldNotOpenDatabaseException e) {
             e.printStackTrace();
         }
-        String lStringUri = lPreferences.getString("preference_export_tree_uri", null);
-        String lExportStructure = lPreferences.getString("preference_structure_alba", "{album-artist}/{album}/{disc=CD $}/{no=$$.} {title}.mp3");
-        Log.i(TAG, lStringUri);
-        Uri lUri = Uri.parse(lStringUri);
+        Uri lUri = PlayMusicExporterPreferences.getConditionedAutoExportPath();
+        String lExportStructure = PlayMusicExporterPreferences.getConditionedAutoExportStructure();
+        Log.i(TAG, lUri.toString());
         AlbumDataSource lAlbumDataSource = new AlbumDataSource(lPlayMusicManager);
         lAlbumDataSource.setOfflineOnly(true);
         List<Album> lAlba = lAlbumDataSource.getAll();

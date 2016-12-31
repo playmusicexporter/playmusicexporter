@@ -1,23 +1,35 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <Preference
-        android:title="System Requirements"
-        android:summary="Automated export requires Android 5.0 Lollipop, so enabling this on lower Android versions won't do anything."/>
-    <PreferenceCategory android:title="Automation Settings">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="preference_auto_export_enabled"
+        android:title="@string/settings_auto_export_enable_checkbox" />
+    <ListPreference
+        android:entries="@array/settings_export_frequency_value_names"
+        android:entryValues="@array/settings_export_frequency_values"
+        android:key="preference_auto_export_frequency"
+        android:title="@string/settings_auto_export_interval_list" />
+    <PreferenceCategory android:title="@string/settings_category_auto_export_path_subdir">
         <SwitchPreference
-            android:defaultValue="false"
-            android:key="preference_automatic_export_enabled"
-            android:title="Enable Automatic Export" />
-        <ListPreference
-            android:entries="@array/settings_export_frequency_value_names"
-            android:entryValues="@array/settings_export_frequency_values"
-            android:key="preference_automatic_export_frequency"
-            android:title="Export Interval" />
+            android:key="preference_auto_export_use_different_path"
+            android:summary="@string/settings_auto_export_different_path_switch_summary"
+            android:title="@string/settings_auto_export_different_path_switch" />
+        <Preference
+            android:key="preference_auto_export_path"
+            android:title="@string/settings_auto_export_different_path" />
+        <SwitchPreference
+            android:key="preference_auto_export_use_different_structure"
+            android:summary="@string/settings_auto_export_different_structure_switch_summary"
+            android:title="@string/settings_auto_export_different_structure_switch" />
+        <Preference
+            android:key="preference_auto_export_structure"
+            android:title="@string/settings_auto_export_different_structure" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_category_auto_export_conditions">
         <CheckBoxPreference
-            android:key="preference_automatic_export_require_charging"
-            android:title="Require Charging?" />
+            android:key="preference_auto_export_require_charging"
+            android:title="@string/settings_auto_export_require_charging_checkbox" />
         <CheckBoxPreference
-            android:key="preference_automatic_export_require_unmetered"
-            android:title="Require Unmetered Network?" />
-
+            android:key="preference_auto_export_require_unmetered"
+            android:title="@string/settings_auto_export_require_unmetered_checkbox" />
     </PreferenceCategory>
 </PreferenceScreen>

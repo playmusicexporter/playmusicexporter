@@ -7,33 +7,31 @@ import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
-import android.preference.PreferenceManager;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
+
+import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
 
 public class ExportAllJob extends JobService {
     public static final String TAG = "AutoGPME_ExportJob";
 
 
     public static void scheduleExport(final Context pContext) {
-        SharedPreferences lPreferences = PreferenceManager.getDefaultSharedPreferences(pContext);
-        lPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+        PlayMusicExporterPreferences.init(pContext);
+        PlayMusicExporterPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                scheduleExport(pContext);
-                Log.i(TAG, "Preference changed: " + key);
+                if (key.contains("auto")) {
+                    scheduleExport(pContext);
+                    Log.i(TAG, "Preference changed: " + key);
+                }
             }
         });
+        if (PlayMusicExporterPreferences.getAutoExportEnabled()) {
+            long lInterval = PlayMusicExporterPreferences.getAutoExportFrequency();
+            boolean lRequireUnmeteredNetwork = PlayMusicExporterPreferences.getAutoExportRequireUnmetered();
+            boolean lRequireCharging = PlayMusicExporterPreferences.getAutoExportRequireCharging();
 
-        long lInterval = Long.parseLong(lPreferences.getString("settings_export_frequency", "86400000"));
-        boolean lRequireUnmeteredNetwork = lPreferences.getBoolean("settings_export_", false);
-        boolean lRequireCharging = lPreferences.getBoolean("settings", true);
-
-        JobScheduler lJobScheduler = (JobScheduler) pContext.getSystemService(JOB_SCHEDULER_SERVICE);
-        if (lInterval == -1) {
-            lJobScheduler.cancel(42);
-        } else {
+            JobScheduler lJobScheduler = (JobScheduler) pContext.getSystemService(JOB_SCHEDULER_SERVICE);
             ComponentName lComponentName = new ComponentName(pContext, ExportAllJob.class);
             JobInfo.Builder lBuilder = new JobInfo.Builder(42, lComponentName);
             lBuilder.setPeriodic(lInterval);

@@ -1,20 +1,25 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <PreferenceCategory android:title="@string/settings_category_export_location">
+    <PreferenceCategory android:title="@string/settings_category_alba_export">
+        <!-- Base path for alba -->
         <Preference
-            android:key="preference_export_path"
-            android:title="@string/settings_export_path">
-        </Preference>
+            android:key="preference_alba_export_path"
+            android:title="@string/settings_export_path_alba" />
 
-        <!-- Path structure for albums -->
+        <!-- Path structure for alba -->
         <EditTextPreference
             android:defaultValue="@string/settings_export_structure_alba_default_value"
             android:dialogMessage="@string/settings_export_subdirectory_structure_dialog_message"
             android:dialogTitle="@string/settings_export_subdirectory_structure_album"
             android:hint="@string/settings_export_structure_alba_default_value"
-            android:key="preference_structure_alba"
+            android:key="preference_alba_export_structure"
             android:summary="@string/settings_export_subdirectory_structure_album_example"
             android:title="@string/settings_export_structure_alba" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_category_groups_export">
+        <!-- Base path for groups -->
+        <Preference
+            android:key="preference_groups_export_path"
+            android:title="@string/settings_export_path_groups" />
 
         <!-- Path structure for groups -->
         <EditTextPreference
@@ -22,7 +27,7 @@
             android:dialogMessage="@string/settings_export_subdirectory_structure_dialog_message"
             android:dialogTitle="@string/settings_export_subdirectory_structure_group"
             android:hint="@string/settings_export_structure_groups_default_value"
-            android:key="preference_structure_groups"
+            android:key="preference_groups_export_structure"
             android:summary="@string/settings_export_subdirectory_structure_group_example"
             android:title="@string/settings_export_structure_groups" />
     </PreferenceCategory>
