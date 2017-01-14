@@ -176,13 +176,7 @@ public class MusicContainerListActivity extends AppCompatActivity
                     builder.setTitle(R.string.dialog_storage_access_denied_title);
                     builder.setMessage(R.string.dialog_storage_access_denied);
                     builder.setCancelable(false);
-                    builder.setPositiveButton(R.string.text_okay, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Close the app
-                            MusicContainerListActivity.this.finish();
-                        }
-                    });
+                    builder.setPositiveButton(R.string.text_okay, (dialog, which) -> MusicContainerListActivity.this.finish());
                     builder.show();
 
                 }
