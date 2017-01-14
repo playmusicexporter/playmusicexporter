@@ -9,7 +9,7 @@
         <EditTextPreference
             android:defaultValue="@string/settings_export_structure_alba_default_value"
             android:dialogMessage="@string/settings_export_subdirectory_structure_dialog_message"
-            android:dialogTitle="@string/settings_export_subdirectory_structure_album"
+            android:dialogTitle="@string/settings_export_structure_alba_dialog_title"
             android:hint="@string/settings_export_structure_alba_default_value"
             android:key="preference_alba_export_structure"
             android:summary="@string/settings_export_subdirectory_structure_album_example"
@@ -25,7 +25,7 @@
         <EditTextPreference
             android:defaultValue="@string/settings_export_structure_groups_default_value"
             android:dialogMessage="@string/settings_export_subdirectory_structure_dialog_message"
-            android:dialogTitle="@string/settings_export_subdirectory_structure_group"
+            android:dialogTitle="@string/settings_export_structure_groups_dialog_title"
             android:hint="@string/settings_export_structure_groups_default_value"
             android:key="preference_groups_export_structure"
             android:summary="@string/settings_export_subdirectory_structure_group_example"

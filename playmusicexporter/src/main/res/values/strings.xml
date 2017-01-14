@@ -85,6 +85,7 @@
     <string name="settings_auto_export_different_structure_switch">Use a different subdirectory structure</string>
     <string name="settings_auto_export_different_structure_switch_summary">Off means that the automatic export uses the same subdirectory structure as alba.</string>
     <string name="settings_auto_export_different_structure">Subdirectory structure</string>
+    <string name="settings_auto_export_different_structure_dialog_title">Subdirectory structure</string>
 
     <string name="settings_category_export_location">Export Location</string>
     <string name="settings_export_path">Export Base Path</string>
@@ -93,12 +94,12 @@
 
     <string name="settings_export_path_alba">Export path for alba</string>
     <string name="settings_export_structure_alba">Subdirectory structure for albums</string>
-    <string name="settings_export_subdirectory_structure_album">Set your subdirectory structure</string>
+    <string name="settings_export_structure_alba_dialog_title">Set your subdirectory structure</string>
     <string name="settings_export_subdirectory_structure_album_example">Example: Beatles/Help!/13. Yesterday.mp3</string>
 
     <string name="settings_export_path_groups">Export path for groups</string>
     <string name="settings_export_structure_groups">Subdirectory structure for playlists</string>
-    <string name="settings_export_subdirectory_structure_group">Set your subdirectory structure</string>
+    <string name="settings_export_structure_groups_dialog_title">Set your subdirectory structure</string>
     <string name="settings_export_subdirectory_structure_group_example">Example: Great Songs/4. Beatles - Yesterday.mp3</string>
 
     <string name="settings_export_id3">ID3 Tags</string>

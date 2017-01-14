@@ -6,7 +6,6 @@ import android.app.job.JobScheduler;
 import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
@@ -15,17 +14,13 @@ public class ExportAllJob extends JobService {
     public static final String TAG = "AutoGPME_ExportJob";
 
 
+    /**
+     * Schedules an export with the current settings
+     *
+     * @param pContext
+     */
     public static void scheduleExport(final Context pContext) {
         PlayMusicExporterPreferences.init(pContext);
-        PlayMusicExporterPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                if (key.contains("auto")) {
-                    scheduleExport(pContext);
-                    Log.i(TAG, "Preference changed: " + key);
-                }
-            }
-        });
         if (PlayMusicExporterPreferences.getAutoExportEnabled()) {
             long lInterval = PlayMusicExporterPreferences.getAutoExportFrequency();
             boolean lRequireUnmeteredNetwork = PlayMusicExporterPreferences.getAutoExportRequireUnmetered();

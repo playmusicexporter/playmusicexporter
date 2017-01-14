@@ -20,8 +20,13 @@
             android:key="preference_auto_export_use_different_structure"
             android:summary="@string/settings_auto_export_different_structure_switch_summary"
             android:title="@string/settings_auto_export_different_structure_switch" />
-        <Preference
+        <EditTextPreference
+            android:defaultValue="@string/settings_export_structure_alba_default_value"
+            android:dialogMessage="@string/settings_export_subdirectory_structure_dialog_message"
+            android:dialogTitle="@string/settings_auto_export_different_structure_dialog_title"
+            android:hint="@string/settings_export_structure_alba_default_value"
             android:key="preference_auto_export_structure"
+            android:summary="@string/settings_export_subdirectory_structure_album_example"
             android:title="@string/settings_auto_export_different_structure" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_category_auto_export_conditions">
