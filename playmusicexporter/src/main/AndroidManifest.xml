@@ -48,11 +48,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MusicContainerListActivity" />
         </activity>
+        <activity
+            android:name=".activities.Intro"
+            android:label="Play Music Exporter Intro"/>
 
         <service android:name=".services.ExportService" />
         <service android:name=".services.ExportAllService" />
-        <service android:name=".services.ExportAllJob"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service
+            android:name=".services.ExportAllJob"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <meta-data
             android:name="crashhandler.email"
