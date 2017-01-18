@@ -50,10 +50,10 @@
     <string name="notification_export_finished_single_summery">%1$s was exported successfully!</string>
 
     <string name="dialog_storage_access_denied_title">Storage access denied</string>
-    <string name="dialog_storage_access_denied">The PlayMusicExporter does not work without write access to the external storage. You can not use this app without granting it write access.</string>
+    <string name="dialog_storage_access_denied">The Play Music Exporter does not work without write access to the external storage. You can not use this app without granting it write access.</string>
 
     <string name="dialog_superuser_access_denied_title">Superuser access denied</string>
-    <string name="dialog_superuser_access_denied">The PlayMusicExporter does not work without superuser access. You can not use this app without granting it superuser access.</string>
+    <string name="dialog_superuser_access_denied">The Play Music Exporter does not work without superuser access. You can not use this app without granting it superuser access.</string>
 
 
     <string name="toast_error_track_not_offline">You can only export offline tracks. Try to download the album offline in Play Music.</string>
