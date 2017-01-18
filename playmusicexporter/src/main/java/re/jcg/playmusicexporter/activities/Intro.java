@@ -2,11 +2,15 @@ package re.jcg.playmusicexporter.activities;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
@@ -21,10 +25,10 @@ import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
 
 public class Intro extends AppIntro {
     private static final String TAG = "PME_Intro";
+    private static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     Fragment welcome;
     Fragment warning;
     Fragment storage;
-    Fragment internet;
     Fragment superuser;
     Fragment finish;
 
@@ -54,19 +58,6 @@ public class Intro extends AppIntro {
                         "to finish up the MP3s, from encrypted without ID3 tags," +
                         "to decrypted with ID3 tags, before we save them to your export path.",
                 R.drawable.ic_folder_white,
-                Color.parseColor("#ef6c00"));
-
-        //Internet Access is granted automatically, asking for it is automatically granted,
-        //which is unacceptable in my opinion, but why should Google care.
-        internet = AppIntroFragment.newInstance(
-                "We might need internet access.",
-                "It happens that we can not find the cover of a song locally. " +
-                        "In these cases, we can, if you grant us permission to use the internet, " +
-                        "download the cover from online. " +
-                        "If you don't grant us permission to use the internet, " +
-                        "we can still export songs, but the cover will be " +
-                        "missing on some songs.",
-                R.drawable.ic_cloud_download_white,
                 Color.parseColor("#ef6c00"));
         superuser = AppIntroFragment.newInstance(
                 "We need root access.",
@@ -99,8 +90,6 @@ public class Intro extends AppIntro {
         addSlide(superuser);
         addSlide(finish);
 
-        askForPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
-
         pager.setPagingEnabled(true);
     }
 
@@ -110,8 +99,54 @@ public class Intro extends AppIntro {
         logSlideChanged(oldFragment, newFragment);
         if (warning.equals(oldFragment) && storage.equals(newFragment)) {
             promptAcceptWarning();
+        } else if (storage.equals(oldFragment) && superuser.equals(newFragment)) {
+            requestStoragePermission();
         } else if (superuser.equals(oldFragment) && finish.equals(newFragment)) {
-            SuperUser.askForPermissions();
+            SuperUser.askForPermissionInBackground(granted -> {
+                if (!granted) {
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(this);
+                    builder.setTitle(R.string.dialog_superuser_access_denied_title);
+                    builder.setMessage(R.string.dialog_superuser_access_denied);
+                    builder.setCancelable(false);
+                    builder.setPositiveButton(R.string.text_okay, (dialog, which)
+                            -> pager.setCurrentItem(pager.getCurrentItem() - 1));
+                    builder.show();
+                }
+            });
+        }
+    }
+
+    private void requestStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (!(grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // Shows a warning and close the app
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(this);
+                    builder.setTitle(R.string.dialog_storage_access_denied_title);
+                    builder.setMessage(R.string.dialog_storage_access_denied);
+                    builder.setCancelable(false);
+                    builder.setPositiveButton(R.string.text_okay, (dialog, which)
+                            -> pager.setCurrentItem(pager.getCurrentItem() - 1));
+                    builder.show();
+
+                }
+            }
         }
     }
 
