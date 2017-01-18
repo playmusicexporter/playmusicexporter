@@ -68,7 +68,15 @@ public class ExportAllService extends IntentService {
                 if (lTrack.isOfflineAvailable()) {
                     String lPath = MusicPathBuilder.Build(lTrack, lExportStructure);
                     try {
-
+                        if (!isAlreadyThere(lUri, lPath)) {
+                            if (lPlayMusicManager.exportMusicTrack(lTrack, lUri, lPath)) {
+                                Log.i(TAG, "Exported Music Track: " + getStringForTrack(lTrack));
+                            } else {
+                                Log.i(TAG, "Failed to export Music Track: " + getStringForTrack(lTrack));
+                            }
+                        } else {
+                            Log.i(TAG, lPath + " already exists.");
+                        }
                     } catch (IllegalArgumentException e) {
                         if (e.getMessage().contains("Invalid URI:")) {
                             /*
@@ -78,15 +86,6 @@ public class ExportAllService extends IntentService {
                              */
                             Log.i(TAG, "Automatic export failed, because the URI is invalid.");
                         } else throw e;
-                    }
-                    if (!isAlreadyThere(lUri, lPath)) {
-                        if (lPlayMusicManager.exportMusicTrack(lTrack, lUri, lPath)) {
-                            Log.i(TAG, "Exported Music Track: " + getStringForTrack(lTrack));
-                        } else {
-                            Log.i(TAG, "Failed to export Music Track: " + getStringForTrack(lTrack));
-                        }
-                    } else {
-                        Log.i(TAG, lPath + " already exists.");
                     }
                 }
             }

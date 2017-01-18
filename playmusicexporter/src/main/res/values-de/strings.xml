@@ -100,4 +100,5 @@
     <string name="settings_export_path_groups">Export Pfad für Playlists</string>
     <string name="dialog_superuser_access_denied_title">Administrator-Zugriff verweigert</string>
     <string name="dialog_superuser_access_denied">Der Play Music Exporter benötigt Administrator Rechte, ohne diese Rechte kann die App nicht genutzt werden.</string>
+    <string name="settings_auto_export_different_structure_dialog_title">Verzeichnisbaum</string>
 </resources>
