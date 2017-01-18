@@ -34,10 +34,16 @@ public class PlayMusicExporterPreferences {
     private static final String GROUPS_EXPORT_STRUCTURE = "preference_groups_export_structure";
     private static final String EXPORT_STRUCTURE_DEFAULT = "{album-artist}/{album}/{disc=CD $}/{no=$$.} {title}.mp3";
 
+    private static final String EXPORT_ALBUM_ART_SIZE = "preference_id3_artwork_size";
+    private static final int EXPORT_ALBUM_ART_SIZE_DEFAULT = 512;
+
     private static final String DRAWER_LEARNED = "pref_drawer_learned";
     private static final boolean DRAWER_LEARNED_DEFAULT = false;
     private static final String DRAWER_SELECTED_TYPE = "pref_drawer_selected_type";
     private static final String DRAWER_SELECTED_TYPE_DEFAULT = "Album";
+
+    private static final String SETUP_DONE = "preference_setup_done";
+    private static final boolean SETUP_DONE_DEFAULT = false;
 
 
     private PlayMusicExporterPreferences() {
@@ -140,5 +146,21 @@ public class PlayMusicExporterPreferences {
 
     public static boolean getAutoExportRequireCharging() {
         return preferences.getBoolean(AUTO_EXPORT_REQUIRE_CHARGING, AUTO_EXPORT_REQUIRE_CONDITION_DEFAULT);
+    }
+
+    public static boolean getSetupDone() {
+        return preferences.getBoolean(SETUP_DONE, SETUP_DONE_DEFAULT);
+    }
+
+    public static void setSetupDone(boolean done) {
+        preferences.edit().putBoolean(SETUP_DONE, done).apply();
+    }
+
+    public static int getAlbumArtSize() {
+        return Integer.parseInt(preferences.getString(EXPORT_ALBUM_ART_SIZE, "" + EXPORT_ALBUM_ART_SIZE_DEFAULT));
+    }
+
+    public static void setAlbumArtSize(int size) {
+        preferences.edit().putString(EXPORT_ALBUM_ART_SIZE, "" + size).apply();
     }
 }

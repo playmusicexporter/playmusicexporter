@@ -22,6 +22,8 @@
 
 package de.arcus.framework.superuser;
 
+import android.os.AsyncTask;
+
 import java.io.IOException;
 
 import de.arcus.framework.logger.Logger;
@@ -129,5 +131,21 @@ public class SuperUser {
         // We don't have superuser permissions; abort session
         sessionStop();
         return false;
+    }
+
+    public static void askForPermissionInBackground(final SuperUserPermissionRequestListener listener) {
+        new AsyncTask<Void, Void, Void>() {
+            boolean hasPermissions;
+            @Override
+            protected Void doInBackground(Void... params) {
+                hasPermissions = askForPermissions();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                listener.superUserGranted(hasPermissions);
+            }
+        }.execute();
     }
 }

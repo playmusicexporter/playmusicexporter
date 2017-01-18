@@ -23,7 +23,6 @@
 package re.jcg.playmusicexporter.activities;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -55,6 +54,7 @@ import de.arcus.playmusiclib.datasources.ArtistDataSource;
 import de.arcus.playmusiclib.datasources.PlaylistDataSource;
 import de.arcus.playmusiclib.enums.ID3v2Version;
 import de.arcus.playmusiclib.items.MusicTrackList;
+import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
 
 /**
  * An activity representing a list of Tracks. This activity
@@ -104,59 +104,68 @@ public class MusicContainerListActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_track_list);
 
         //Adds the crash handler to this class
         CrashHandler.addCrashHandler(this);
 
-        Logger.getInstance().logVerbose("Activity", "onCreate(" + this.getLocalClassName() + ")");
+        PlayMusicExporterPreferences.init(this);
+        if (!PlayMusicExporterPreferences.getSetupDone()) {
+            startActivity(new Intent(this, Intro.class));
+            finish();
+        } else {
 
-        // Setup ActionBar
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(R.string.app_name);
+            setContentView(R.layout.activity_track_list);
+
+
+            Logger.getInstance().logVerbose("Activity", "onCreate(" + this.getLocalClassName() + ")");
+
+            // Setup ActionBar
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle(R.string.app_name);
+            }
+
+
+            mNavigationDrawerFragment = (NavigationDrawerFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+
+            mNavigationDrawerFragment.setOnListViewChanged(this);
+
+            // Set up the drawer.
+            mNavigationDrawerFragment.setUp(
+                    R.id.navigation_drawer,
+                    (DrawerLayout) findViewById(R.id.drawer_layout));
+
+            if (findViewById(R.id.track_detail_container) != null) {
+                // The detail container view will be present only in the
+                // large-screen layouts (res/values-large and
+                // res/values-sw600dp). If this view is present, then the
+                // activity should be in two-pane mode.
+                mTwoPane = true;
+
+                // In two-pane mode, list items should be given the
+                // 'activated' state when touched.
+                ((MusicContainerListFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.fragment_main))
+                        .setActivateOnItemClick(true);
+            }
+
+            boolean waitForPermissions = false;
+
+            // Check file system permissions
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                waitForPermissions = true;
+            }
+
+            if (!waitForPermissions)
+                loadPlayMusicExporter();
         }
-
-
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-
-        mNavigationDrawerFragment.setOnListViewChanged(this);
-
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
-
-        if (findViewById(R.id.track_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-large and
-            // res/values-sw600dp). If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-
-            // In two-pane mode, list items should be given the
-            // 'activated' state when touched.
-            ((MusicContainerListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.fragment_main))
-                    .setActivateOnItemClick(true);
-        }
-
-        boolean waitForPermissions = false;
-
-        // Check file system permissions
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-            waitForPermissions = true;
-        }
-
-        if (!waitForPermissions)
-            loadPlayMusicExporter();
     }
 
     @Override
@@ -205,8 +214,8 @@ public class MusicContainerListActivity extends AppCompatActivity
                 mPlayMusicManager.setID3EnableArtwork(true);
                 mPlayMusicManager.setID3EnableFallback(true);
                 mPlayMusicManager.setID3v2Version(ID3v2Version.ID3v23);
-                mPlayMusicManager.setID3ArtworkFormat(Bitmap.CompressFormat.JPEG);
-                mPlayMusicManager.setID3ArtworkMaximumSize(512);
+                mPlayMusicManager.setID3ArtworkFormat(Bitmap.CompressFormat.PNG);
+                mPlayMusicManager.setID3ArtworkMaximumSize(PlayMusicExporterPreferences.getAlbumArtSize());
 
             } catch (Exception e) {
                 Logger.getInstance().logError("SetupPlayMusicExporter", e.toString());
