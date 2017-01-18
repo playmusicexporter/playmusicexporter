@@ -538,7 +538,7 @@ public class PlayMusicManager {
             // Creates the subdirectories
             String[] directories = path.split("\\/");
             for(int i=0; i<directories.length - 1; i++) {
-                String directoryName = directories[i];
+                String directoryName =  directories[i];
                 boolean found = false;
 
                 // Search all sub elements

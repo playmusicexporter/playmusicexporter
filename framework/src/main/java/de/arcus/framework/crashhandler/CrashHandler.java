@@ -77,6 +77,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
         logBuilder.append("----------- Exception ------------\n");
         logBuilder.append(ex.getMessage()).append("\n");
+        logBuilder.append(ex.getClass().getCanonicalName()).append(" at \n");
 
         // Log stack trace
         for (StackTraceElement stackTraceElement : ex.getStackTrace())

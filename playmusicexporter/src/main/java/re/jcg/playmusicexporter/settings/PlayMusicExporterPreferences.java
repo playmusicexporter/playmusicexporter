@@ -12,40 +12,40 @@ import re.jcg.playmusicexporter.fragments.NavigationDrawerFragment;
 public class PlayMusicExporterPreferences {
     private static SharedPreferences preferences;
 
-    private static final String AUTO_EXPORT_ENABLED = "preference_auto_export_enabled";
-    private static final boolean AUTO_EXPORT_ENABLED_DEFAULT = false;
-    private static final String AUTO_EXPORT_USES_DIFFERENT_PATH = "preference_auto_export_use_different_path";
-    private static final boolean AUTO_EXPORT_USES_DIFFERENT_PATH_DEFAULT = false;
-    private static final String AUTO_EXPORT_USES_DIFFERENT_STRUCTURE = "preference_auto_export_use_different_structure";
-    private static final boolean AUTO_EXPORT_USES_DIFFERENT_STRUCTURE_DEFAULT = false;
-    private static final String AUTO_EXPORT_FREQUENCY = "preference_auto_export_frequency";
-    private static final String AUTO_EXPORT_FREQUENCY_DEFAULT = "86400000";
+    public static final String AUTO_EXPORT_ENABLED = "preference_auto_export_enabled";
+    public static final boolean AUTO_EXPORT_ENABLED_DEFAULT = false;
+    public static final String AUTO_EXPORT_USES_DIFFERENT_PATH = "preference_auto_export_use_different_path";
+    public static final boolean AUTO_EXPORT_USES_DIFFERENT_PATH_DEFAULT = false;
+    public static final String AUTO_EXPORT_USES_DIFFERENT_STRUCTURE = "preference_auto_export_use_different_structure";
+    public static final boolean AUTO_EXPORT_USES_DIFFERENT_STRUCTURE_DEFAULT = false;
+    public static final String AUTO_EXPORT_FREQUENCY = "preference_auto_export_frequency";
+    public static final String AUTO_EXPORT_FREQUENCY_DEFAULT = "86400000";
     public static final String AUTO_EXPORT_REQUIRE_CHARGING = "preference_auto_export_require_charging";
     public static final String AUTO_EXPORT_REQUIRE_UNMETERED = "preference_auto_export_require_unmetered";
     public static final boolean AUTO_EXPORT_REQUIRE_CONDITION_DEFAULT = false;
 
-    private static final String AUTO_EXPORT_PATH = "preference_auto_export_path";
+    public static final String AUTO_EXPORT_PATH = "preference_auto_export_path";
     //TODO Split Export Paths in export prefs, this won't work else.
-    private static final String ALBA_EXPORT_PATH = "preference_alba_export_path";
-    private static final String GROUPS_EXPORT_PATH = "preference_groups_export_path";
-    private static final String URI_DEFAULT = Uri.fromFile(
+    public static final String ALBA_EXPORT_PATH = "preference_alba_export_path";
+    public static final String GROUPS_EXPORT_PATH = "preference_groups_export_path";
+    public static final String URI_DEFAULT = Uri.fromFile(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)).toString();
 
-    private static final String AUTO_EXPORT_STRUCTURE = "preference_auto_export_structure";
-    private static final String ALBA_EXPORT_STRUCTURE = "preference_alba_export_structure";
-    private static final String GROUPS_EXPORT_STRUCTURE = "preference_groups_export_structure";
-    private static final String EXPORT_STRUCTURE_DEFAULT = "{album-artist}/{album}/{disc=CD $}/{no=$$.} {title}.mp3";
+    public static final String AUTO_EXPORT_STRUCTURE = "preference_auto_export_structure";
+    public static final String ALBA_EXPORT_STRUCTURE = "preference_alba_export_structure";
+    public static final String GROUPS_EXPORT_STRUCTURE = "preference_groups_export_structure";
+    public static final String EXPORT_STRUCTURE_DEFAULT = "{album-artist}/{album}/{disc=CD $}/{no=$$.} {title}.mp3";
 
-    private static final String EXPORT_ALBUM_ART_SIZE = "preference_id3_artwork_size";
-    private static final int EXPORT_ALBUM_ART_SIZE_DEFAULT = 512;
+    public static final String EXPORT_ALBUM_ART_SIZE = "preference_id3_artwork_size";
+    public static final int EXPORT_ALBUM_ART_SIZE_DEFAULT = 512;
 
-    private static final String DRAWER_LEARNED = "pref_drawer_learned";
-    private static final boolean DRAWER_LEARNED_DEFAULT = false;
-    private static final String DRAWER_SELECTED_TYPE = "pref_drawer_selected_type";
-    private static final String DRAWER_SELECTED_TYPE_DEFAULT = "Album";
+    public static final String DRAWER_LEARNED = "pref_drawer_learned";
+    public static final boolean DRAWER_LEARNED_DEFAULT = false;
+    public static final String DRAWER_SELECTED_TYPE = "pref_drawer_selected_type";
+    public static final String DRAWER_SELECTED_TYPE_DEFAULT = "Album";
 
-    private static final String SETUP_DONE = "preference_setup_done";
-    private static final boolean SETUP_DONE_DEFAULT = false;
+    public static final String SETUP_DONE = "preference_setup_done";
+    public static final boolean SETUP_DONE_DEFAULT = false;
 
 
     private PlayMusicExporterPreferences() {
@@ -148,6 +148,10 @@ public class PlayMusicExporterPreferences {
 
     public static boolean getAutoExportRequireCharging() {
         return preferences.getBoolean(AUTO_EXPORT_REQUIRE_CHARGING, AUTO_EXPORT_REQUIRE_CONDITION_DEFAULT);
+    }
+
+    public static void setAutoExportPath(Uri treeUri) {
+        preferences.edit().putString(AUTO_EXPORT_PATH, treeUri.toString()).apply();
     }
 
     public static boolean getSetupDone() {
