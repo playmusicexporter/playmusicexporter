@@ -13,13 +13,13 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 
 import re.jcg.playmusicexporter.BuildConfig;
 import re.jcg.playmusicexporter.R;
+import re.jcg.playmusicexporter.services.ExportAllJob;
 import re.jcg.playmusicexporter.services.ExportAllService;
 import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
 
@@ -40,6 +40,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     private static final String TAG = "MusicExporter_Settings";
     private static final int REQUEST_CODE_OPEN_DOCUMENT_TREE_ALBA_PATH = 0;
     private static final int REQUEST_CODE_OPEN_DOCUMENT_TREE_GROUPS_PATH = 1;
+    private static final int REQUEST_CODE_OPEN_DOCUMENT_TREE_AUTO_PATH = 2;
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -129,7 +130,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         // Remove the Debug Fragment
         if (!BuildConfig.DEBUG) {
             for (int i = 0; i < target.size(); i++) {
-                if ("Debug".equals(target.get(i).title)){
+                if ("Debug".equals(target.get(i).title)) {
                     target.remove(i);
                     break;
                 }
@@ -214,11 +215,77 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     public static class AutomationPreferenceFragment extends PreferenceFragment {
+
+
+        /**
+         * Little helper method to get the context.
+         * If the Android version is high enough, the newer {@link PreferenceFragment#getContext()} is used,
+         * else, the older {@link PreferenceFragment#getActivity()}, since activities are contexts too.
+         *
+         * @return The context.
+         */
+        @Override
+        public Context getContext() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                return super.getContext();
+            } else {
+                return super.getActivity();
+            }
+        }
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_automation);
             setHasOptionsMenu(true);
+            //Schedules an export with the current settings.
+            ExportAllJob.scheduleExport(getContext());
+
+            setupOnClickListeners();
+        }
+
+        private void setupOnClickListeners() {
+            findPreference(PlayMusicExporterPreferences.AUTO_EXPORT_PATH).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivityForResult(new Intent("android.intent.action.OPEN_DOCUMENT_TREE"), REQUEST_CODE_OPEN_DOCUMENT_TREE_AUTO_PATH);
+                    return true;
+                }
+            });
+
+            //For every setting that is used to define the export job, setup a listener that
+            setupRescheduler(PlayMusicExporterPreferences.AUTO_EXPORT_REQUIRE_CHARGING);
+            setupRescheduler(PlayMusicExporterPreferences.AUTO_EXPORT_REQUIRE_UNMETERED);
+            setupRescheduler(PlayMusicExporterPreferences.AUTO_EXPORT_ENABLED);
+            setupRescheduler(PlayMusicExporterPreferences.AUTO_EXPORT_FREQUENCY);
+        }
+
+        private void setupRescheduler(String preference) {
+            findPreference(preference).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    ExportAllJob.scheduleExport(getContext());
+                    return false;
+                }
+            });
+        }
+
+        public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+            switch (requestCode) {
+                case REQUEST_CODE_OPEN_DOCUMENT_TREE_AUTO_PATH:
+                    if (resultCode == RESULT_OK) {
+                        Uri treeUri = resultData.getData();
+                        PlayMusicExporterPreferences.init(getActivity());
+                        PlayMusicExporterPreferences.setAutoExportPath(treeUri);
+                        getActivity().getContentResolver().takePersistableUriPermission(treeUri,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        Log.i(TAG, "Selected " + treeUri.toString());
+                    }
+                    break;
+                default:
+                    Log.i(TAG, "Received activityResult with unknown requestCode");
+
+            }
         }
 
         @Override

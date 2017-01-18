@@ -67,14 +67,25 @@ public class ExportAllService extends IntentService {
             for (MusicTrack lTrack : lAlbum.getMusicTrackList()) {
                 if (lTrack.isOfflineAvailable()) {
                     String lPath = MusicPathBuilder.Build(lTrack, lExportStructure);
-                    if (!isAlreadyThere(lUri, lPath)) {
-                        if (lPlayMusicManager.exportMusicTrack(lTrack, lUri, lPath)) {
-                            Log.i(TAG, "Exported Music Track: " + getStringForTrack(lTrack));
+                    try {
+                        if (!isAlreadyThere(lUri, lPath)) {
+                            if (lPlayMusicManager.exportMusicTrack(lTrack, lUri, lPath)) {
+                                Log.i(TAG, "Exported Music Track: " + getStringForTrack(lTrack));
+                            } else {
+                                Log.i(TAG, "Failed to export Music Track: " + getStringForTrack(lTrack));
+                            }
                         } else {
-                            Log.i(TAG, "Failed to export Music Track: " + getStringForTrack(lTrack));
+                            Log.i(TAG, lPath + " already exists.");
                         }
-                    } else {
-                        Log.i(TAG, lPath + " already exists.");
+                    } catch (IllegalArgumentException e) {
+                        if (e.getMessage().contains("Invalid URI:")) {
+                            /*
+                            TODO: Make it impossible to reach this point
+                            This happens when the user has not yet set the export path.
+
+                             */
+                            Log.i(TAG, "Automatic export failed, because the URI is invalid.");
+                        } else throw e;
                     }
                 }
             }
