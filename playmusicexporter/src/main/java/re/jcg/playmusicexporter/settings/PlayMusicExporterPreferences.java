@@ -4,6 +4,7 @@ package re.jcg.playmusicexporter.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 
 import re.jcg.playmusicexporter.fragments.NavigationDrawerFragment;
@@ -27,7 +28,8 @@ public class PlayMusicExporterPreferences {
     //TODO Split Export Paths in export prefs, this won't work else.
     private static final String ALBA_EXPORT_PATH = "preference_alba_export_path";
     private static final String GROUPS_EXPORT_PATH = "preference_groups_export_path";
-    private static final String URI_DEFAULT = Uri.EMPTY.toString();
+    private static final String URI_DEFAULT = Uri.fromFile(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)).toString();
 
     private static final String AUTO_EXPORT_STRUCTURE = "preference_auto_export_structure";
     private static final String ALBA_EXPORT_STRUCTURE = "preference_alba_export_structure";

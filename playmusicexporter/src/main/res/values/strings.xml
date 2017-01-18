@@ -72,7 +72,7 @@
     <string name="settings_category_auto_export_conditions">Export conditions</string>
     <string name="settings_category_auto_export_path_subdir">Export path and subdirectory structure</string>
     <string name="settings_category_debug">Debug</string>
-    <string name="settings_category_alba_export">Export location alba</string>
+    <string name="settings_category_alba_export">Export location albums</string>
     <string name="settings_category_groups_export">Export location groups</string>
 
 
@@ -87,7 +87,7 @@
     <string name="settings_auto_export_different_path_switch_summary">Off means that the automatic export uses the same export path as manual album exports.</string>
     <string name="settings_auto_export_different_path">Export path</string>
     <string name="settings_auto_export_different_structure_switch">Use a different subdirectory structure</string>
-    <string name="settings_auto_export_different_structure_switch_summary">Off means that the automatic export uses the same subdirectory structure as alba.</string>
+    <string name="settings_auto_export_different_structure_switch_summary">Off means that the automatic export uses the same subdirectory structure as albums.</string>
     <string name="settings_auto_export_different_structure">Subdirectory structure</string>
 
     <string name="settings_category_export_location">Export Location</string>
@@ -95,7 +95,7 @@
     <string name="settings_export_subdirectory_structure_dialog_message">Use / for a new folder \n Available Tags: \n - {album-artist} \n - {album} \n - {artist} \n - {title} \n - {disc=CD $} \n - {no=$$.} \n - {year} \n - {genre} \n</string>
 
 
-    <string name="settings_export_path_alba">Export path for alba</string>
+    <string name="settings_export_path_alba">Export path for albums</string>
     <string name="settings_export_structure_alba">Subdirectory structure for albums</string>
     <string name="settings_export_subdirectory_structure_album">Set your subdirectory structure</string>
     <string name="settings_export_subdirectory_structure_album_example">Example: Beatles/Help!/13. Yesterday.mp3</string>
