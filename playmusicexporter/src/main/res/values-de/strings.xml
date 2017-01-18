@@ -61,8 +61,8 @@
     <string name="toast_error_track_not_offline">Sie können nur offline Titel exportieren. Versuchen Sie das Album in Play Music offline herunterzuladen.</string>
     <string name="settings_build_date">Kompilationsdatum</string>
     <string name="settings_category_develop">Entwicklung</string>
-    <string name="dialog_storage_access_denied_title">Daten-Zugriff verweigert</string>
-    <string name="dialog_storage_access_denied">Der PlayMusicExpoerter benötigt Schreibrechte auf der SD-Karte. Dies ist Teil des Marshmallow-Fix.\n\nBitte starten Sie die App neu und erlauben Sie die Berechtigung.</string>
+    <string name="dialog_storage_access_denied_title">Speicher-Zugriff verweigert</string>
+    <string name="dialog_storage_access_denied">Der Play Music Exporter benötigt Schreibzugriff auf den externen Speicher, ohne diesen kann die App nicht genutzt werden.</string>
     <string name="text_okay">OK</string>
     <string name="pref_header_about">Über</string>
     <string name="pref_header_automation">Automatisierung</string>
@@ -98,4 +98,6 @@
     <string name="settings_category_groups_export">Export Speichereinstellungen für Playlists</string>
     <string name="settings_export_path_alba">Export Pfad für Alben</string>
     <string name="settings_export_path_groups">Export Pfad für Playlists</string>
+    <string name="dialog_superuser_access_denied_title">Administrator-Zugriff verweigert</string>
+    <string name="dialog_superuser_access_denied">Der Play Music Exporter benötigt Administrator Rechte, ohne diese Rechte kann die App nicht genutzt werden.</string>
 </resources>
