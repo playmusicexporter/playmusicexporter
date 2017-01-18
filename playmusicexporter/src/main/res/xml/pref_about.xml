@@ -50,11 +50,11 @@
         <!-- TODO change Version number and build date with releases -->
         <!-- Version number-->
         <Preference
-            android:summary="0.9.1"
+            android:summary="0.9.2"
             android:title="@string/settings_version_number" />
         <!-- Build date-->
         <Preference
-            android:summary="31.12.2016"
+            android:summary="19.01.2017"
             android:title="@string/settings_build_date" />
     </PreferenceCategory>
 
