@@ -68,15 +68,12 @@ public class ExportAllService extends IntentService {
                 if (lTrack.isOfflineAvailable()) {
                     String lPath = MusicPathBuilder.Build(lTrack, lExportStructure);
                     try {
-                        if (!isAlreadyThere(lUri, lPath)) {
-                            if (lPlayMusicManager.exportMusicTrack(lTrack, lUri, lPath)) {
-                                Log.i(TAG, "Exported Music Track: " + getStringForTrack(lTrack));
-                            } else {
-                                Log.i(TAG, "Failed to export Music Track: " + getStringForTrack(lTrack));
-                            }
+                        if (lPlayMusicManager.exportMusicTrack(lTrack, lUri, lPath, PlayMusicExporterPreferences.getFileOverwritePreference())) {
+                            Log.i(TAG, "Exported Music Track: " + getStringForTrack(lTrack));
                         } else {
-                            Log.i(TAG, lPath + " already exists.");
+                            Log.i(TAG, "Failed to export Music Track: " + getStringForTrack(lTrack));
                         }
+      
                     } catch (IllegalArgumentException e) {
                         if (e.getMessage().contains("Invalid URI:")) {
                             /*
@@ -90,19 +87,6 @@ public class ExportAllService extends IntentService {
                 }
             }
         }
-    }
-
-    private boolean isAlreadyThere(Uri pUri, String pPath) {
-        DocumentFile lDocumentFile = DocumentFile.fromTreeUri(this, pUri);
-        for (String lDisplayName: pPath.split("/")) {
-            if (lDocumentFile.findFile(lDisplayName) != null) {
-                lDocumentFile = lDocumentFile.findFile(lDisplayName);
-            } else {
-                Log.i(TAG, pPath + " does not exist yet.");
-                return false;
-            }
-        }
-        return true;
     }
 
     private String getStringForTrack(MusicTrack pTrack) {
