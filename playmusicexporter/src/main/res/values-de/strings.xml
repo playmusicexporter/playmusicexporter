@@ -75,7 +75,8 @@
     <string name="settings_export_structure_alba">Verzeichnisbaum für Alben</string>
     <string name="settings_export_structure_alba_dialog_title">Setze den Verzeichnisbaum</string>
     <string name="settings_export_subdirectory_structure_album_example">Beispiel: Beatles/Help!/13. Yesterday.mp3</string>
-    <string name="settings_export_subdirectory_structure_dialog_message">"Nutze / für einen neuen Order.   Available Tags:   - {album-artist}   - {album}   - {artist}   - {title}   - {disc=CD $}   - {no=$$.}   - {year}   - {genre}  "</string>
+    <string name="settings_export_subdirectory_structure_dialog_message">Nutze / für einen neuen Order \n Available Tags: \n - {album-artist} \n - {album} \n - {artist} \n - {title} \n - {disc=CD $} \n - {no=$$.} \n - {year} \n - {genre} \n</string>
+    <string name="settings_playlist_export_subdirectory_structure_dialog_message">Nutze / für einen neuen Order \n Available Tags: \n - {playlist} \n - {album-artist} \n - {album} \n - {artist} \n - {title} \n - {disc=CD $} \n - {no=$$.} \n - {year} \n - {genre} \n</string>
     <string name="settings_export_structure_groups_dialog_title">Setze den Verzeichnisbaum</string>
     <string name="settings_export_subdirectory_structure_group_example">Beispiel: Great Songs/4. Beatles - Yesterday.mp3</string>
     <string name="settings_version_number">Versionsnummer</string>

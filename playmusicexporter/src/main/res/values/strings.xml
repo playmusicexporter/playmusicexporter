@@ -94,7 +94,7 @@
     <string name="settings_category_export_location">Export Location</string>
     <string name="settings_export_path">Export Base Path</string>
     <string name="settings_export_subdirectory_structure_dialog_message">Use / for a new folder \n Available Tags: \n - {album-artist} \n - {album} \n - {artist} \n - {title} \n - {disc=CD $} \n - {no=$$.} \n - {year} \n - {genre} \n</string>
-
+    <string name="settings_playlist_export_subdirectory_structure_dialog_message">Use / for a new folder \n Available Tags: \n - {playlist} \n - {album-artist} \n - {album} \n - {artist} \n - {title} \n - {disc=CD $} \n - {no=$$.} \n - {year} \n - {genre} \n</string>
 
     <string name="settings_export_path_alba">Export path for albums</string>
     <string name="settings_export_structure_alba">Subdirectory structure for albums</string>
@@ -140,7 +140,7 @@
     <string name="pref_header_debug">Debug</string>
 
     <string name="settings_export_structure_alba_default_value" translatable="false">{album-artist}/{album}/{disc=CD $}/{no=$$.} {title}.mp3</string>
-    <string name="settings_export_structure_groups_default_value" translatable="false">{group}/{group-no=$$.} {artist} - {title}.mp3</string>
+    <string name="settings_export_structure_groups_default_value" translatable="false">{playlist}/{artist} - {title}.mp3</string>
 
     <string name="debug_trigger_export_all_title">Trigger ExportAllService now</string>
     <string name="file_handling_category">File Handling</string>
