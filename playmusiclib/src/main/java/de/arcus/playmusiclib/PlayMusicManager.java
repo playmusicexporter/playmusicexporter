@@ -667,16 +667,22 @@ public class PlayMusicManager {
      * return true if the file already exists
      */
     private boolean isAlreadyThere(Uri pUri, String pPath) {
-        DocumentFile lDocumentFile = DocumentFile.fromTreeUri(mContext, pUri);
-        for (String lDisplayName: pPath.split("/")) {
-            if (lDocumentFile.findFile(lDisplayName) != null) {
-                lDocumentFile = lDocumentFile.findFile(lDisplayName);
-            } else {
-                Logger.getInstance().logInfo("isAlreadyThere", pPath + " does not exist yet." );
-                return false;
+        if (pUri.toString().startsWith("file://")) {
+            //Old sdcard URI
+            return FileTools.fileExists(pUri.buildUpon().appendPath(pPath).build().toString());
+        } else {
+            //Documents Provider URI
+            DocumentFile lDocumentFile = DocumentFile.fromTreeUri(mContext, pUri);
+            for (String lDisplayName : pPath.split("/")) {
+                if (lDocumentFile.findFile(lDisplayName) != null) {
+                    lDocumentFile = lDocumentFile.findFile(lDisplayName);
+                } else {
+                    Logger.getInstance().logInfo("isAlreadyThere", pPath + " does not exist yet.");
+                    return false;
+                }
             }
+            return true;
         }
-        return true;
     }
 
     /**
