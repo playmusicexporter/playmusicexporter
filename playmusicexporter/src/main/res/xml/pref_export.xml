@@ -49,4 +49,10 @@
             android:summary="@string/settings_export_id3_artwork_size_summary"
             android:title="@string/settings_export_id3_artwork_size" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/file_handling_category">
+        <SwitchPreference
+            android:key="preference_overwrite_existing_files"
+            android:summary="@string/overwrite_summary"
+            android:title="@string/overwrite_title" />
+    </PreferenceCategory>
 </PreferenceScreen>

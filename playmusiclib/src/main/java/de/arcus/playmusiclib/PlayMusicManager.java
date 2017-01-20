@@ -34,6 +34,7 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.mpatric.mp3agic.ID3v1Genres;
 import com.mpatric.mp3agic.ID3v1Tag;
@@ -467,9 +468,10 @@ public class PlayMusicManager {
      * Exports a track to the sd card
      * @param musicTrack The music track you want to export
      * @param dest The destination path
+	 * @param forceOverwrite Forces overwrite of the destination file
      * @return Returns whether the export was successful
      */
-    public boolean exportMusicTrack(MusicTrack musicTrack, String dest) {
+    public boolean exportMusicTrack(MusicTrack musicTrack, String dest, boolean forceOverwrite ) {
         // Creates the destination directory
         File directory = new File(dest).getParentFile();
 
@@ -477,16 +479,17 @@ public class PlayMusicManager {
         // Filename
         String filename = new File(dest).getName();
 
-        return exportMusicTrack(musicTrack, Uri.fromFile(directory), filename);
+        return exportMusicTrack(musicTrack, Uri.fromFile(directory), filename, forceOverwrite);
     }
 
     /**
      * Exports a track to the sd card
      * @param musicTrack The music track you want to export
      * @param uri The document tree
+	 * @param forceOverwrite Forces overwrite of the destination file
      * @return Returns whether the export was successful
      */
-    public boolean exportMusicTrack(MusicTrack musicTrack, Uri uri, String path) {
+    public boolean exportMusicTrack(MusicTrack musicTrack, Uri uri, String path, boolean forceOverwrite) {
 
         // Check for null
         if (musicTrack == null) return false;
@@ -496,94 +499,109 @@ public class PlayMusicManager {
         // Could not find the source file
         if (srcFile == null) return false;
 
-        String fileTmp = getTempPath() + "tmp.mp3";
+        if ( forceOverwrite || !isAlreadyThere(uri, path) )
+        {
 
-        // Copy to temp path failed
-        if (!SuperUserTools.fileCopy(srcFile, fileTmp))
-            return false;
+            String fileTmp = getTempPath() + "tmp.mp3";
 
-        // Encrypt the file
-        if (musicTrack.isEncoded()) {
-            String fileTmpCrypt = getTempPath() + "crypt.mp3";
+            // Copy to temp path failed
+            if (!SuperUserTools.fileCopy(srcFile, fileTmp))
+                return false;
 
-            // Encrypts the file
-            if (trackEncrypt(musicTrack, fileTmp, fileTmpCrypt)) {
-                // Remove the old tmp file
-                FileTools.fileDelete(fileTmp);
+            // Encrypt the file
+            if (musicTrack.isEncoded()) {
+                String fileTmpCrypt = getTempPath() + "crypt.mp3";
 
-                // New tmp file
-                fileTmp = fileTmpCrypt;
-            } else {
-                Logger.getInstance().logWarning("ExportMusicTrack", "Encrypting failed! Continue with decrypted file.");
+                // Encrypts the file
+                if (trackEncrypt(musicTrack, fileTmp, fileTmpCrypt)) {
+                    // Remove the old tmp file
+                    FileTools.fileDelete(fileTmp);
+
+                    // New tmp file
+                    fileTmp = fileTmpCrypt;
+                } else {
+                    Logger.getInstance().logWarning("ExportMusicTrack", "Encrypting failed! Continue with decrypted file.");
+                }
             }
-        }
 
 
 
-        String dest;
-        Uri copyUri = null;
-        if (uri.toString().startsWith("file://")) {
-            // Build the full path
-            dest = uri.buildUpon().appendPath(path).build().getPath();
+            String dest;
+            Uri copyUri = null;
+            if (uri.toString().startsWith("file://")) {
+                // Build the full path
+                dest = uri.buildUpon().appendPath(path).build().getPath();
 
-            String parentDirectory = new File(dest).getParent();
-            FileTools.directoryCreate(parentDirectory);
-        } else {
-            // Complex uri (Lollipop)
-            dest = getTempPath() + "final.mp3";
+                String parentDirectory = new File(dest).getParent();
+                FileTools.directoryCreate(parentDirectory);
+            } else {
+                // Complex uri (Lollipop)
+                dest = getTempPath() + "final.mp3";
 
-            // The root
-            DocumentFile document = DocumentFile.fromTreeUri(mContext, uri);
+                // The root
+                DocumentFile document = DocumentFile.fromTreeUri(mContext, uri);
 
-            // Creates the subdirectories
-            String[] directories = path.split("\\/");
-            for(int i=0; i<directories.length - 1; i++) {
-                String directoryName =  directories[i];
-                boolean found = false;
+                // Creates the subdirectories
+                String[] directories = path.split("\\/");
+                for(int i=0; i<directories.length - 1; i++) {
+                    String directoryName = directories[i];
+                    boolean found = false;
 
-                // Search all sub elements
-                for (DocumentFile subDocument:  document.listFiles()) {
+                    // Search all sub elements
+                    for (DocumentFile subDocument:  document.listFiles()) {
+                        // Directory exists
+                        if (subDocument.isDirectory() && subDocument.getName().equalsIgnoreCase(directoryName)) {
+                            document = subDocument;
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        // Create the directory
+                        document = document.createDirectory(directoryName);
+                    }
+                }
+
+                // Gets the filename
+                String filename = directories[directories.length - 1];
+
+                for (DocumentFile subDocument: document.listFiles()) {
                     // Directory exists
-                    if (subDocument.isDirectory() && subDocument.getName().equals(directoryName)) {
-                        document = subDocument;
-                        found = true;
+                    if (subDocument.isFile() && subDocument.getName().equalsIgnoreCase(filename)) {
+                        // Delete the file
+                        if ( forceOverwrite ) {
+                            Logger.getInstance().logWarning("ExportMusicTrack", "(forceOverwrite)  Deleting original file: " + filename);
+                        }
+                        subDocument.delete();
                         break;
                     }
                 }
 
-                if (!found) {
-                    // Create the directory
-                    document = document.createDirectory(directoryName);
-                }
+                // Create the mp3 file
+                document = document.createFile("music/mp3", filename);
+
+                // Create the directories
+                copyUri = document.getUri();
             }
 
-            // Gets the filename
-            String filename = directories[directories.length - 1];
 
-            for (DocumentFile subDocument: document.listFiles()) {
-                // Directory exists
-                if (subDocument.isFile() && subDocument.getName().equals(filename)) {
-                    // Delete the file
-                    subDocument.delete();
-                    break;
+            // We want to export the ID3 tags
+            if (mID3Enable) {
+                // Adds the meta data
+                if (!trackWriteID3(musicTrack, fileTmp, dest)) {
+                    Logger.getInstance().logWarning("ExportMusicTrack", "ID3 writer failed! Continue without ID3 tags.");
+
+                    // Failed, moving without meta data
+                    if (!FileTools.fileMove(fileTmp, dest)) {
+                        Logger.getInstance().logError("ExportMusicTrack", "Moving the raw file failed!");
+
+                        // Could not copy the file
+                        return false;
+                    }
                 }
-            }
-
-            // Create the mp3 file
-            document = document.createFile("music/mp3", filename);
-
-            // Create the directories
-            copyUri = document.getUri();
-        }
-
-
-        // We want to export the ID3 tags
-        if (mID3Enable) {
-            // Adds the meta data
-            if (!trackWriteID3(musicTrack, fileTmp, dest)) {
-                Logger.getInstance().logWarning("ExportMusicTrack", "ID3 writer failed! Continue without ID3 tags.");
-
-                // Failed, moving without meta data
+            } else {
+                // Moving the file
                 if (!FileTools.fileMove(fileTmp, dest)) {
                     Logger.getInstance().logError("ExportMusicTrack", "Moving the raw file failed!");
 
@@ -591,59 +609,73 @@ public class PlayMusicManager {
                     return false;
                 }
             }
-        } else {
-            // Moving the file
-            if (!FileTools.fileMove(fileTmp, dest)) {
-                Logger.getInstance().logError("ExportMusicTrack", "Moving the raw file failed!");
 
-                // Could not copy the file
+            // We need to copy the file to a uri
+            if (copyUri != null) {
+                // Lollipop only
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    try {
+                        // Gets the file descriptor
+                        ParcelFileDescriptor parcelFileDescriptor = mContext.getContentResolver().openFileDescriptor(copyUri, "w");
+
+                        // Gets the output stream
+                        FileOutputStream fileOutputStream = new FileOutputStream(parcelFileDescriptor.getFileDescriptor());
+
+                        // Gets the input stream
+                        FileInputStream fileInputStream = new FileInputStream(dest);
+
+                        // Copy the stream
+                        FileTools.fileCopy(fileInputStream, fileOutputStream);
+
+                        // Close all streams
+                        fileOutputStream.close();
+                        fileInputStream.close();
+                        parcelFileDescriptor.close();
+
+                    } catch (FileNotFoundException e) {
+                        Logger.getInstance().logError("ExportMusicTrack", "File not found!");
+
+                        // Could not copy the file
+                        return false;
+                    } catch (IOException e) {
+                        Logger.getInstance().logError("ExportMusicTrack", "Failed to write the document: " + e.toString());
+
+                        // Could not copy the file
+                        return false;
+                    }
+                }
+            }
+
+            // Delete temp files
+            cleanUp();
+
+            // Adds the file to the media system
+            //new MediaScanner(mContext, dest);
+
+        } else {
+            Logger.getInstance().logInfo("exportMusicTrack", path + " already exists, skipping." );
+        }
+
+        // Done
+        return true;
+    }
+
+    /**
+     * Checks if the destination file already exists
+     * @param pUri the source file
+     * @param pPath The destination
+     * return true if the file already exists
+     */
+    private boolean isAlreadyThere(Uri pUri, String pPath) {
+        DocumentFile lDocumentFile = DocumentFile.fromTreeUri(mContext, pUri);
+        for (String lDisplayName: pPath.split("/")) {
+            if (lDocumentFile.findFile(lDisplayName) != null) {
+                lDocumentFile = lDocumentFile.findFile(lDisplayName);
+            } else {
+                Logger.getInstance().logInfo("isAlreadyThere", pPath + " does not exist yet." );
                 return false;
             }
         }
-
-        // We need to copy the file to a uri
-        if (copyUri != null) {
-            // Lollipop only
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                try {
-                    // Gets the file descriptor
-                    ParcelFileDescriptor parcelFileDescriptor = mContext.getContentResolver().openFileDescriptor(copyUri, "w");
-
-                    // Gets the output stream
-                    FileOutputStream fileOutputStream = new FileOutputStream(parcelFileDescriptor.getFileDescriptor());
-
-                    // Gets the input stream
-                    FileInputStream fileInputStream = new FileInputStream(dest);
-
-                    // Copy the stream
-                    FileTools.fileCopy(fileInputStream, fileOutputStream);
-
-                    // Close all streams
-                    fileOutputStream.close();
-                    fileInputStream.close();
-                    parcelFileDescriptor.close();
-
-                } catch (FileNotFoundException e) {
-                    Logger.getInstance().logError("ExportMusicTrack", "File not found!");
-
-                    // Could not copy the file
-                    return false;
-                } catch (IOException e) {
-                    Logger.getInstance().logError("ExportMusicTrack", "Failed to write the document: " + e.toString());
-
-                    // Could not copy the file
-                    return false;
-                }
-            }
-        }
-
-        // Delete temp files
-        cleanUp();
-
-        // Adds the file to the media system
-        //new MediaScanner(mContext, dest);
-
-        // Done
         return true;
     }
 
