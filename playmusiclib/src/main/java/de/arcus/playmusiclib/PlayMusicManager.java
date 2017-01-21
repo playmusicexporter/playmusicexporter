@@ -25,6 +25,7 @@ package de.arcus.playmusiclib;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -32,6 +33,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.support.v4.content.FileProvider;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 import android.util.Log;
@@ -52,6 +54,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import de.arcus.framework.logger.Logger;
 import de.arcus.framework.superuser.SuperUser;
@@ -499,10 +502,12 @@ public class PlayMusicManager {
         // Could not find the source file
         if (srcFile == null) return false;
 
+        String uniqueID = UUID.randomUUID().toString();
+
         if ( forceOverwrite || !isAlreadyThere(uri, path) )
         {
 
-            String fileTmp = getTempPath() + "tmp.mp3";
+            String fileTmp = getTempPath()  + uniqueID +"_tmp.mp3";
 
             // Copy to temp path failed
             if (!SuperUserTools.fileCopy(srcFile, fileTmp))
@@ -510,7 +515,7 @@ public class PlayMusicManager {
 
             // Encrypt the file
             if (musicTrack.isEncoded()) {
-                String fileTmpCrypt = getTempPath() + "crypt.mp3";
+                String fileTmpCrypt = getTempPath()  + uniqueID +"_crypt.mp3";
 
                 // Encrypts the file
                 if (trackEncrypt(musicTrack, fileTmp, fileTmpCrypt)) {
@@ -536,7 +541,7 @@ public class PlayMusicManager {
                 FileTools.directoryCreate(parentDirectory);
             } else {
                 // Complex uri (Lollipop)
-                dest = getTempPath() + "final.mp3";
+                dest = getTempPath()  + uniqueID +"_final.mp3";
 
                 // The root
                 DocumentFile document = DocumentFile.fromTreeUri(mContext, uri);
@@ -647,7 +652,7 @@ public class PlayMusicManager {
             }
 
             // Delete temp files
-            cleanUp();
+            cleanUp(uniqueID);
 
             // Adds the file to the media system
             //new MediaScanner(mContext, dest);
@@ -676,6 +681,11 @@ public class PlayMusicManager {
             for (String lDisplayName : pPath.split("/")) {
                 if (lDocumentFile.findFile(lDisplayName) != null) {
                     lDocumentFile = lDocumentFile.findFile(lDisplayName);
+                    if ( lDocumentFile.length() == 0 ) {
+                        if ( !lDocumentFile.isDirectory() ) {
+                            Logger.getInstance().logInfo("isAlreadyThere", pPath + " File exists, but is 0 bytes in size.");
+                        }
+                    }
                 } else {
                     Logger.getInstance().logInfo("isAlreadyThere", pPath + " does not exist yet.");
                     return false;
@@ -830,9 +840,9 @@ public class PlayMusicManager {
     /**
      * Deletes all cache files
      */
-    private void cleanUp() {
-        FileTools.fileDelete(getTempPath() + "final.mp3");
-        FileTools.fileDelete(getTempPath() + "tmp.mp3");
-        FileTools.fileDelete(getTempPath() + "crypt.mp3");
+    private void cleanUp(String theUniqueID) {
+        FileTools.fileDelete( getTempPath() + theUniqueID +"_final.mp3");
+        FileTools.fileDelete( getTempPath() +  theUniqueID +"_tmp.mp3");
+        FileTools.fileDelete( getTempPath() +  theUniqueID +"_crypt.mp3");
     }
 }
