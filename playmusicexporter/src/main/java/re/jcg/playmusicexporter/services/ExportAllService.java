@@ -25,20 +25,19 @@ public class ExportAllService extends IntentService {
     public static final String TAG = "AutoGPME_ExportService";
     public static final String ACTION_EXPORT = "re.jcg.playmusicexporter.action.EXPORT";
     public static final String ACTION_SET_EXPORT_JOB = "re.jcg.playmusicexporter.action.SET_EXPORT_JOB";
-    private PowerManager.WakeLock m_CPULock;
+    private static PowerManager m_powerManager;
 
     public static void startExport(Context pContext) {
         Intent lIntent = new Intent(pContext, ExportAllService.class);
         lIntent.setAction(ACTION_EXPORT);
         pContext.startService(lIntent);
         Log.i(TAG, "Intent sent!");
+        m_powerManager = (PowerManager) pContext.getSystemService(POWER_SERVICE);
     }
 
     public ExportAllService()
     {
         super("AutoGPME-ExportService");
-        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        m_CPULock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ExportAllService");
     }
 
     protected void onHandleIntent(Intent intent) {
@@ -67,7 +66,8 @@ public class ExportAllService extends IntentService {
         Log.i(TAG, lUri.toString());
         AlbumDataSource lAlbumDataSource = new AlbumDataSource(lPlayMusicManager);
         lAlbumDataSource.setOfflineOnly(true);
-        m_CPULock.acquire();
+        PowerManager.WakeLock CPULock = m_powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ExportAllService");
+        CPULock.acquire();
         List<Album> lAlba = lAlbumDataSource.getAll();
         for (Album lAlbum : lAlba) {
             for (MusicTrack lTrack : lAlbum.getMusicTrackList()) {
@@ -92,17 +92,17 @@ public class ExportAllService extends IntentService {
                     }
                     finally
                     {
-                        if ( m_CPULock.isHeld())
+                        if ( CPULock.isHeld())
                         {
-                            m_CPULock.release();
+                            CPULock.release();
                         }
                     }
                 }
             }
         }
-        if ( m_CPULock.isHeld())
+        if ( CPULock.isHeld())
         {
-            m_CPULock.release();
+            CPULock.release();
         }
     }
 
