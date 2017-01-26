@@ -573,13 +573,15 @@ public class PlayMusicManager {
 
                 for (DocumentFile subDocument: document.listFiles()) {
                     // Directory exists
-                    if (subDocument.isFile() && subDocument.getName().equalsIgnoreCase(filename)) {
-                        // Delete the file
-                        if ( forceOverwrite ) {
-                            Logger.getInstance().logWarning("ExportMusicTrack", "(forceOverwrite)  Deleting original file: " + filename);
+                    if (subDocument.isFile() ){
+                        if ( filename != null && subDocument.getName().equalsIgnoreCase(filename)) {
+                            // Delete the file
+                            if ( forceOverwrite ) {
+                                Logger.getInstance().logWarning("ExportMusicTrack", "(forceOverwrite)  Deleting original file: " + filename);
+                            }
+                            subDocument.delete();
+                            break;
                         }
-                        subDocument.delete();
-                        break;
                     }
                 }
 
