@@ -28,11 +28,11 @@ public class ExportAllService extends IntentService {
     private static PowerManager m_powerManager;
 
     public static void startExport(Context pContext) {
+        m_powerManager = (PowerManager) pContext.getSystemService(POWER_SERVICE);
         Intent lIntent = new Intent(pContext, ExportAllService.class);
         lIntent.setAction(ACTION_EXPORT);
         pContext.startService(lIntent);
         Log.i(TAG, "Intent sent!");
-        m_powerManager = (PowerManager) pContext.getSystemService(POWER_SERVICE);
     }
 
     public ExportAllService()
