@@ -22,8 +22,10 @@
 
 package re.jcg.playmusicexporter.fragments;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -63,6 +65,7 @@ public class MusicTrackListFragment extends Fragment {
      */
     public static final String ARG_MUSIC_TRACK_LIST_ID = "music_track_list_id";
     public static final String ARG_MUSIC_TRACK_LIST_TYPE = "music_track_list_type";
+    private PowerManager.WakeLock m_CPULock;
 
     /**
      * The track list
@@ -138,6 +141,8 @@ public class MusicTrackListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        PowerManager powerManager = (PowerManager)this.getContext().getSystemService(Context.POWER_SERVICE);
+        m_CPULock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ExportAllService");
         if (getArguments().containsKey(ARG_MUSIC_TRACK_LIST_ID)
                 && getArguments().containsKey(ARG_MUSIC_TRACK_LIST_TYPE)) {
 
@@ -213,10 +218,17 @@ public class MusicTrackListFragment extends Fragment {
             mFloatingButtonExport = (FloatingActionButton) rootView.findViewById(R.id.floating_button_export);
             mFloatingButtonExport.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
+                    m_CPULock.acquire();
                     // Export all selected tracks
                     for (SelectedTrack selectedTrack : SelectedTrackList.getInstance().getSelectedItems()) {
                         selectedTrack.export(getActivity());
+                    }
+
+                    if ( m_CPULock.isHeld())
+                    {
+                        m_CPULock.release();
                     }
 
                     // Clear the selection

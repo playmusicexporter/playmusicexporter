@@ -69,8 +69,13 @@ public class ArtworkLoader {
             if (!TextUtils.isEmpty(artworkUrl)) {
                 // Tries to load the artwork via internet
                 try {
-                    URL url = new URL(artworkUrl);
-                    bitmap = BitmapFactory.decodeStream(url.openStream());
+                    if (artworkUrl.contains("mediastore")) {
+						Logger.getInstance().logError("LoadArtwork", "mediastore artwork");
+                        //TODO handle mediastore album art using ContentResolver
+						} else {
+                            URL url = new URL(artworkUrl);
+                            bitmap = BitmapFactory.decodeStream(url.openStream());
+						}
                 } catch (Exception e) {
                     // Error
                     Logger.getInstance().logError("LoadArtwork", e.toString());

@@ -16,6 +16,8 @@ public class PlayMusicExporterPreferences {
     public static final boolean AUTO_EXPORT_ENABLED_DEFAULT = false;
     public static final String AUTO_EXPORT_USES_DIFFERENT_PATH = "preference_auto_export_use_different_path";
     public static final boolean AUTO_EXPORT_USES_DIFFERENT_PATH_DEFAULT = false;
+    private static final String FORCE_EXPORT_OVERWRITE = "preference_overwrite_existing_files";
+    private static final boolean FORCE_EXPORT_OVERWRITE_DEFAULT = false;
     public static final String AUTO_EXPORT_USES_DIFFERENT_STRUCTURE = "preference_auto_export_use_different_structure";
     public static final boolean AUTO_EXPORT_USES_DIFFERENT_STRUCTURE_DEFAULT = false;
     public static final String AUTO_EXPORT_FREQUENCY = "preference_auto_export_frequency";
@@ -61,6 +63,10 @@ public class PlayMusicExporterPreferences {
         } else {
             return getAlbaExportPath();
         }
+    }
+
+    public static boolean getFileOverwritePreference() {
+        return preferences.getBoolean(FORCE_EXPORT_OVERWRITE, FORCE_EXPORT_OVERWRITE_DEFAULT);
     }
 
     public static boolean getAutoExportUsesDifferentPath() {

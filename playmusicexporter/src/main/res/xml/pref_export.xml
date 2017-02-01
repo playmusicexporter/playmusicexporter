@@ -24,7 +24,7 @@
         <!-- Path structure for groups -->
         <EditTextPreference
             android:defaultValue="@string/settings_export_structure_groups_default_value"
-            android:dialogMessage="@string/settings_export_subdirectory_structure_dialog_message"
+            android:dialogMessage="@string/settings_playlist_export_subdirectory_structure_dialog_message"
             android:dialogTitle="@string/settings_export_structure_groups_dialog_title"
             android:hint="@string/settings_export_structure_groups_default_value"
             android:key="preference_groups_export_structure"
@@ -48,5 +48,11 @@
             android:key="preference_id3_artwork_size"
             android:summary="@string/settings_export_id3_artwork_size_summary"
             android:title="@string/settings_export_id3_artwork_size" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/file_handling_category">
+        <SwitchPreference
+            android:key="preference_overwrite_existing_files"
+            android:summary="@string/overwrite_summary"
+            android:title="@string/overwrite_title" />
     </PreferenceCategory>
 </PreferenceScreen>

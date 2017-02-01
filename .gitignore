@@ -30,6 +30,7 @@ hs_err_pid*
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 .idea/uiDesigner.xml
+.idea/misc.xml
 
 # Gradle:
 .idea/gradle.xml
@@ -107,3 +108,4 @@ captures/
 
 # Keystore files
 *.jks
+gradle/wrapper/gradle-wrapper.properties

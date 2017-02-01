@@ -73,7 +73,7 @@
     <string name="settings_category_auto_export_path_subdir">Export path and subdirectory structure</string>
     <string name="settings_category_debug">Debug</string>
     <string name="settings_category_alba_export">Export location albums</string>
-    <string name="settings_category_groups_export">Export location groups</string>
+    <string name="settings_category_groups_export">Export location playlists</string>
 
 
     <string name="settings_version_number">Version Number</string>
@@ -94,14 +94,14 @@
     <string name="settings_category_export_location">Export Location</string>
     <string name="settings_export_path">Export Base Path</string>
     <string name="settings_export_subdirectory_structure_dialog_message">Use / for a new folder \n Available Tags: \n - {album-artist} \n - {album} \n - {artist} \n - {title} \n - {disc=CD $} \n - {no=$$.} \n - {year} \n - {genre} \n</string>
-
+    <string name="settings_playlist_export_subdirectory_structure_dialog_message">Use / for a new folder \n Available Tags: \n - {playlist} \n - {album-artist} \n - {album} \n - {artist} \n - {title} \n - {disc=CD $} \n - {no=$$.} \n - {year} \n - {genre} \n</string>
 
     <string name="settings_export_path_alba">Export path for albums</string>
     <string name="settings_export_structure_alba">Subdirectory structure for albums</string>
     <string name="settings_export_structure_alba_dialog_title">Set your subdirectory structure</string>
     <string name="settings_export_subdirectory_structure_album_example">Example: Beatles/Help!/13. Yesterday.mp3</string>
 
-    <string name="settings_export_path_groups">Export path for groups</string>
+    <string name="settings_export_path_groups">Export path for playlists</string>
     <string name="settings_export_structure_groups">Subdirectory structure for playlists</string>
     <string name="settings_export_structure_groups_dialog_title">Set your subdirectory structure</string>
     <string name="settings_export_subdirectory_structure_group_example">Example: Great Songs/4. Beatles - Yesterday.mp3</string>
@@ -116,6 +116,7 @@
     <string name="settings_export_id3_artwork_size_summary">If the artwork original size is larger than this setting the app will size down the artwork to this size.</string>
 
     <string name="settings_export_path_custom">Custom path</string>
+    <string name="settings_export_overwrite_existing">Overwrite existing files</string>
 
     <string name="settings_open_old_homepage_title" translatable="false">David-Schulte.de</string>
     <string name="settings_open_old_homepage_url" translatable="false"><![CDATA[http://www.david-schulte.de/]]></string>
@@ -139,7 +140,10 @@
     <string name="pref_header_debug">Debug</string>
 
     <string name="settings_export_structure_alba_default_value" translatable="false">{album-artist}/{album}/{disc=CD $}/{no=$$.} {title}.mp3</string>
-    <string name="settings_export_structure_groups_default_value" translatable="false">{group}/{group-no=$$.} {artist} - {title}.mp3</string>
+    <string name="settings_export_structure_groups_default_value" translatable="false">{playlist}/{artist} - {title}.mp3</string>
 
     <string name="debug_trigger_export_all_title">Trigger ExportAllService now</string>
+    <string name="file_handling_category">File Handling</string>
+    <string name="overwrite_summary">Always overwrite the exported file, even if it already exists.</string>
+    <string name="overwrite_title">Overwrite Existing Files</string>
 </resources>

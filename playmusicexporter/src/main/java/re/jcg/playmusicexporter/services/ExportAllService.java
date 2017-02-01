@@ -4,7 +4,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.provider.DocumentFile;
+import android.os.PowerManager;
 import android.util.Log;
 
 import java.util.List;
@@ -24,15 +24,18 @@ public class ExportAllService extends IntentService {
     public static final String TAG = "AutoGPME_ExportService";
     public static final String ACTION_EXPORT = "re.jcg.playmusicexporter.action.EXPORT";
     public static final String ACTION_SET_EXPORT_JOB = "re.jcg.playmusicexporter.action.SET_EXPORT_JOB";
+    private static PowerManager m_powerManager;
 
     public static void startExport(Context pContext) {
+        m_powerManager = (PowerManager) pContext.getSystemService(POWER_SERVICE);
         Intent lIntent = new Intent(pContext, ExportAllService.class);
         lIntent.setAction(ACTION_EXPORT);
         pContext.startService(lIntent);
         Log.i(TAG, "Intent sent!");
     }
 
-    public ExportAllService() {
+    public ExportAllService()
+    {
         super("AutoGPME-ExportService");
     }
 
@@ -62,21 +65,20 @@ public class ExportAllService extends IntentService {
         Log.i(TAG, lUri.toString());
         AlbumDataSource lAlbumDataSource = new AlbumDataSource(lPlayMusicManager);
         lAlbumDataSource.setOfflineOnly(true);
+        PowerManager.WakeLock CPULock = m_powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ExportAllService");
+        CPULock.acquire();
         List<Album> lAlba = lAlbumDataSource.getAll();
         for (Album lAlbum : lAlba) {
             for (MusicTrack lTrack : lAlbum.getMusicTrackList()) {
                 if (lTrack.isOfflineAvailable()) {
                     String lPath = MusicPathBuilder.Build(lTrack, lExportStructure);
                     try {
-                        if (!isAlreadyThere(lUri, lPath)) {
-                            if (lPlayMusicManager.exportMusicTrack(lTrack, lUri, lPath)) {
-                                Log.i(TAG, "Exported Music Track: " + getStringForTrack(lTrack));
-                            } else {
-                                Log.i(TAG, "Failed to export Music Track: " + getStringForTrack(lTrack));
-                            }
+                        if (lPlayMusicManager.exportMusicTrack(lTrack, lUri, lPath, PlayMusicExporterPreferences.getFileOverwritePreference())) {
+                            Log.i(TAG, "Exported Music Track: " + getStringForTrack(lTrack));
                         } else {
-                            Log.i(TAG, lPath + " already exists.");
+                            Log.i(TAG, "Failed to export Music Track: " + getStringForTrack(lTrack));
                         }
+      
                     } catch (IllegalArgumentException e) {
                         if (e.getMessage().contains("Invalid URI:")) {
                             /*
@@ -87,22 +89,20 @@ public class ExportAllService extends IntentService {
                             Log.i(TAG, "Automatic export failed, because the URI is invalid.");
                         } else throw e;
                     }
+                    finally
+                    {
+                        if ( CPULock.isHeld())
+                        {
+                            CPULock.release();
+                        }
+                    }
                 }
             }
         }
-    }
-
-    private boolean isAlreadyThere(Uri pUri, String pPath) {
-        DocumentFile lDocumentFile = DocumentFile.fromTreeUri(this, pUri);
-        for (String lDisplayName: pPath.split("/")) {
-            if (lDocumentFile.findFile(lDisplayName) != null) {
-                lDocumentFile = lDocumentFile.findFile(lDisplayName);
-            } else {
-                Log.i(TAG, pPath + " does not exist yet.");
-                return false;
-            }
+        if ( CPULock.isHeld())
+        {
+            CPULock.release();
         }
-        return true;
     }
 
     private String getStringForTrack(MusicTrack pTrack) {

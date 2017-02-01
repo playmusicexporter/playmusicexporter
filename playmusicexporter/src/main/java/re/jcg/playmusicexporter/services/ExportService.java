@@ -35,6 +35,7 @@ import re.jcg.playmusicexporter.R;
 import de.arcus.playmusiclib.PlayMusicManager;
 import de.arcus.playmusiclib.datasources.MusicTrackDataSource;
 import de.arcus.playmusiclib.items.MusicTrack;
+import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
 
 /**
  * The export service
@@ -199,7 +200,7 @@ public class ExportService extends IntentService {
                 updateNotification();
 
                 // Exports the song
-                if(!playMusicManager.exportMusicTrack(mTrackCurrent, uri, path)) {
+                if(!playMusicManager.exportMusicTrack(mTrackCurrent, uri, path, PlayMusicExporterPreferences.getFileOverwritePreference())) {
                     // Export failed
                     mTracksFailed ++;
                 }

@@ -85,7 +85,8 @@ public class MusicPathBuilder {
                         if (!TextUtils.isEmpty(musicTrack.getAlbum()))
                             value = musicTrack.getAlbum();
                         break;
-                    case "group":
+                    case "playlist":
+					case "group": //previous name, for compatability
                         if (!TextUtils.isEmpty(musicTrack.getContainerName()))
                             value = musicTrack.getContainerName();
                         break;

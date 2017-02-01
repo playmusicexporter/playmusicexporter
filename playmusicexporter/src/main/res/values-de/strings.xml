@@ -75,7 +75,8 @@
     <string name="settings_export_structure_alba">Verzeichnisbaum für Alben</string>
     <string name="settings_export_structure_alba_dialog_title">Setze den Verzeichnisbaum</string>
     <string name="settings_export_subdirectory_structure_album_example">Beispiel: Beatles/Help!/13. Yesterday.mp3</string>
-    <string name="settings_export_subdirectory_structure_dialog_message">"Nutze / für einen neuen Order.   Available Tags:   - {album-artist}   - {album}   - {artist}   - {title}   - {disc=CD $}   - {no=$$.}   - {year}   - {genre}  "</string>
+    <string name="settings_export_subdirectory_structure_dialog_message">Nutze / für einen neuen Order \n Available Tags: \n - {album-artist} \n - {album} \n - {artist} \n - {title} \n - {disc=CD $} \n - {no=$$.} \n - {year} \n - {genre} \n</string>
+    <string name="settings_playlist_export_subdirectory_structure_dialog_message">Nutze / für einen neuen Order \n Available Tags: \n - {playlist} \n - {album-artist} \n - {album} \n - {artist} \n - {title} \n - {disc=CD $} \n - {no=$$.} \n - {year} \n - {genre} \n</string>
     <string name="settings_export_structure_groups_dialog_title">Setze den Verzeichnisbaum</string>
     <string name="settings_export_subdirectory_structure_group_example">Beispiel: Great Songs/4. Beatles - Yesterday.mp3</string>
     <string name="settings_version_number">Versionsnummer</string>
@@ -101,4 +102,8 @@
     <string name="dialog_superuser_access_denied_title">Administrator-Zugriff verweigert</string>
     <string name="dialog_superuser_access_denied">Der Play Music Exporter benötigt Administrator Rechte, ohne diese Rechte kann die App nicht genutzt werden.</string>
     <string name="settings_auto_export_different_structure_dialog_title">Verzeichnisbaum</string>
+    <string name="settings_export_overwrite_existing">Bestehende Dateien überschreiben</string>
+    <string name="file_handling_category">Dateiverarbeitung</string>
+    <string name="overwrite_summary">Überschreiben Sie die exportierte Datei immer, auch wenn sie bereits existiert.</string>
+    <string name="overwrite_title">Bestehende Dateien überschreiben.</string>
 </resources>
