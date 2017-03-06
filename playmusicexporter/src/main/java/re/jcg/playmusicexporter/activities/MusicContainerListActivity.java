@@ -35,6 +35,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,6 +44,8 @@ import android.widget.EditText;
 
 import de.arcus.framework.logger.Logger;
 import de.arcus.framework.crashhandler.CrashHandler;
+import de.arcus.playmusiclib.exceptions.CouldNotOpenDatabaseException;
+import de.arcus.playmusiclib.exceptions.NoSuperUserException;
 import re.jcg.playmusicexporter.R;
 import re.jcg.playmusicexporter.fragments.MusicTrackListFragment;
 import re.jcg.playmusicexporter.fragments.MusicContainerListFragment;
@@ -325,8 +328,32 @@ public class MusicContainerListActivity extends AppCompatActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.music_track_list, menu);
 
+        MenuItem itemRefreshLibrary = menu. findItem(R.id.action_refresh);
+        itemRefreshLibrary.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
+        {
+            @Override
+            public boolean onMenuItemClick(MenuItem item)
+            {
+                try
+                {
+                    mPlayMusicManager.realoadDatabase();
+                }
+                catch (NoSuperUserException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (CouldNotOpenDatabaseException e)
+                {
+                    e.printStackTrace();
+                }
+                mPlayMusicManager = null;
+                loadPlayMusicExporter();
+                return true;
+            }
+        });
+
         // Finds the search item and create the search view
-        MenuItem itemSearch = menu.findItem(R.id.action_search);
+        MenuItem itemSearch = menu. findItem(R.id.action_search);
         mSearchView = (SearchView)MenuItemCompat.getActionView(itemSearch);
 
         if (mSearchView != null) {
