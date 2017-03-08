@@ -146,5 +146,6 @@
     <string name="file_handling_category">File Handling</string>
     <string name="overwrite_summary">Always overwrite the exported file, even if it already exists.</string>
     <string name="overwrite_title">Overwrite Existing Files</string>
-	<string name="action_refesh">Refresh</string>
+    <string name="action_refesh">Refresh</string>
+    <string name="databasereloaded">Music Database Reloaded</string>
 </resources>

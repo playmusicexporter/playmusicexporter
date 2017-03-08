@@ -44,6 +44,6 @@
     <color name="button_navigation_drawer_active">#11000000</color>
     <color name="button_navigation_drawer_text">#88000000</color>
     <color name="button_navigation_drawer_text_active">#ef6c00</color>
-	<color name="white">#ffffffff</color>
+    <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
 </resources>

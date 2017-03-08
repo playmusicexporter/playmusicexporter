@@ -106,4 +106,6 @@
     <string name="file_handling_category">Dateiverarbeitung</string>
     <string name="overwrite_summary">Überschreiben Sie die exportierte Datei immer, auch wenn sie bereits existiert.</string>
     <string name="overwrite_title">Bestehende Dateien überschreiben.</string>
+	<string name="action_refesh">Erfrischen</string>
+	<string name="databasereloaded">Reloaded Musikdatenbank</string>
 </resources>
