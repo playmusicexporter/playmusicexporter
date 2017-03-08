@@ -33,6 +33,11 @@ by [Michael Patricios (mpatric)](https://github.com/mpatric).
 If you want to contribute to this project, fork off of develop,
 implement what you want to implement, and submit a pull request back into develop.
 After testing it, if enough of the collaborators like it, we will merge it.
+You might want to discuss your ideas with us first though:
+
+### Discuss Ideas
+
+If you have any questions, the easiest way to get help is asking in the #playmusicexporter IRC channel on freenode. You can join that on webchat.freenode.net, or preferably, if you are not really an IRC guy anyway, try the corresponding matrix room [#playmusicexporter:jcg.re](https://matrix.to/#/#playmusicexporter:jcg.re). They are bridged together, so everything that happens in one of the rooms gets automatically transfered to the other one too.
 
 ### Copyright
 

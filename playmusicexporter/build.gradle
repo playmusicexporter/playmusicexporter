@@ -33,8 +33,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         // TODO Change Version with releases
-        versionCode 105
-        versionName '0.9.3'
+        versionCode 106
+        versionName '0.9.4'
         vectorDrawables.useSupportLibrary = true
 
         jackOptions {
