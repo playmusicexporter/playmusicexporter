@@ -373,7 +373,7 @@ public class PlayMusicManager {
      * @throws NoSuperUserException No super user permissions
      * @throws CouldNotOpenDatabaseException Could not open the database
      */
-    public void realoadDatabase() throws NoSuperUserException, CouldNotOpenDatabaseException {
+    public void reloadDatabase() throws NoSuperUserException, CouldNotOpenDatabaseException {
         // Reload database
         loadDatabase();
     }

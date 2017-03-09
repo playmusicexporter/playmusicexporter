@@ -35,7 +35,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -334,10 +333,10 @@ public class MusicContainerListActivity extends AppCompatActivity
         {
             try
             {
-                mPlayMusicManager.realoadDatabase();
+                mPlayMusicManager.reloadDatabase();
                 mPlayMusicManager = null;
                 loadPlayMusicExporter();
-	            Toast.makeText( this, R.string.databasereloaded, Toast.LENGTH_SHORT).show();
+	            Toast.makeText( this, R.string.database_reloaded, Toast.LENGTH_SHORT).show();
             }
             catch (NoSuperUserException | CouldNotOpenDatabaseException e)
             {
