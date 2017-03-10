@@ -76,11 +76,18 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         logBuilder.append("Manufacturer: ").append(Build.MANUFACTURER).append("\n");
         logBuilder.append("Model: ").append(Build.MODEL).append("\n");
         logBuilder.append("Device API: ").append(Build.VERSION.RELEASE).append("\n");
+        logBuilder.append("Product: ").append(Build.PRODUCT).append("\n");
+        logBuilder.append("Build Number: ").append(Build.DISPLAY).append("\n");
+        logBuilder.append("Build Tags: ").append(Build.TAGS).append("\n");
+        logBuilder.append("\n");
+
 
         // Information
         logBuilder.append("---------- Information -----------\n");
         logBuilder.append("PackageName: ").append(mActivity.getPackageName()).append("\n");
         logBuilder.append("Crashed activity: ").append(mActivity.getLocalClassName()).append("\n");
+        logBuilder.append("\n");
+
 
         logBuilder.append("----------- Exception ------------\n");
         logBuilder.append(ex.getMessage()).append("\n");

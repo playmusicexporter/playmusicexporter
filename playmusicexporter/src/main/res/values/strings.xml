@@ -148,4 +148,5 @@
     <string name="overwrite_title">Overwrite Existing Files</string>
     <string name="action_refesh">Refresh</string>
     <string name="database_reloaded">Music Database Reloaded</string>
+    <string name="debug_test_crash_handler">Test Crash Handler</string>
 </resources>

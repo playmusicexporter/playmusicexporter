@@ -2,5 +2,7 @@
     <PreferenceCategory android:title="@string/settings_category_debug">
         <Preference android:title="@string/debug_trigger_export_all_title"
             android:key="debug_trigger_export_all"/>
+        <Preference android:title="@string/debug_test_crash_handler"
+            android:key="debug_test_crash_handler"/>
     </PreferenceCategory>
 </PreferenceScreen>
