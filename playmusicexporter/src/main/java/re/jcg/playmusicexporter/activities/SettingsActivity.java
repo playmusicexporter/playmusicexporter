@@ -325,13 +325,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_debug);
             setHasOptionsMenu(true);
 
-            findPreference("debug_trigger_export_all").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Log.i(TAG, "Debug Trigger Export All Click registered.");
-                    ExportAllService.startExport(getActivity());
-                    return true;
-                }
+            findPreference("debug_trigger_export_all").setOnPreferenceClickListener(preference -> {
+                ExportAllService.startExport(getActivity());
+                return true;
+            });
+            findPreference("debug_test_crash_handler").setOnPreferenceClickListener(preference -> {
+                throw new IllegalStateException("Test for the crash handler.");
             });
         }
 

@@ -108,4 +108,5 @@
     <string name="overwrite_title">Bestehende Dateien überschreiben</string>
 	<string name="action_refesh">Datenbank neu laden</string>
 	<string name="database_reloaded">Datenbank neu geladen</string>
+    <string name="debug_test_crash_handler">Teste Fehlerbehandlung</string>
 </resources>
