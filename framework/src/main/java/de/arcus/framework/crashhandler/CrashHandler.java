@@ -24,6 +24,7 @@ package de.arcus.framework.crashhandler;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 
 import de.arcus.framework.activities.CrashActivity;
 import de.arcus.framework.logger.Logger;
@@ -69,6 +70,12 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         Logger.getInstance().logError("CrashHandler", ex.toString());
 
         StringBuilder logBuilder = new StringBuilder();
+
+        //Device Information
+        logBuilder.append("---------- Device Information -----------\n");
+        logBuilder.append("Manufacturer: ").append(Build.MANUFACTURER).append("\n");
+        logBuilder.append("Model: ").append(Build.MODEL).append("\n");
+        logBuilder.append("Device API: ").append(Build.VERSION.RELEASE).append("\n");
 
         // Information
         logBuilder.append("---------- Information -----------\n");
