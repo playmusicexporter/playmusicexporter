@@ -40,6 +40,7 @@ android {
         jackOptions {
             enabled true
         }
+        buildConfigField "java.util.Date", "BUILD_TIME", "new java.util.Date(" + System.currentTimeMillis() + "L)"
     }
     buildTypes {
         release {
