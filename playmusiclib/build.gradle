@@ -41,6 +41,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':framework')
+    compile 'com.mpatric:mp3agic:0.9.0'
 }
