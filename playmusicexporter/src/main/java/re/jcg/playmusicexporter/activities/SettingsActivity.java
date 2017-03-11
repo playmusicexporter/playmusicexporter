@@ -23,6 +23,7 @@ import re.jcg.playmusicexporter.services.ExportAllJob;
 import re.jcg.playmusicexporter.services.ExportAllService;
 import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -305,6 +306,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_about);
             setHasOptionsMenu(true);
+            findPreference("about_version_number").setSummary(BuildConfig.VERSION_NAME);
+            findPreference("about_build_date")
+                    .setSummary(SimpleDateFormat.getDateInstance().format(BuildConfig.BUILD_TIME));
+
         }
 
         @Override
@@ -325,13 +330,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_debug);
             setHasOptionsMenu(true);
 
-            findPreference("debug_trigger_export_all").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Log.i(TAG, "Debug Trigger Export All Click registered.");
-                    ExportAllService.startExport(getActivity());
-                    return true;
-                }
+            findPreference("debug_trigger_export_all").setOnPreferenceClickListener(preference -> {
+                ExportAllService.startExport(getActivity());
+                return true;
+            });
+            findPreference("debug_test_crash_handler").setOnPreferenceClickListener(preference -> {
+                throw new IllegalStateException("Test for the crash handler.");
             });
         }
 

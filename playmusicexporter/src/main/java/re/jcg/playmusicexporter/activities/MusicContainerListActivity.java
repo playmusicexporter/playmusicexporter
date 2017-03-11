@@ -40,9 +40,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import de.arcus.framework.logger.Logger;
 import de.arcus.framework.crashhandler.CrashHandler;
+import de.arcus.playmusiclib.exceptions.CouldNotOpenDatabaseException;
+import de.arcus.playmusiclib.exceptions.NoSuperUserException;
 import re.jcg.playmusicexporter.R;
 import re.jcg.playmusicexporter.fragments.MusicTrackListFragment;
 import re.jcg.playmusicexporter.fragments.MusicContainerListFragment;
@@ -325,8 +328,26 @@ public class MusicContainerListActivity extends AppCompatActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.music_track_list, menu);
 
+        MenuItem itemRefreshLibrary = menu.findItem(R.id.action_refresh);
+        itemRefreshLibrary.setOnMenuItemClickListener(item ->
+        {
+            try
+            {
+                mPlayMusicManager.reloadDatabase();
+                mPlayMusicManager = null;
+                loadPlayMusicExporter();
+	            Toast.makeText( this, R.string.database_reloaded, Toast.LENGTH_SHORT).show();
+            }
+            catch (NoSuperUserException | CouldNotOpenDatabaseException e)
+            {
+	            Toast.makeText( this, R.string.dialog_superuser_access_denied_title, Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+            return true;
+        });
+
         // Finds the search item and create the search view
-        MenuItem itemSearch = menu.findItem(R.id.action_search);
+        MenuItem itemSearch = menu. findItem(R.id.action_search);
         mSearchView = (SearchView)MenuItemCompat.getActionView(itemSearch);
 
         if (mSearchView != null) {
