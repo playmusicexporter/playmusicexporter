@@ -4,6 +4,10 @@ This Android app exports your Play Music mp3 files directly to your sdcard
 or a documents provider using root permissions.
 You can also setup automatic export, that exports all currently cached not yet exported music.
 
+[<img src="https://f-droid.org/badge/get-it-on.png"
+      alt="Get it on F-Droid"
+      height="80">](https://f-droid.org/app/re.jcg.playmusicexporter)
+
 ## About
 
 This AndroidStudio project allow you to access the database from Google's PlayMusic
