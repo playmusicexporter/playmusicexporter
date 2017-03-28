@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import de.arcus.framework.logger.Logger;
+import ly.count.android.sdk.Countly;
 import re.jcg.playmusicexporter.R;
 import de.arcus.playmusiclib.PlayMusicManager;
 import de.arcus.playmusiclib.datasources.MusicTrackDataSource;
@@ -200,7 +201,9 @@ public class ExportService extends IntentService {
                 updateNotification();
 
                 // Exports the song
-                if(!playMusicManager.exportMusicTrack(mTrackCurrent, uri, path, PlayMusicExporterPreferences.getFileOverwritePreference())) {
+                if (playMusicManager.exportMusicTrack(mTrackCurrent, uri, path, PlayMusicExporterPreferences.getFileOverwritePreference())) {
+                    Countly.sharedInstance().recordEvent("Exported Song", 1);
+                } else {
                     // Export failed
                     mTracksFailed ++;
                 }
