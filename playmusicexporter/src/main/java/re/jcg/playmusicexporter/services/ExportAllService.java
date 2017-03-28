@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.util.List;
 
+import ly.count.android.sdk.Countly;
 import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
 import re.jcg.playmusicexporter.utils.MusicPathBuilder;
 import de.arcus.playmusiclib.PlayMusicManager;
@@ -75,6 +76,7 @@ public class ExportAllService extends IntentService {
                     try {
                         if (lPlayMusicManager.exportMusicTrack(lTrack, lUri, lPath, PlayMusicExporterPreferences.getFileOverwritePreference())) {
                             Log.i(TAG, "Exported Music Track: " + getStringForTrack(lTrack));
+                            Countly.sharedInstance().recordEvent("Exported Song", 1);
                         } else {
                             Log.i(TAG, "Failed to export Music Track: " + getStringForTrack(lTrack));
                         }
