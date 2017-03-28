@@ -7,6 +7,11 @@ import android.net.Uri;
 import android.os.PowerManager;
 import android.util.Log;
 
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.NotSupportedException;
+import com.mpatric.mp3agic.UnsupportedTagException;
+
+import java.io.IOException;
 import java.util.List;
 
 import ly.count.android.sdk.Countly;
@@ -35,8 +40,7 @@ public class ExportAllService extends IntentService {
         Log.i(TAG, "Intent sent!");
     }
 
-    public ExportAllService()
-    {
+    public ExportAllService() {
         super("AutoGPME-ExportService");
     }
 
@@ -80,7 +84,7 @@ public class ExportAllService extends IntentService {
                         } else {
                             Log.i(TAG, "Failed to export Music Track: " + getStringForTrack(lTrack));
                         }
-      
+
                     } catch (IllegalArgumentException e) {
                         if (e.getMessage().contains("Invalid URI:")) {
                             /*
@@ -90,19 +94,14 @@ public class ExportAllService extends IntentService {
                              */
                             Log.i(TAG, "Automatic export failed, because the URI is invalid.");
                         } else throw e;
-                    }
-                    finally
-                    {
-                        if ( CPULock.isHeld())
-                        {
-                            CPULock.release();
-                        }
+                    } catch (Exception e) {
+                        Countly.sharedInstance().logException(e);
+                        e.printStackTrace();
                     }
                 }
             }
         }
-        if ( CPULock.isHeld())
-        {
+        if (CPULock.isHeld()) {
             CPULock.release();
         }
     }
