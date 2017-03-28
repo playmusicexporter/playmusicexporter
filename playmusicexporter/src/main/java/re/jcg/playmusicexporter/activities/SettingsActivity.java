@@ -25,6 +25,7 @@ import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -127,15 +128,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.pref_headers, target);
-
-        // Remove the Debug Fragment
-        if (!BuildConfig.DEBUG) {
-            for (int i = 0; i < target.size(); i++) {
-                if ("Debug".equals(target.get(i).title)) {
-                    target.remove(i);
-                    break;
-                }
-            }
+        if (BuildConfig.DEBUG) {
+            loadHeadersFromResource(R.xml.pref_debug_header, target);
         }
     }
 
