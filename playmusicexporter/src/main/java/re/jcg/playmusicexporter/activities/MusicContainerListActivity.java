@@ -43,9 +43,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import de.arcus.framework.logger.Logger;
-import de.arcus.framework.crashhandler.CrashHandler;
 import de.arcus.playmusiclib.exceptions.CouldNotOpenDatabaseException;
 import de.arcus.playmusiclib.exceptions.NoSuperUserException;
+import ly.count.android.sdk.Countly;
+import ly.count.android.sdk.DeviceId;
 import re.jcg.playmusicexporter.R;
 import re.jcg.playmusicexporter.fragments.MusicTrackListFragment;
 import re.jcg.playmusicexporter.fragments.MusicContainerListFragment;
@@ -108,8 +109,9 @@ public class MusicContainerListActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Adds the crash handler to this class
-        CrashHandler.addCrashHandler(this);
+        Countly.sharedInstance().init(this, getString(R.string.countly_url), getString(R.string.countly_token), null, DeviceId.Type.OPEN_UDID);
+        Countly.sharedInstance().enableCrashReporting();
+
 
         PlayMusicExporterPreferences.init(this);
         if (!PlayMusicExporterPreferences.getSetupDone()) {
@@ -195,11 +197,11 @@ public class MusicContainerListActivity extends AppCompatActivity
             }
         }
     }
+
     /**
      * Loads the PlayMusicExporter lib and shows the list
      */
-    private void loadPlayMusicExporter()
-    {
+    private void loadPlayMusicExporter() {
         // Gets the running instance
         mPlayMusicManager = PlayMusicManager.getInstance();
 
@@ -261,7 +263,7 @@ public class MusicContainerListActivity extends AppCompatActivity
         MusicContainerListFragment musicTrackListFragment = (MusicContainerListFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_main);
 
-        switch(mViewType) {
+        switch (mViewType) {
             case Album:
                 // Load all albums to the list
                 AlbumDataSource dataSourceAlbum = new AlbumDataSource(mPlayMusicManager);
@@ -331,24 +333,21 @@ public class MusicContainerListActivity extends AppCompatActivity
         MenuItem itemRefreshLibrary = menu.findItem(R.id.action_refresh);
         itemRefreshLibrary.setOnMenuItemClickListener(item ->
         {
-            try
-            {
+            try {
                 mPlayMusicManager.reloadDatabase();
                 mPlayMusicManager = null;
                 loadPlayMusicExporter();
-	            Toast.makeText( this, R.string.database_reloaded, Toast.LENGTH_SHORT).show();
-            }
-            catch (NoSuperUserException | CouldNotOpenDatabaseException e)
-            {
-	            Toast.makeText( this, R.string.dialog_superuser_access_denied_title, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.database_reloaded, Toast.LENGTH_SHORT).show();
+            } catch (NoSuperUserException | CouldNotOpenDatabaseException e) {
+                Toast.makeText(this, R.string.dialog_superuser_access_denied_title, Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
             return true;
         });
 
         // Finds the search item and create the search view
-        MenuItem itemSearch = menu. findItem(R.id.action_search);
-        mSearchView = (SearchView)MenuItemCompat.getActionView(itemSearch);
+        MenuItem itemSearch = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(itemSearch);
 
         if (mSearchView != null) {
             // Sets the search listener
@@ -375,5 +374,17 @@ public class MusicContainerListActivity extends AppCompatActivity
         loadList();
 
         return false;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Countly.sharedInstance().onStart(this);
+    }
+
+    @Override
+    public void onStop() {
+        Countly.sharedInstance().onStop();
+        super.onStop();
     }
 }

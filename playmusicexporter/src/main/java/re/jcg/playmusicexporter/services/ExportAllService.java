@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.util.List;
 
+import ly.count.android.sdk.Countly;
 import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
 import re.jcg.playmusicexporter.utils.MusicPathBuilder;
 import de.arcus.playmusiclib.PlayMusicManager;
@@ -34,8 +35,7 @@ public class ExportAllService extends IntentService {
         Log.i(TAG, "Intent sent!");
     }
 
-    public ExportAllService()
-    {
+    public ExportAllService() {
         super("AutoGPME-ExportService");
     }
 
@@ -75,10 +75,11 @@ public class ExportAllService extends IntentService {
                     try {
                         if (lPlayMusicManager.exportMusicTrack(lTrack, lUri, lPath, PlayMusicExporterPreferences.getFileOverwritePreference())) {
                             Log.i(TAG, "Exported Music Track: " + getStringForTrack(lTrack));
+                            Countly.sharedInstance().recordEvent("Exported Song", 1);
                         } else {
                             Log.i(TAG, "Failed to export Music Track: " + getStringForTrack(lTrack));
                         }
-      
+
                     } catch (IllegalArgumentException e) {
                         if (e.getMessage().contains("Invalid URI:")) {
                             /*
@@ -88,19 +89,14 @@ public class ExportAllService extends IntentService {
                              */
                             Log.i(TAG, "Automatic export failed, because the URI is invalid.");
                         } else throw e;
-                    }
-                    finally
-                    {
-                        if ( CPULock.isHeld())
-                        {
-                            CPULock.release();
-                        }
+                    } catch (Exception e) {
+                        Countly.sharedInstance().logException(e);
+                        e.printStackTrace();
                     }
                 }
             }
         }
-        if ( CPULock.isHeld())
-        {
+        if (CPULock.isHeld()) {
             CPULock.release();
         }
     }

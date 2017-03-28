@@ -46,31 +46,28 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
      */
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object value) {
-            String stringValue = value.toString();
+    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = (preference, value) -> {
+        String stringValue = value.toString();
 
-            if (preference instanceof ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
+        if (preference instanceof ListPreference) {
+            // For list preferences, look up the correct display value in
+            // the preference's 'entries' list.
+            ListPreference listPreference = (ListPreference) preference;
+            int index = listPreference.findIndexOfValue(stringValue);
 
-                // Set the summary to reflect the new value.
-                preference.setSummary(
-                        index >= 0
-                                ? listPreference.getEntries()[index]
-                                : null);
+            // Set the summary to reflect the new value.
+            preference.setSummary(
+                    index >= 0
+                            ? listPreference.getEntries()[index]
+                            : null);
 
-            } else {
-                // For all other preferences, set the summary to the value's
-                // simple string representation.
-                preference.setSummary(stringValue);
-            }
-
-            return true;
+        } else {
+            // For all other preferences, set the summary to the value's
+            // simple string representation.
+            preference.setSummary(stringValue);
         }
+
+        return true;
     };
 
     /**
@@ -127,15 +124,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.pref_headers, target);
-
-        // Remove the Debug Fragment
-        if (!BuildConfig.DEBUG) {
-            for (int i = 0; i < target.size(); i++) {
-                if ("Debug".equals(target.get(i).title)) {
-                    target.remove(i);
-                    break;
-                }
-            }
+        if (BuildConfig.DEBUG) {
+            loadHeadersFromResource(R.xml.pref_debug_header, target);
         }
     }
 
@@ -160,19 +150,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             setHasOptionsMenu(true);
 
 
-            findPreference("preference_alba_export_path").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    startActivityForResult(new Intent("android.intent.action.OPEN_DOCUMENT_TREE"), REQUEST_CODE_OPEN_DOCUMENT_TREE_ALBA_PATH);
-                    return true;
-                }
+            findPreference("preference_alba_export_path").setOnPreferenceClickListener(preference -> {
+                startActivityForResult(new Intent("android.intent.action.OPEN_DOCUMENT_TREE"), REQUEST_CODE_OPEN_DOCUMENT_TREE_ALBA_PATH);
+                return true;
             });
-            findPreference("preference_groups_export_path").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    startActivityForResult(new Intent("android.intent.action.OPEN_DOCUMENT_TREE"), REQUEST_CODE_OPEN_DOCUMENT_TREE_GROUPS_PATH);
-                    return true;
-                }
+            findPreference("preference_groups_export_path").setOnPreferenceClickListener(preference -> {
+                startActivityForResult(new Intent("android.intent.action.OPEN_DOCUMENT_TREE"), REQUEST_CODE_OPEN_DOCUMENT_TREE_GROUPS_PATH);
+                return true;
             });
         }
 
@@ -246,12 +230,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
 
         private void setupOnClickListeners() {
-            findPreference(PlayMusicExporterPreferences.AUTO_EXPORT_PATH).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    startActivityForResult(new Intent("android.intent.action.OPEN_DOCUMENT_TREE"), REQUEST_CODE_OPEN_DOCUMENT_TREE_AUTO_PATH);
-                    return true;
-                }
+            findPreference(PlayMusicExporterPreferences.AUTO_EXPORT_PATH).setOnPreferenceClickListener(preference -> {
+                startActivityForResult(new Intent("android.intent.action.OPEN_DOCUMENT_TREE"), REQUEST_CODE_OPEN_DOCUMENT_TREE_AUTO_PATH);
+                return true;
             });
 
             //For every setting that is used to define the export job, setup a listener that
@@ -262,12 +243,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
 
         private void setupRescheduler(String preference) {
-            findPreference(preference).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    ExportAllJob.scheduleExport(getContext());
-                    return false;
-                }
+            findPreference(preference).setOnPreferenceClickListener(preference1 -> {
+                ExportAllJob.scheduleExport(getContext());
+                return false;
             });
         }
 

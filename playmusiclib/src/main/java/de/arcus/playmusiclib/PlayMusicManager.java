@@ -25,7 +25,6 @@ package de.arcus.playmusiclib;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -33,10 +32,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
-import android.support.v4.content.FileProvider;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.mpatric.mp3agic.ID3v1Genres;
 import com.mpatric.mp3agic.ID3v1Tag;
@@ -44,7 +41,10 @@ import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.ID3v22Tag;
 import com.mpatric.mp3agic.ID3v23Tag;
 import com.mpatric.mp3agic.ID3v24Tag;
+import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.NotSupportedException;
+import com.mpatric.mp3agic.UnsupportedTagException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -138,6 +138,7 @@ public class PlayMusicManager {
 
     /**
      * The database will be copied to a temp folder to access from the app
+     *
      * @return Gets the temp path to the database
      */
     private String getTempDatabasePath() {
@@ -297,6 +298,7 @@ public class PlayMusicManager {
 
     /**
      * Creates a new PlayMusic manager
+     *
      * @param context App context
      */
     public PlayMusicManager(Context context) {
@@ -307,8 +309,9 @@ public class PlayMusicManager {
 
     /**
      * Loads all needed information and opens the database
-     * @throws PlayMusicNotFoundException PlayMusic is not installed
-     * @throws NoSuperUserException No super user permissions
+     *
+     * @throws PlayMusicNotFoundException    PlayMusic is not installed
+     * @throws NoSuperUserException          No super user permissions
      * @throws CouldNotOpenDatabaseException Could not open the database
      */
     public void startUp() throws PlayMusicNotFoundException, NoSuperUserException, CouldNotOpenDatabaseException {
@@ -345,7 +348,8 @@ public class PlayMusicManager {
 
     /**
      * Copies the database to a temp directory and opens it
-     * @throws NoSuperUserException No super user permissions
+     *
+     * @throws NoSuperUserException                                           No super user permissions
      * @throws de.arcus.playmusiclib.exceptions.CouldNotOpenDatabaseException Could not open the database
      */
     private void loadDatabase() throws NoSuperUserException, CouldNotOpenDatabaseException {
@@ -370,7 +374,8 @@ public class PlayMusicManager {
 
     /**
      * Reloads the database from PlayMusic
-     * @throws NoSuperUserException No super user permissions
+     *
+     * @throws NoSuperUserException          No super user permissions
      * @throws CouldNotOpenDatabaseException Could not open the database
      */
     public void reloadDatabase() throws NoSuperUserException, CouldNotOpenDatabaseException {
@@ -403,6 +408,7 @@ public class PlayMusicManager {
 
     /**
      * Gets the path to the music track
+     *
      * @param localCopyPath The local copy path
      * @return The path to the music file
      */
@@ -437,6 +443,7 @@ public class PlayMusicManager {
 
     /**
      * Gets the full path to the artwork
+     *
      * @param artworkPath The artwork path
      * @return The full path to the artwork
      */
@@ -469,12 +476,13 @@ public class PlayMusicManager {
 
     /**
      * Exports a track to the sd card
-     * @param musicTrack The music track you want to export
-     * @param dest The destination path
-	 * @param forceOverwrite Forces overwrite of the destination file
+     *
+     * @param musicTrack     The music track you want to export
+     * @param dest           The destination path
+     * @param forceOverwrite Forces overwrite of the destination file
      * @return Returns whether the export was successful
      */
-    public boolean exportMusicTrack(MusicTrack musicTrack, String dest, boolean forceOverwrite ) {
+    public boolean exportMusicTrack(MusicTrack musicTrack, String dest, boolean forceOverwrite) throws InvalidDataException, IOException, UnsupportedTagException, NotSupportedException {
         // Creates the destination directory
         File directory = new File(dest).getParentFile();
 
@@ -487,12 +495,13 @@ public class PlayMusicManager {
 
     /**
      * Exports a track to the sd card
-     * @param musicTrack The music track you want to export
-     * @param uri The document tree
-	 * @param forceOverwrite Forces overwrite of the destination file
+     *
+     * @param musicTrack     The music track you want to export
+     * @param uri            The document tree
+     * @param forceOverwrite Forces overwrite of the destination file
      * @return Returns whether the export was successful
      */
-    public boolean exportMusicTrack(MusicTrack musicTrack, Uri uri, String path, boolean forceOverwrite) {
+    public boolean exportMusicTrack(MusicTrack musicTrack, Uri uri, String path, boolean forceOverwrite) throws InvalidDataException, IOException, UnsupportedTagException, NotSupportedException {
 
         // Check for null
         if (musicTrack == null) return false;
@@ -504,10 +513,9 @@ public class PlayMusicManager {
 
         String uniqueID = UUID.randomUUID().toString();
 
-        if ( forceOverwrite || !isAlreadyThere(uri, path) )
-        {
+        if (forceOverwrite || !isAlreadyThere(uri, path)) {
 
-            String fileTmp = getTempPath()  + uniqueID +"_tmp.mp3";
+            String fileTmp = getTempPath() + uniqueID + "_tmp.mp3";
 
             // Copy to temp path failed
             if (!SuperUserTools.fileCopy(srcFile, fileTmp))
@@ -515,7 +523,7 @@ public class PlayMusicManager {
 
             // Encrypt the file
             if (musicTrack.isEncoded()) {
-                String fileTmpCrypt = getTempPath()  + uniqueID +"_crypt.mp3";
+                String fileTmpCrypt = getTempPath() + uniqueID + "_crypt.mp3";
 
                 // Encrypts the file
                 if (trackEncrypt(musicTrack, fileTmp, fileTmpCrypt)) {
@@ -530,7 +538,6 @@ public class PlayMusicManager {
             }
 
 
-
             String dest;
             Uri copyUri = null;
             if (uri.toString().startsWith("file://")) {
@@ -541,19 +548,19 @@ public class PlayMusicManager {
                 FileTools.directoryCreate(parentDirectory);
             } else {
                 // Complex uri (Lollipop)
-                dest = getTempPath()  + uniqueID +"_final.mp3";
+                dest = getTempPath() + uniqueID + "_final.mp3";
 
                 // The root
                 DocumentFile document = DocumentFile.fromTreeUri(mContext, uri);
 
                 // Creates the subdirectories
-                String[] directories = path.split("\\/");
-                for(int i=0; i<directories.length - 1; i++) {
+                String[] directories = path.split("/");
+                for (int i = 0; i < directories.length - 1; i++) {
                     String directoryName = directories[i];
                     boolean found = false;
 
                     // Search all sub elements
-                    for (DocumentFile subDocument:  document.listFiles()) {
+                    for (DocumentFile subDocument : document.listFiles()) {
                         // Directory exists
                         if (subDocument.isDirectory() && subDocument.getName().equalsIgnoreCase(directoryName)) {
                             document = subDocument;
@@ -571,12 +578,12 @@ public class PlayMusicManager {
                 // Gets the filename
                 String filename = directories[directories.length - 1];
 
-                for (DocumentFile subDocument: document.listFiles()) {
+                for (DocumentFile subDocument : document.listFiles()) {
                     // Directory exists
-                    if (subDocument.isFile() ){
-                        if ( filename != null && subDocument.getName().equalsIgnoreCase(filename)) {
+                    if (subDocument.isFile()) {
+                        if (filename != null && subDocument.getName().equalsIgnoreCase(filename)) {
                             // Delete the file
-                            if ( forceOverwrite ) {
+                            if (forceOverwrite) {
                                 Logger.getInstance().logWarning("ExportMusicTrack", "(forceOverwrite)  Deleting original file: " + filename);
                             }
                             subDocument.delete();
@@ -660,7 +667,7 @@ public class PlayMusicManager {
             //new MediaScanner(mContext, dest);
 
         } else {
-            Logger.getInstance().logInfo("exportMusicTrack", path + " already exists, skipping." );
+            Logger.getInstance().logInfo("exportMusicTrack", path + " already exists, skipping.");
         }
 
         // Done
@@ -669,9 +676,10 @@ public class PlayMusicManager {
 
     /**
      * Checks if the destination file already exists
-     * @param pUri the source file
+     *
+     * @param pUri  the source file
      * @param pPath The destination
-     * return true if the file already exists
+     *              return true if the file already exists
      */
     private boolean isAlreadyThere(Uri pUri, String pPath) {
         if (pUri.toString().startsWith("file://")) {
@@ -683,8 +691,8 @@ public class PlayMusicManager {
             for (String lDisplayName : pPath.split("/")) {
                 if (lDocumentFile.findFile(lDisplayName) != null) {
                     lDocumentFile = lDocumentFile.findFile(lDisplayName);
-                    if ( lDocumentFile.length() == 0 ) {
-                        if ( !lDocumentFile.isDirectory() ) {
+                    if (lDocumentFile.length() == 0) {
+                        if (!lDocumentFile.isDirectory()) {
                             Logger.getInstance().logInfo("isAlreadyThere", pPath + " File exists, but is 0 bytes in size.");
                         }
                     }
@@ -699,122 +707,117 @@ public class PlayMusicManager {
 
     /**
      * Copies the music file to a new path and adds the mp3 meta data
+     *
      * @param musicTrack Track information
-     * @param src The source mp3 file
-     * @param dest The destination path
-     * return Return if the operation was successful
+     * @param src        The source mp3 file
+     * @param dest       The destination path
+     *                   return Return if the operation was successful
      */
-    private boolean trackWriteID3(MusicTrack musicTrack, String src, String dest) {
-        try {
-            // Opens the mp3
-            Mp3File mp3File = new Mp3File(src);
+    private boolean trackWriteID3(MusicTrack musicTrack, String src, String dest) throws InvalidDataException, IOException, UnsupportedTagException, NotSupportedException {
+        // Opens the mp3
+        Mp3File mp3File = new Mp3File(src);
 
-            // Removes all existing tags
-            mp3File.removeId3v1Tag();
-            mp3File.removeId3v2Tag();
-            mp3File.removeCustomTag();
+        // Removes all existing tags
+        mp3File.removeId3v1Tag();
+        mp3File.removeId3v2Tag();
+        mp3File.removeCustomTag();
 
-            // We want to add a fallback ID3v1 tag
-            if (mID3EnableFallback) {
-                // Create a new tag with ID3v1
-                ID3v1Tag tagID3v1 = new ID3v1Tag();
-
-                // Set all tag values
-                tagID3v1.setTrack(musicTrack.getTitle());
-                tagID3v1.setArtist(musicTrack.getArtist());
-                tagID3v1.setAlbum(musicTrack.getAlbum());
-                tagID3v1.setYear(musicTrack.getYear());
-
-                // Search the genre
-                for(int n=0; n<ID3v1Genres.GENRES.length; n++) {
-                    // Genre found
-                    if (ID3v1Genres.GENRES[n].equals(musicTrack.getGenre())) {
-                        tagID3v1.setGenre(n);
-                        break;
-                    }
-                }
-
-                mp3File.setId3v1Tag(tagID3v1);
-            }
-
-            // It can't be null
-            final ID3v2 tagID3v2;
-
-            // Creates the requested version
-            switch(mID3v2Version) {
-                case ID3v22:
-                    tagID3v2 = new ID3v22Tag();
-                    break;
-                case ID3v23:
-                    tagID3v2 = new ID3v23Tag();
-                    break;
-                case ID3v24:
-                    tagID3v2 = new ID3v24Tag();
-                    break;
-                default:
-                    tagID3v2 = null;
-                    break;
-            }
-
+        // We want to add a fallback ID3v1 tag
+        if (mID3EnableFallback) {
+            // Create a new tag with ID3v1
+            ID3v1Tag tagID3v1 = new ID3v1Tag();
 
             // Set all tag values
-            tagID3v2.setTitle(musicTrack.getTitle());
-            tagID3v2.setArtist(musicTrack.getArtist());
-            tagID3v2.setAlbum(musicTrack.getAlbum());
-            tagID3v2.setAlbumArtist(musicTrack.getAlbumArtist());
-            tagID3v2.setTrack("" + musicTrack.getTrackNumber());
-            tagID3v2.setPartOfSet("" + musicTrack.getDiscNumber());
-            tagID3v2.setYear(musicTrack.getYear());
+            tagID3v1.setTrack(musicTrack.getTitle());
+            tagID3v1.setArtist(musicTrack.getArtist());
+            tagID3v1.setAlbum(musicTrack.getAlbum());
+            tagID3v1.setYear(musicTrack.getYear());
 
-            if (!TextUtils.isEmpty(musicTrack.getGenre())) {
-                try {
-                    // Maybe the genre is not supported
-                    tagID3v2.setGenreDescription(musicTrack.getGenre());
-                } catch (IllegalArgumentException e) {
-                    Logger.getInstance().logWarning("TrackWriteID3", e.getMessage());
+            // Search the genre
+            for (int n = 0; n < ID3v1Genres.GENRES.length; n++) {
+                // Genre found
+                if (ID3v1Genres.GENRES[n].equals(musicTrack.getGenre())) {
+                    tagID3v1.setGenre(n);
+                    break;
                 }
             }
 
-            // Add the artwork to the meta data
-            if (mID3EnableArtwork) {
-                // Load the artwork
-                Bitmap bitmap = ArtworkLoader.loadArtwork(musicTrack, mID3ArtworkMaximumSize);
-
-                if (bitmap != null) {
-                    // JPEG is default
-                    String mimeType = "image/jpeg";
-
-                    // Load the bitmap into a byte array
-                    ByteArrayOutputStream artworkDataStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, artworkDataStream);
-
-                    // Adds the artwork to the meta data
-                    tagID3v2.setAlbumImage(artworkDataStream.toByteArray(), mimeType);
-                }
-            }
-
-            mp3File.setId3v2Tag(tagID3v2);
-
-
-            // Save the file
-            mp3File.save(dest);
-
-
-            // Done
-            return true;
-        } catch (Exception e) {
-            Logger.getInstance().logError("TrackWriteId3", e.toString());
+            mp3File.setId3v1Tag(tagID3v1);
         }
 
-        // Failed
-        return false;
+        // It can't be null
+        final ID3v2 tagID3v2;
+
+        // Creates the requested version
+        switch (mID3v2Version) {
+            case ID3v22:
+                tagID3v2 = new ID3v22Tag();
+                break;
+            case ID3v23:
+                tagID3v2 = new ID3v23Tag();
+                break;
+            case ID3v24:
+                tagID3v2 = new ID3v24Tag();
+                break;
+            default:
+                tagID3v2 = null;
+                break;
+        }
+
+
+        // Set all tag values
+        tagID3v2.setTitle(musicTrack.getTitle());
+        tagID3v2.setArtist(musicTrack.getArtist());
+        tagID3v2.setAlbum(musicTrack.getAlbum());
+        tagID3v2.setAlbumArtist(musicTrack.getAlbumArtist());
+        tagID3v2.setTrack("" + musicTrack.getTrackNumber());
+        tagID3v2.setPartOfSet("" + musicTrack.getDiscNumber());
+        tagID3v2.setYear(musicTrack.getYear());
+
+        if (!TextUtils.isEmpty(musicTrack.getGenre())) {
+            try {
+                // Maybe the genre is not supported
+                tagID3v2.setGenreDescription(musicTrack.getGenre());
+            } catch (IllegalArgumentException e) {
+                Logger.getInstance().logWarning("TrackWriteID3", e.getMessage());
+            }
+        }
+
+        // Add the artwork to the meta data
+        if (mID3EnableArtwork) {
+            // Load the artwork
+            Bitmap bitmap = ArtworkLoader.loadArtwork(musicTrack, mID3ArtworkMaximumSize);
+
+            if (bitmap != null) {
+                // JPEG is default
+                String mimeType = "image/jpeg";
+
+                // Load the bitmap into a byte array
+                ByteArrayOutputStream artworkDataStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, artworkDataStream);
+
+                // Adds the artwork to the meta data
+                tagID3v2.setAlbumImage(artworkDataStream.toByteArray(), mimeType);
+            }
+        }
+
+        mp3File.setId3v2Tag(tagID3v2);
+
+
+        // Save the file
+        mp3File.save(dest);
+
+
+        // Done
+        return true;
     }
 
     /**
      * Encrypts a track and save it to a new path
+     *
      * @param musicTrack The music track
-     * @param src The source mp3 file
-     * @param dest The destination path
+     * @param src        The source mp3 file
+     * @param dest       The destination path
      * @return Return if the operation was successful
      */
     private boolean trackEncrypt(MusicTrack musicTrack, String src, String dest) {
@@ -843,8 +846,8 @@ public class PlayMusicManager {
      * Deletes all cache files
      */
     private void cleanUp(String theUniqueID) {
-        FileTools.fileDelete( getTempPath() + theUniqueID +"_final.mp3");
-        FileTools.fileDelete( getTempPath() +  theUniqueID +"_tmp.mp3");
-        FileTools.fileDelete( getTempPath() +  theUniqueID +"_crypt.mp3");
+        FileTools.fileDelete(getTempPath() + theUniqueID + "_final.mp3");
+        FileTools.fileDelete(getTempPath() + theUniqueID + "_tmp.mp3");
+        FileTools.fileDelete(getTempPath() + theUniqueID + "_crypt.mp3");
     }
 }

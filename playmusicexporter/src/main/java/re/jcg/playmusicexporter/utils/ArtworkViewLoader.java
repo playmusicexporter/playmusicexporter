@@ -22,14 +22,12 @@
 
 package re.jcg.playmusicexporter.utils;
 
-import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import java.lang.ref.WeakReference;
 
 import re.jcg.playmusicexporter.R;
 import de.arcus.playmusiclib.ArtworkLoader;
-import de.arcus.playmusiclib.ArtworkLoaderCallback;
 import de.arcus.playmusiclib.items.ArtworkEntry;
 
 /**
@@ -121,13 +119,10 @@ public class ArtworkViewLoader {
             maximalArtworkSize = imageViewDefault.getContext().getResources().getDimensionPixelSize(R.dimen.music_track_artwork_loading_size);
 
             // Sets the bitmap in the UI thread
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    // Default icon
-                    imageViewDefault.setImageResource(mDefaultImage);
+            Runnable runnable = () -> {
+                // Default icon
+                imageViewDefault.setImageResource(mDefaultImage);
 
-                }
             };
             imageViewDefault.post(runnable);
         }
@@ -138,36 +133,30 @@ public class ArtworkViewLoader {
         mIsLoading = true;
 
         // Load the artwork
-        ArtworkLoader.loadArtworkAsync(mArtworkEntry, maximalArtworkSize, new ArtworkLoaderCallback() {
-            @Override
-            public void onFinished(final Bitmap bitmap) {
-                final ImageView imageView = mImageView.get();
+        ArtworkLoader.loadArtworkAsync(mArtworkEntry, maximalArtworkSize, bitmap -> {
+            final ImageView imageView = mImageView.get();
 
-                if (imageViewDefault != null) {
-                    // Sets the bitmap in the UI thread
-                    Runnable runnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            // Bitmap is valid
-                            if (bitmap != null)
-                                imageView.setImageBitmap(bitmap);
-                            else
-                                imageView.setImageResource(mDefaultImage);
-                        }
-                    };
-                    imageView.post(runnable);
-                }
+            if (imageViewDefault != null) {
+                // Sets the bitmap in the UI thread
+                Runnable runnable = () -> {
+                    // Bitmap is valid
+                    if (bitmap != null)
+                        imageView.setImageBitmap(bitmap);
+                    else
+                        imageView.setImageResource(mDefaultImage);
+                };
+                imageView.post(runnable);
+            }
 
-                // Loading is done
-                mIsLoading = false;
+            // Loading is done
+            mIsLoading = false;
 
-                // Loads the next image
-                if (mNewArtworkEntry != null) {
-                    mArtworkEntry = mNewArtworkEntry;
-                    mNewArtworkEntry = null;
+            // Loads the next image
+            if (mNewArtworkEntry != null) {
+                mArtworkEntry = mNewArtworkEntry;
+                mNewArtworkEntry = null;
 
-                    loadImage();
-                }
+                loadImage();
             }
         });
     }

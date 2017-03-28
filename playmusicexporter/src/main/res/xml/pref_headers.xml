@@ -16,9 +16,5 @@
         android:fragment="re.jcg.playmusicexporter.activities.SettingsActivity$AboutPreferenceFragment"
         android:icon="@drawable/ic_info_black_24dp"
         android:title="@string/pref_header_about" />
-    <header
-        android:fragment="re.jcg.playmusicexporter.activities.SettingsActivity$DebugPreferenceFragment"
-        android:icon="@drawable/ic_action_settings"
-        android:title="@string/pref_header_debug" />
 
 </preference-headers>

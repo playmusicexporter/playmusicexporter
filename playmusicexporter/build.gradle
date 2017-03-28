@@ -20,8 +20,6 @@
  * THE SOFTWARE.
  */
 
-
-
 apply plugin: 'com.android.application'
 
 android {
@@ -33,8 +31,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         // TODO Change Version with releases
-        versionCode 109
-        versionName '0.9.5.2'
+        versionCode 110
+        versionName '0.9.6.0'
         vectorDrawables.useSupportLibrary = true
 
         jackOptions {
@@ -58,9 +56,10 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':framework')
     compile project(':playmusiclib')
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support:support-v4:25.2.0'
-    compile 'com.android.support:design:25.2.0'
-    compile 'com.android.support:support-vector-drawable:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:support-vector-drawable:25.3.1'
     compile 'com.github.paolorotolo:appintro:4.1.0'
+    compile 'ly.count.android:sdk:16.12.2'
 }
