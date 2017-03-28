@@ -20,19 +20,7 @@
  * THE SOFTWARE.
  */
 
-
-
 apply plugin: 'com.android.application'
-
-
-buildscript {
-    repositories {
-        maven {
-            url  "http://dl.bintray.com/countly/maven"
-        }
-    }
-}
-
 
 android {
     compileSdkVersion 25
