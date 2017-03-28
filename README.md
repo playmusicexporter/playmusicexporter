@@ -34,14 +34,30 @@ by [Michael Patricios (mpatric)](https://github.com/mpatric).
 
 ### Contributing
 
+#### What can you contribute?
+
+Implement features you want to see, or take a look at the issue tracker and fix broken things. Before making bigger changes, see that a contributor is supporting the inclusion, so that you can be sure it will be merged. (See Discuss Ideas below)
+
+#### How to contribute:
+
 If you want to contribute to this project, fork off of develop,
 implement what you want to implement, and submit a pull request back into develop.
 After testing it, if enough of the collaborators like it, we will merge it.
 You might want to discuss your ideas with us first though:
 
-### Discuss Ideas
+#### Discuss Ideas
 
 If you have any questions, the easiest way to get help is asking in the #playmusicexporter IRC channel on freenode. You can join that on webchat.freenode.net, or preferably, if you are not really an IRC guy anyway, try the corresponding matrix room [#playmusicexporter:jcg.re](https://matrix.to/#/#playmusicexporter:jcg.re). They are bridged together, so everything that happens in one of the rooms gets automatically transfered to the other one too.
+
+### Supporting this project
+
+If you want to support this project, the best way to do so is contributing source code to the project (see above), or help with illustrations, if that is something you're good at! (I am most certainly not good at creating icons and such things)
+
+If you are unable to do that, but you still want to support this project, you could send me some bitcoins instead: 1NdzpDWPQ53xWT5fraGPZX5F9XrKiPBXjp
+
+I will distribute bitcoins send to me to others helping on the project too, so that other people contributing also have a piece of the cake.
+
+I might later set up [BitHub](https://github.com/WhisperSystems/BitHub) for this purpose later (if there are a lot of donations to distribute), but this project is a little small for that, and BitHub works based on the commit count only, which I would like to modify before setting that up.
 
 ### Copyright
 
