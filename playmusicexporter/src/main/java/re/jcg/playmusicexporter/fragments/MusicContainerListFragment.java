@@ -79,10 +79,7 @@ public class MusicContainerListFragment extends ListFragment {
      * A dummy implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
      */
-    private static Callbacks sDummyCallbacks = new Callbacks() {
-        @Override
-        public void onItemSelected(MusicTrackList musicTrackList) {
-        }
+    private static Callbacks sDummyCallbacks = musicTrackList -> {
     };
 
     private MusicContainerListAdapter mMusicTrackListAdapter;
@@ -112,9 +109,7 @@ public class MusicContainerListFragment extends ListFragment {
         // Null check
         if (list != null) {
             // Copy the list
-            for (MusicTrackList musicTrackList : list) {
-                newList.add(musicTrackList);
-            }
+            newList.addAll(list);
         }
 
         // Set the list in the adapter
@@ -145,7 +140,8 @@ public class MusicContainerListFragment extends ListFragment {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
     }
-//      DEPRECATED
+
+    //      DEPRECATED
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -309,9 +310,7 @@ public class FileTools {
         }
 
         // Remove all blacklisted paths
-        for (String blacklistPath : mountPointBlacklist) {
-            storages.remove(blacklistPath);
-        }
+        storages.removeAll(Arrays.asList(mountPointBlacklist));
 
         // Sort the list
         Collections.sort(storages);

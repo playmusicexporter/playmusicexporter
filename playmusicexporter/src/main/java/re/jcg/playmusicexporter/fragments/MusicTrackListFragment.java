@@ -32,7 +32,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -197,43 +196,36 @@ public class MusicTrackListFragment extends Fragment {
             mListView.setAdapter(mMusicTrackAdapter);
 
             // Click on one list item
-            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // The header is not clicked
-                    if (position > 0) {
-                        // We need to subtract the header view
-                        position -= 1;
+            mListView.setOnItemClickListener((parent, view, position, id) -> {
+                // The header is not clicked
+                if (position > 0) {
+                    // We need to subtract the header view
+                    position -= 1;
 
-                        // Gets the selected track
-                        MusicTrack musicTrack = mMusicTrackAdapter.getItem(position);
+                    // Gets the selected track
+                    MusicTrack musicTrack = mMusicTrackAdapter.getItem(position);
 
-                        // Toggle the track
-                        selectTrack(musicTrack, view, TrackSelectionState.Toggle);
-                    }
+                    // Toggle the track
+                    selectTrack(musicTrack, view, TrackSelectionState.Toggle);
                 }
             });
 
             // The floating action button
             mFloatingButtonExport = (FloatingActionButton) rootView.findViewById(R.id.floating_button_export);
-            mFloatingButtonExport.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v)
-                {
-                    m_CPULock.acquire();
-                    // Export all selected tracks
-                    for (SelectedTrack selectedTrack : SelectedTrackList.getInstance().getSelectedItems()) {
-                        selectedTrack.export(getActivity());
-                    }
-
-                    if ( m_CPULock.isHeld())
-                    {
-                        m_CPULock.release();
-                    }
-
-                    // Clear the selection
-                    SelectedTrackList.getInstance().clear(true);
+            mFloatingButtonExport.setOnClickListener(v -> {
+                m_CPULock.acquire();
+                // Export all selected tracks
+                for (SelectedTrack selectedTrack : SelectedTrackList.getInstance().getSelectedItems()) {
+                    selectedTrack.export(getActivity());
                 }
+
+                if ( m_CPULock.isHeld())
+                {
+                    m_CPULock.release();
+                }
+
+                // Clear the selection
+                SelectedTrackList.getInstance().clear(true);
             });
             updateFloatingButton();
         }

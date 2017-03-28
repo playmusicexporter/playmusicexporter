@@ -22,7 +22,6 @@
 
 package re.jcg.playmusicexporter.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -160,47 +159,24 @@ public class NavigationDrawerFragment extends Fragment {
         setViewType(mViewType);
 
         // Click on album
-        mButtonTypeAlbum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setViewType(ViewType.Album);
-            }
-        });
+        mButtonTypeAlbum.setOnClickListener(v -> setViewType(ViewType.Album));
 
         // Click on artist
-        mButtonTypeArtist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setViewType(ViewType.Artist);
-            }
-        });
+        mButtonTypeArtist.setOnClickListener(v -> setViewType(ViewType.Artist));
 
         // Click on playlist
-        mButtonTypePlaylist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setViewType(ViewType.Playlist);
-            }
-        });
+        mButtonTypePlaylist.setOnClickListener(v -> setViewType(ViewType.Playlist));
 
         // Click on rated
-        mButtonTypeRated.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setViewType(ViewType.Rated);
-            }
-        });
+        mButtonTypeRated.setOnClickListener(v -> setViewType(ViewType.Rated));
 
         // Click on settings
-        mButtonSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentSettings = new Intent(getActivity(), SettingsActivity.class);
-                startActivity(intentSettings);
+        mButtonSettings.setOnClickListener(v -> {
+            Intent intentSettings = new Intent(getActivity(), SettingsActivity.class);
+            startActivity(intentSettings);
 
-                // Close the drawer
-                mDrawerLayout.closeDrawers();
-            }
+            // Close the drawer
+            mDrawerLayout.closeDrawers();
         });
 
         // Color the settings button
@@ -307,12 +283,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         // Defer code dependent on restoration of previous instance state.
-        mDrawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mDrawerToggle.syncState();
-            }
-        });
+        mDrawerLayout.post(mDrawerToggle::syncState);
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
