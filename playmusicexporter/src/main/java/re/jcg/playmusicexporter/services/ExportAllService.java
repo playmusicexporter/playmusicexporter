@@ -7,11 +7,6 @@ import android.net.Uri;
 import android.os.PowerManager;
 import android.util.Log;
 
-import com.mpatric.mp3agic.InvalidDataException;
-import com.mpatric.mp3agic.NotSupportedException;
-import com.mpatric.mp3agic.UnsupportedTagException;
-
-import java.io.IOException;
 import java.util.List;
 
 import ly.count.android.sdk.Countly;

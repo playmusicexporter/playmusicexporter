@@ -30,12 +30,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
-import com.mpatric.mp3agic.InvalidDataException;
-import com.mpatric.mp3agic.NotSupportedException;
-import com.mpatric.mp3agic.UnsupportedTagException;
-
-import java.io.IOException;
-
 import de.arcus.framework.logger.Logger;
 import ly.count.android.sdk.Countly;
 import re.jcg.playmusicexporter.R;

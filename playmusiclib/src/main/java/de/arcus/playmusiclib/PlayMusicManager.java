@@ -25,7 +25,6 @@ package de.arcus.playmusiclib;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -33,10 +32,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
-import android.support.v4.content.FileProvider;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.mpatric.mp3agic.ID3v1Genres;
 import com.mpatric.mp3agic.ID3v1Tag;
@@ -557,7 +554,7 @@ public class PlayMusicManager {
                 DocumentFile document = DocumentFile.fromTreeUri(mContext, uri);
 
                 // Creates the subdirectories
-                String[] directories = path.split("\\/");
+                String[] directories = path.split("/");
                 for (int i = 0; i < directories.length - 1; i++) {
                     String directoryName = directories[i];
                     boolean found = false;
