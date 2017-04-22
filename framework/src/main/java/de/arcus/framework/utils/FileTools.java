@@ -22,6 +22,8 @@
 
 package de.arcus.framework.utils;
 
+import android.os.Environment;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -42,10 +44,12 @@ public class FileTools {
     /**
      * Private constructor
      */
-    private FileTools() {}
+    private FileTools() {
+    }
 
     /**
      * Creates a directory if it not exists
+     *
      * @param dir Directory path
      * @return Returns true if the directory was created or already exists
      */
@@ -75,6 +79,7 @@ public class FileTools {
 
     /**
      * Checks if the directory exists
+     *
      * @param dir Path of the file
      * @return Return whether the directory exists
      */
@@ -87,6 +92,7 @@ public class FileTools {
 
     /**
      * Creates an empty file
+     *
      * @param file File path
      * @return Returns true if the file was successfully created
      */
@@ -98,7 +104,7 @@ public class FileTools {
             return (new File(file)).createNewFile();
         } catch (IOException e) {
             // Failed
-            Logger.getInstance().logError("FileCreate",  "Could not create file: " + e.getMessage());
+            Logger.getInstance().logError("FileCreate", "Could not create file: " + e.getMessage());
 
             return false;
         }
@@ -106,7 +112,8 @@ public class FileTools {
 
     /**
      * Moves a file
-     * @param src Soruce path
+     *
+     * @param src  Soruce path
      * @param dest Destination path
      * @return Return whether the moving was successful
      */
@@ -122,7 +129,8 @@ public class FileTools {
 
     /**
      * Copies a stream
-     * @param inputStream Source stream
+     *
+     * @param inputStream  Source stream
      * @param outputStream Destination stream
      * @return Return whether the stream was copied successful
      */
@@ -155,7 +163,8 @@ public class FileTools {
 
     /**
      * Copies a file
-     * @param src Source path
+     *
+     * @param src  Source path
      * @param dest Destination path
      * @return Return whether the file was copied successful
      */
@@ -195,6 +204,7 @@ public class FileTools {
 
     /**
      * Deletes a file
+     *
      * @param file Path of the file
      * @return Returns whether the deleting was successful
      */
@@ -205,6 +215,7 @@ public class FileTools {
 
     /**
      * Checks if the file exists
+     *
      * @param file Path of the file
      * @return Return whether the file exists
      */
@@ -217,6 +228,7 @@ public class FileTools {
 
     /**
      * Checks whether the file or directory is a link
+     *
      * @param path Path of the file / directory
      * @return Returns whether the file or directory is a link
      */
@@ -235,6 +247,7 @@ public class FileTools {
 
     /**
      * Gets the root canonical file of a symbolic link
+     *
      * @param path The path
      * @return The root file
      */
@@ -244,6 +257,7 @@ public class FileTools {
 
     /**
      * Gets the root canonical file of a symbolic link
+     *
      * @param file The file
      * @return The root file
      */
@@ -269,19 +283,20 @@ public class FileTools {
 
     /**
      * Gets all storages; eg. all sdcards
+     *
      * @return List of all storages
      */
     public static String[] getStorages() {
         List<String> storages = new ArrayList<>();
 
         // Hard coded mount points
-        final String[] mountPointBlacklist = new String[] { "/mnt/tmp", "/mnt/factory", "/mnt/obb", "/mnt/asec", "/mnt/secure", "/mnt/media_rw", "/mnt/shell", "/storage/emulated" };
-        final String[] mountPointDirectories = new String[] { "/mnt", "/storage" };
-        final String[] mountPoints = new String[] { "/sdcard", "/external_sd" };
+        final String[] mountPointBlacklist = new String[]{"/mnt/tmp", "/mnt/factory", "/mnt/obb", "/mnt/asec", "/mnt/secure", "/mnt/media_rw", "/mnt/shell", "/storage/emulated"};
+        final String[] mountPointDirectories = new String[]{"/mnt", "/storage"};
+        final String[] mountPoints = new String[]{Environment.getExternalStorageDirectory().getAbsolutePath(), "/external_sd"};
 
 
         // Adds all mount point directories
-        for(String mountPointDirectory : mountPointDirectories) {
+        for (String mountPointDirectory : mountPointDirectories) {
             // Checks all subdirectories
             File dir = getRootCanonicalFile(mountPointDirectory);
             if (dir.exists() && dir.isDirectory()) {
@@ -301,7 +316,7 @@ public class FileTools {
         }
 
         // Adds all direct mount points
-        for(String mountPoint : mountPoints) {
+        for (String mountPoint : mountPoints) {
             File file = getRootCanonicalFile(mountPoint);
             if (file.isDirectory() && file.canRead()) {
                 if (!storages.contains(file.getAbsolutePath()))

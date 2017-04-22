@@ -75,7 +75,8 @@ public class ExportAllService extends IntentService {
                     try {
                         if (lPlayMusicManager.exportMusicTrack(lTrack, lUri, lPath, PlayMusicExporterPreferences.getFileOverwritePreference())) {
                             Log.i(TAG, "Exported Music Track: " + getStringForTrack(lTrack));
-                            Countly.sharedInstance().recordEvent("Exported Song", 1);
+                            if (PlayMusicExporterPreferences.getReportStats())
+                                Countly.sharedInstance().recordEvent("Exported Song", 1);
                         } else {
                             Log.i(TAG, "Failed to export Music Track: " + getStringForTrack(lTrack));
                         }
@@ -90,7 +91,8 @@ public class ExportAllService extends IntentService {
                             Log.i(TAG, "Automatic export failed, because the URI is invalid.");
                         } else throw e;
                     } catch (Exception e) {
-                        Countly.sharedInstance().logException(e);
+                        if (PlayMusicExporterPreferences.getReportStats())
+                            Countly.sharedInstance().logException(e);
                         e.printStackTrace();
                     }
                 }

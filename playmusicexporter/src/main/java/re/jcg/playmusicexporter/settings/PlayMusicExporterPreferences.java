@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 
+import re.jcg.playmusicexporter.BuildConfig;
 import re.jcg.playmusicexporter.fragments.NavigationDrawerFragment;
 
 public class PlayMusicExporterPreferences {
@@ -48,6 +49,9 @@ public class PlayMusicExporterPreferences {
 
     public static final String SETUP_DONE = "preference_setup_done";
     public static final boolean SETUP_DONE_DEFAULT = false;
+
+    public static final String REPORT_STATS = "preference_report_stats";
+    public static final boolean REPORT_STATS_DEFAULT = true;
 
 
     private PlayMusicExporterPreferences() {
@@ -174,5 +178,14 @@ public class PlayMusicExporterPreferences {
 
     public static void setAlbumArtSize(int size) {
         preferences.edit().putString(EXPORT_ALBUM_ART_SIZE, "" + size).apply();
+    }
+
+    public static boolean getReportStats() {
+        //Never report stats in debug builds
+        return preferences.getBoolean(REPORT_STATS, REPORT_STATS_DEFAULT) && !BuildConfig.DEBUG;
+    }
+
+    public static void setReportStats(boolean reportStats) {
+        preferences.edit().putBoolean(REPORT_STATS, reportStats).apply();
     }
 }

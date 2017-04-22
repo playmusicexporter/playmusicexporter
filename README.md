@@ -19,8 +19,9 @@ There is also a nice library you can simply use in your projects.
 **This app and the included library will require root access to your device!
 If your device is not rooted you can neither use this app nor the library.**
 
-This app uses API Level 21, which has been introduced by Android Lollipop. If you use KitKat
-or lower, this app will not work.
+This app uses multiple features introduced in API Level 21 (Android 5.0 Lollipop), the JobScheduler
+and the the folder selection of the storage access framework. 
+If you use KitKat or lower, this app will not work.
 
 ### Credits
 
@@ -56,8 +57,6 @@ If you want to support this project, the best way to do so is contributing sourc
 If you are unable to do that, but you still want to support this project, you could send me some bitcoins instead: 1NdzpDWPQ53xWT5fraGPZX5F9XrKiPBXjp
 
 I will distribute bitcoins send to me to others helping on the project too, so that other people contributing also have a piece of the cake.
-
-I might later set up [BitHub](https://github.com/WhisperSystems/BitHub) for this purpose later (if there are a lot of donations to distribute), but this project is a little small for that, and BitHub works based on the commit count only, which I would like to modify before setting that up.
 
 ### Copyright
 

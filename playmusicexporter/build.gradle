@@ -35,9 +35,6 @@ android {
         versionName '0.9.6.0'
         vectorDrawables.useSupportLibrary = true
 
-        jackOptions {
-            enabled true
-        }
         buildConfigField "java.util.Date", "BUILD_TIME", "new java.util.Date(" + System.currentTimeMillis() + "L)"
     }
     buildTypes {
@@ -62,4 +59,7 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:25.3.1'
     compile 'com.github.paolorotolo:appintro:4.1.0'
     compile 'ly.count.android:sdk:16.12.2'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }

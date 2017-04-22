@@ -122,7 +122,7 @@
     <string name="settings_open_old_homepage_url" translatable="false"><![CDATA[http://www.david-schulte.de/]]></string>
 
     <string name="settings_open_homepage_title" translatable="false">Website</string>
-    <string name="settings_open_homepage_url" translatable="false"><![CDATA[https://jcg.re/]]></string>
+    <string name="settings_open_homepage_url" translatable="false"><![CDATA[https://github.com/jcgruenhage/PlayMusicExporter]]></string>
 
     <string name="settings_mp3agic_title" translatable="false">Mp3agic ID3 Libary</string>
     <string name="settings_mp3agic_summery" translatable="false">Michael Patricios &#169; 2006&#8211;2013</string>
@@ -149,4 +149,26 @@
     <string name="action_refesh">Refresh</string>
     <string name="database_reloaded">Music Database Reloaded</string>
     <string name="debug_test_crash_handler">Test Crash Handler</string>
+    <string name="settings_donation_title">Support me</string>
+    <string name="settings_donation_summery">Donate to the current developer via Bitcoin. This requires that you have installed a bitcoin wallet on your phone. For donations from a computer, see the homepage.</string>
+    <string name="settings_donation_url"><![CDATA[bitcoin:1NdzpDWPQ53xWT5fraGPZX5F9XrKiPBXjp]]></string>
+    <string name="intro_welcome_title">Welcome!</string>
+    <string name="intro_welcome_description">This is the Play Music Exporter. It can export songs from Play Music and save them as MP3 files where you want them to be.</string>
+    <string name="intro_warning_title">Warning!</string>
+    <string name="intro_warning_description">You are responsible for what you do with this app. Depending on where you live it might be illegal to use this app. We discourage piracy of music and other intellectual property. Sharing music you exported with this tool might be a very bad idea, Google could put an invisible watermark on the music, so that people can trace the MP3s back to the owner of the Google account that was used.</string>
+    <string name="intro_storage_title">We need access to your storage.</string>
+    <string name="intro_storage_description">We need to access the external storage, for copying the Play Music database to a folder, where we have the right to work with it. We also need access to the external storage, to finish up the MP3s, from encrypted without ID3 tags, to decrypted with ID3 tags, before we save them to your export path.</string>
+    <string name="intro_superuser_description">Some of the files we need to access are in the private folders of Play Music. Android prevents apps from accessing the private folders of other apps, but luckily, you can circumvent this protection with root access. Without root access this app can\'t do anything.</string>
+    <string name="intro_superuser_title">We need root access.</string>
+    <string name="intro_error_description">No single piece of software is perfect. To get this closer though, we have added automated error reporting to this app. If you would like to help make this app better, let us enable that. If you don\'t enable this and something does not work, you are on your own, since we can\'t help you without having the logs this provides us with. The data collected by this does not include anything that could be used to identify you. (You will be prompted to either accept or deny that when you go to the next slide)</string>
+    <string name="intro_error_title">Anonymous error reporting.</string>
+    <string name="intro_finish_description">One note: Should you revoke any of these permission, the tutorial will be shown again on the next launch.</string>
+    <string name="intro_finish_title">Introduction finished!</string>
+    <string name="error_alert_dialog_title">Anonymous error reporting?</string>
+    <string name="error_alert_dialog_message">In order to make this app better, please enable automatic crash reporting. You wont ever get any help, if you disable this, since we can\'t fix bugs without the logs provided by this. The data collected by this does not include anything that could be used to identify you.</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="whatever">I don\'t care, just let me use the app!</string>
+    <string name="warning_alert_dialog_title">Understood?</string>
+    <string name="warning_alert_dialog_message">Have you read and understood this?</string>
 </resources>

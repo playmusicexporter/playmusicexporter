@@ -203,13 +203,15 @@ public class ExportService extends IntentService {
                 // Exports the song
                 try {
                     if (playMusicManager.exportMusicTrack(mTrackCurrent, uri, path, PlayMusicExporterPreferences.getFileOverwritePreference())) {
-                        Countly.sharedInstance().recordEvent("Exported Song", 1);
+                        if (PlayMusicExporterPreferences.getReportStats())
+                            Countly.sharedInstance().recordEvent("Exported Song", 1);
                     } else {
                         // Export failed
                         mTracksFailed ++;
                     }
                 } catch (Exception e) {
-                    Countly.sharedInstance().logException(e);
+                    if (PlayMusicExporterPreferences.getReportStats())
+                        Countly.sharedInstance().logException(e);
                     e.printStackTrace();
                 }
             } else {

@@ -1,9 +1,9 @@
 package re.jcg.playmusicexporter.activities;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,49 +29,41 @@ public class Intro extends AppIntro {
     Fragment warning;
     Fragment storage;
     Fragment superuser;
+    Fragment error;
     Fragment finish;
 
     private void initFragments() {
+        int color = ContextCompat.getColor(this, R.color.application_main);
         welcome = AppIntroFragment.newInstance(
-                "Welcome!",
-                "This is the Play Music Exporter. It can export songs from Play Music " +
-                        "and save them as MP3 files where you want them to be.",
+                getString(R.string.intro_welcome_title),
+                getString(R.string.intro_welcome_description),
                 R.drawable.ic_launcher_transparent,
-                Color.parseColor("#ef6c00"));
+                color);
         warning = AppIntroFragment.newInstance(
-                "Warning!",
-                "You are responsible for what you do with this app. Depending on where you live " +
-                        "it might be illegal to use this app. We discourage piracy of music " +
-                        "and other intellectual property. Sharing music you exported with " +
-                        "this tool might be a very bad idea, Google could put an invisible " +
-                        "watermark on the music, so that people can trace the MP3s back to " +
-                        "the owner of the Google account that was used.",
+                getString(R.string.intro_warning_title),
+                getString(R.string.intro_warning_description),
                 R.drawable.ic_warning_white,
-                Color.parseColor("#ef6c00"));
+                color);
         storage = AppIntroFragment.newInstance(
-                "We need access to your storage.",
-                "We need to access the external storage, " +
-                        "for copying the Play Music database to a folder," +
-                        "where we have the right to work with it. " +
-                        "We also need access to the external storage," +
-                        "to finish up the MP3s, from encrypted without ID3 tags," +
-                        "to decrypted with ID3 tags, before we save them to your export path.",
+                getString(R.string.intro_storage_title),
+                getString(R.string.intro_storage_description),
                 R.drawable.ic_folder_white,
-                Color.parseColor("#ef6c00"));
+                color);
         superuser = AppIntroFragment.newInstance(
-                "We need root access.",
-                "Some of the files we need to access are in the private folders of Play Music. " +
-                        "Android prevents apps from accessing the private folders " +
-                        "of other apps, but luckily, you can circumvent this protection " +
-                        "with root access. Without root access this app can't do anything.",
+                getString(R.string.intro_superuser_title),
+                getString(R.string.intro_superuser_description),
                 R.drawable.ic_superuser,
-                Color.parseColor("#ef6c00"));
+                color);
+        error = AppIntroFragment.newInstance(
+                getString(R.string.intro_error_title),
+                getString(R.string.intro_error_description),
+                R.drawable.ic_error_white,
+                color);
         finish = AppIntroFragment.newInstance(
-                "Tutorial finished!",
-                "One note: Should you revoke any of these permission, the tutorial will be " +
-                        "shown again on the next launch.",
+                getString(R.string.intro_finish_title),
+                getString(R.string.intro_finish_description),
                 R.drawable.ic_launcher_transparent,
-                Color.parseColor("#ef6c00"));
+                color);
     }
 
     @Override
@@ -87,6 +79,7 @@ public class Intro extends AppIntro {
         addSlide(warning);
         addSlide(storage);
         addSlide(superuser);
+        addSlide(error);
         addSlide(finish);
 
         pager.setPagingEnabled(true);
@@ -100,7 +93,7 @@ public class Intro extends AppIntro {
             promptAcceptWarning();
         } else if (storage.equals(oldFragment) && superuser.equals(newFragment)) {
             requestStoragePermission();
-        } else if (superuser.equals(oldFragment) && finish.equals(newFragment)) {
+        } else if (superuser.equals(oldFragment) && error.equals(newFragment)) {
             SuperUser.askForPermissionInBackground(granted -> {
                 if (!granted) {
                     AlertDialog.Builder builder =
@@ -113,7 +106,28 @@ public class Intro extends AppIntro {
                     builder.show();
                 }
             });
+        } else if (error.equals(oldFragment) && finish.equals(newFragment)) {
+            promptEnableErrorReporting();
         }
+    }
+
+    private void promptEnableErrorReporting() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        Dialog.OnClickListener enable = (dialog, which) -> {
+            PlayMusicExporterPreferences.setReportStats(true);
+            dialog.dismiss();
+        };
+        Dialog.OnClickListener disable = (dialog, which) -> {
+            PlayMusicExporterPreferences.setReportStats(false);
+            dialog.dismiss();
+        };
+        builder.setTitle(R.string.error_alert_dialog_title);
+        builder.setMessage(R.string.error_alert_dialog_message);
+        builder.setCancelable(false);
+        builder.setNegativeButton(R.string.no, disable);
+        builder.setNeutralButton(R.string.whatever, enable);
+        builder.setPositiveButton(R.string.yes, enable);
+        builder.show();
     }
 
     private void requestStoragePermission() {
@@ -151,12 +165,12 @@ public class Intro extends AppIntro {
 
     private void promptAcceptWarning() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Understood?");
-        builder.setMessage("Have you read and understood this?");
+        builder.setTitle(R.string.warning_alert_dialog_title);
+        builder.setMessage(R.string.warning_alert_dialog_message);
         builder.setCancelable(false);
-        builder.setNegativeButton("No", ((dialog, which)
+        builder.setNegativeButton(getString(R.string.no), ((dialog, which)
                 -> pager.setCurrentItem(pager.getCurrentItem() - 1)));
-        builder.setPositiveButton("Yes", (((dialog, which) -> dialog.dismiss())));
+        builder.setPositiveButton(getString(R.string.no), (((dialog, which) -> dialog.dismiss())));
         builder.show();
     }
 

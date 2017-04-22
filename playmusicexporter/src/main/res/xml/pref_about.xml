@@ -12,7 +12,7 @@
         </Preference>
     </PreferenceCategory>
 
-    <!-- About David Schulte -->
+    <!-- About this project -->
     <PreferenceCategory android:title="@string/settings_category_about_me">
         <!-- Homepage -->
         <Preference
@@ -21,6 +21,15 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/settings_open_homepage_url" />
+        </Preference>
+
+        <!-- Donation -->
+        <Preference
+        android:summary="@string/settings_donation_summery"
+        android:title="@string/settings_donation_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/settings_donation_url" />
         </Preference>
     </PreferenceCategory>
 

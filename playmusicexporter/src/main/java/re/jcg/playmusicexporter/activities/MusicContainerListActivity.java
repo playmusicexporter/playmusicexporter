@@ -108,17 +108,15 @@ public class MusicContainerListActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Countly.sharedInstance().init(this, getString(R.string.countly_url), getString(R.string.countly_token), null, DeviceId.Type.OPEN_UDID);
-        Countly.sharedInstance().enableCrashReporting();
-
-
         PlayMusicExporterPreferences.init(this);
         if (!PlayMusicExporterPreferences.getSetupDone()) {
             startActivity(new Intent(this, Intro.class));
             finish();
         } else {
-
+            if (PlayMusicExporterPreferences.getReportStats()) {
+                Countly.sharedInstance().init(this, getString(R.string.countly_url), getString(R.string.countly_token), null, DeviceId.Type.OPEN_UDID);
+                Countly.sharedInstance().enableCrashReporting();
+            }
             setContentView(R.layout.activity_track_list);
 
 
@@ -379,12 +377,14 @@ public class MusicContainerListActivity extends AppCompatActivity
     @Override
     public void onStart() {
         super.onStart();
-        Countly.sharedInstance().onStart(this);
+        if (PlayMusicExporterPreferences.getReportStats())
+            Countly.sharedInstance().onStart(this);
     }
 
     @Override
     public void onStop() {
-        Countly.sharedInstance().onStop();
+        if (PlayMusicExporterPreferences.getReportStats())
+            Countly.sharedInstance().onStop();
         super.onStop();
     }
 }
