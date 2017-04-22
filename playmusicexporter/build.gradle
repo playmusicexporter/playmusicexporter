@@ -47,6 +47,11 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    lintOptions {
+        //This is so that missing translations won't stop the build
+        abortOnError false
+    }
+
 }
 
 dependencies {

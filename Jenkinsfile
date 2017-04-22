@@ -7,7 +7,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh 'gradle build --info'
+                sh './gradlew build --info'
             }
         }
     }
