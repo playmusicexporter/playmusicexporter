@@ -170,7 +170,7 @@ public class Intro extends AppIntro {
         builder.setCancelable(false);
         builder.setNegativeButton(getString(R.string.no), ((dialog, which)
                 -> pager.setCurrentItem(pager.getCurrentItem() - 1)));
-        builder.setPositiveButton(getString(R.string.no), (((dialog, which) -> dialog.dismiss())));
+        builder.setPositiveButton(getString(R.string.yes), (((dialog, which) -> dialog.dismiss())));
         builder.show();
     }
 
