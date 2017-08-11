@@ -22,7 +22,7 @@
 
 <resources>
 
-    <string name="app_name">Play Music Exporter</string>
+    <string name="app_name" translatable="false">Play Music Exporter</string>
     <string name="title_track_detail">Track Detail</string>
 
     <string name="action_select_all">Select all</string>
@@ -52,7 +52,7 @@
     <string name="dialog_storage_access_denied_title">Storage access denied</string>
     <string name="dialog_storage_access_denied">The Play Music Exporter does not work without write access to the external storage. You can not use this app without granting it write access.</string>
 
-    <string name="dialog_superuser_access_denied_title">Superuser access denied</string>
+    <string name="dialog_superuser_access_denied_title">Root access denied</string>
     <string name="dialog_superuser_access_denied">The Play Music Exporter does not work without superuser access. You can not use this app without granting it superuser access.</string>
 
 
@@ -72,8 +72,8 @@
     <string name="settings_category_auto_export_conditions">Export conditions</string>
     <string name="settings_category_auto_export_path_subdir">Export path and subdirectory structure</string>
     <string name="settings_category_debug">Debug</string>
-    <string name="settings_category_alba_export">Export location albums</string>
-    <string name="settings_category_groups_export">Export location playlists</string>
+    <string name="settings_category_alba_export">Export location for albums</string>
+    <string name="settings_category_groups_export">Export location for playlists</string>
 
 
     <string name="settings_version_number">Version Number</string>
@@ -121,7 +121,7 @@
     <string name="settings_open_old_homepage_title" translatable="false">David-Schulte.de</string>
     <string name="settings_open_old_homepage_url" translatable="false"><![CDATA[http://www.david-schulte.de/]]></string>
 
-    <string name="settings_open_homepage_title" translatable="false">Website</string>
+    <string name="settings_open_homepage_title">Website</string>
     <string name="settings_open_homepage_url" translatable="false"><![CDATA[https://github.com/jcgruenhage/PlayMusicExporter]]></string>
 
     <string name="settings_mp3agic_title" translatable="false">Mp3agic ID3 Libary</string>
@@ -151,7 +151,7 @@
     <string name="debug_test_crash_handler">Test Crash Handler</string>
     <string name="settings_donation_title">Support me</string>
     <string name="settings_donation_summery">Donate to the current developer via Bitcoin. This requires that you have installed a bitcoin wallet on your phone. For donations from a computer, see the homepage.</string>
-    <string name="settings_donation_url"><![CDATA[bitcoin:1NdzpDWPQ53xWT5fraGPZX5F9XrKiPBXjp]]></string>
+    <string name="settings_donation_url" translatable="false"><![CDATA[bitcoin:1NdzpDWPQ53xWT5fraGPZX5F9XrKiPBXjp]]></string>
     <string name="intro_welcome_title">Welcome!</string>
     <string name="intro_welcome_description">This is the Play Music Exporter. It can export songs from Play Music and save them as MP3 files where you want them to be.</string>
     <string name="intro_warning_title">Warning!</string>
