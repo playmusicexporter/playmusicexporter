@@ -30,7 +30,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
-import de.arcus.framework.logger.Logger;
 import ly.count.android.sdk.Countly;
 import re.jcg.playmusicexporter.R;
 import de.arcus.playmusiclib.PlayMusicManager;
@@ -97,8 +96,6 @@ public class ExportService extends IntentService {
     public void onCreate() {
         super.onCreate();
 
-        Logger.getInstance().logDebug("ExportService", "Start");
-
         // Creates a notification builder
         mNotificationBuilder = new NotificationCompat.Builder(this);
     }
@@ -108,7 +105,6 @@ public class ExportService extends IntentService {
         super.onDestroy();
 
         // Finish
-        Logger.getInstance().logDebug("ExportService", "End");
         mFinished = true;
 
         updateNotification();

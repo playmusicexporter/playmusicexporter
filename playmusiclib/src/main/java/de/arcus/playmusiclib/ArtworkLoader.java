@@ -29,9 +29,8 @@ import android.text.TextUtils;
 
 import java.net.URL;
 
-import de.arcus.framework.logger.Logger;
-import de.arcus.framework.superuser.SuperUserTools;
-import de.arcus.framework.utils.ImageTools;
+import rc.jcg.superuser.SuperUserTools;
+import de.arcus.playmusiclib.utils.ImageTools;
 import de.arcus.playmusiclib.items.ArtworkEntry;
 
 /**
@@ -59,7 +58,6 @@ public class ArtworkLoader {
                 bitmap = ImageTools.decodeByteArraySubsampled(bitmapData, artworkSize, artworkSize);
             } catch (Exception e) {
                 // Error
-                Logger.getInstance().logError("LoadArtwork", e.toString());
             }
         }
 
@@ -69,16 +67,12 @@ public class ArtworkLoader {
             if (!TextUtils.isEmpty(artworkUrl)) {
                 // Tries to load the artwork via internet
                 try {
-                    if (artworkUrl.contains("mediastore")) {
-						Logger.getInstance().logError("LoadArtwork", "mediastore artwork");
-                        //TODO handle mediastore album art using ContentResolver
-						} else {
-                            URL url = new URL(artworkUrl);
-                            bitmap = BitmapFactory.decodeStream(url.openStream());
-						}
+                    if (!artworkUrl.contains("mediastore")) {
+                        URL url = new URL(artworkUrl);
+                        bitmap = BitmapFactory.decodeStream(url.openStream());
+                    }
                 } catch (Exception e) {
                     // Error
-                    Logger.getInstance().logError("LoadArtwork", e.toString());
                 }
             }
         }

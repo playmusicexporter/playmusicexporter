@@ -24,7 +24,6 @@ package re.jcg.playmusicexporter.utils;
 
 import android.text.TextUtils;
 
-import de.arcus.framework.logger.Logger;
 import de.arcus.playmusiclib.items.MusicTrack;
 
 /**
@@ -120,7 +119,6 @@ public class MusicPathBuilder {
                         break;
                     default:
                         // Unknown tag
-                        Logger.getInstance().logWarning("MusicPathBuilder", "Unknown tag '" + name + "'");
                         break;
                 }
 
@@ -146,9 +144,6 @@ public class MusicPathBuilder {
                         // Adds the rest of the format to the value
                         value = format.substring(0, posInsertStart) + value + format.substring(posInsertEnd);
 
-                    } else {
-                        // Missing insert sign
-                        Logger.getInstance().logWarning("MusicPathBuilder", "Cloud not find replace symbol ('$') of format attribute in tag '" + name + "'");
                     }
                 }
 
@@ -159,7 +154,6 @@ public class MusicPathBuilder {
             } else {
                 path += "{";
                 pos = posStart + 1;
-                Logger.getInstance().logWarning("MusicPathBuilder", "Cloud not find end symbol ('}') of the tag in patter '" + patter + "'");
             }
         }
 

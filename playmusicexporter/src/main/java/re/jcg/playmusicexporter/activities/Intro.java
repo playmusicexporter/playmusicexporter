@@ -18,7 +18,7 @@ import com.github.paolorotolo.appintro.AppIntroFragment;
 
 import java.util.Optional;
 
-import de.arcus.framework.superuser.SuperUser;
+import rc.jcg.superuser.SuperUser;
 import re.jcg.playmusicexporter.R;
 import re.jcg.playmusicexporter.settings.PlayMusicExporterPreferences;
 

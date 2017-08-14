@@ -29,7 +29,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import de.arcus.framework.crashhandler.CrashHandler;
 import re.jcg.playmusicexporter.R;
 import re.jcg.playmusicexporter.fragments.MusicTrackListFragment;
 import re.jcg.playmusicexporter.items.SelectedTrackList;
@@ -52,9 +51,6 @@ public class MusicTrackListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_detail);
-
-        // Adds the crash handler to this class
-        CrashHandler.addCrashHandler(this);
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();

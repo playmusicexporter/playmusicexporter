@@ -20,6 +20,16 @@
  * THE SOFTWARE.
  */
 
+package rc.jcg.superuser;
 
+/**
+ * Callback class if the async execution is finish
+ */
+public interface SuperUserCommandCallback {
+    /**
+     * Callback event
+     * @param command The command that finished
+     */
+    void onFinished(SuperUserCommand command);
 
-include ':playmusicexporter', ':superuser', ':playmusiclib'
+}

@@ -25,7 +25,7 @@ package re.jcg.playmusicexporter.items;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 
-import de.arcus.framework.utils.SelectionList;
+import re.jcg.playmusicexporter.utils.SelectionList;
 import re.jcg.playmusicexporter.R;
 import re.jcg.playmusicexporter.actionmode.ActionModeTitle;
 

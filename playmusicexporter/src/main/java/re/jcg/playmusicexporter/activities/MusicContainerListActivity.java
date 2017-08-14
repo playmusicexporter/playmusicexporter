@@ -42,7 +42,6 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import de.arcus.framework.logger.Logger;
 import de.arcus.playmusiclib.exceptions.CouldNotOpenDatabaseException;
 import de.arcus.playmusiclib.exceptions.NoSuperUserException;
 import ly.count.android.sdk.Countly;
@@ -118,9 +117,6 @@ public class MusicContainerListActivity extends AppCompatActivity
                 Countly.sharedInstance().enableCrashReporting();
             }
             setContentView(R.layout.activity_track_list);
-
-
-            Logger.getInstance().logVerbose("Activity", "onCreate(" + this.getLocalClassName() + ")");
 
             // Setup ActionBar
             ActionBar actionBar = getSupportActionBar();
@@ -221,7 +217,7 @@ public class MusicContainerListActivity extends AppCompatActivity
                 mPlayMusicManager.setID3ArtworkMaximumSize(PlayMusicExporterPreferences.getAlbumArtSize());
 
             } catch (Exception e) {
-                Logger.getInstance().logError("SetupPlayMusicExporter", e.toString());
+                // Failed
             }
         }
 

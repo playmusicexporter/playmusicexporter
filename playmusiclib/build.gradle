@@ -41,6 +41,6 @@ android {
 }
 
 dependencies {
-    compile project(':framework')
+    compile project(':superuser')
     compile 'com.mpatric:mp3agic:0.9.0'
 }

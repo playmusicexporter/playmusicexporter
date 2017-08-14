@@ -56,10 +56,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import de.arcus.framework.logger.Logger;
-import de.arcus.framework.superuser.SuperUser;
-import de.arcus.framework.superuser.SuperUserTools;
-import de.arcus.framework.utils.FileTools;
+import rc.jcg.superuser.SuperUser;
+import rc.jcg.superuser.SuperUserTools;
+import de.arcus.playmusiclib.utils.FileTools;
 import de.arcus.playmusiclib.enums.ID3v2Version;
 import de.arcus.playmusiclib.exceptions.CouldNotOpenDatabaseException;
 import de.arcus.playmusiclib.exceptions.NoSuperUserException;
@@ -532,8 +531,6 @@ public class PlayMusicManager {
 
                     // New tmp file
                     fileTmp = fileTmpCrypt;
-                } else {
-                    Logger.getInstance().logWarning("ExportMusicTrack", "Encrypting failed! Continue with decrypted file.");
                 }
             }
 
@@ -583,9 +580,6 @@ public class PlayMusicManager {
                     if (subDocument.isFile()) {
                         if (filename != null && subDocument.getName().equalsIgnoreCase(filename)) {
                             // Delete the file
-                            if (forceOverwrite) {
-                                Logger.getInstance().logWarning("ExportMusicTrack", "(forceOverwrite)  Deleting original file: " + filename);
-                            }
                             subDocument.delete();
                             break;
                         }
@@ -604,12 +598,8 @@ public class PlayMusicManager {
             if (mID3Enable) {
                 // Adds the meta data
                 if (!trackWriteID3(musicTrack, fileTmp, dest)) {
-                    Logger.getInstance().logWarning("ExportMusicTrack", "ID3 writer failed! Continue without ID3 tags.");
-
                     // Failed, moving without meta data
                     if (!FileTools.fileMove(fileTmp, dest)) {
-                        Logger.getInstance().logError("ExportMusicTrack", "Moving the raw file failed!");
-
                         // Could not copy the file
                         return false;
                     }
@@ -617,8 +607,6 @@ public class PlayMusicManager {
             } else {
                 // Moving the file
                 if (!FileTools.fileMove(fileTmp, dest)) {
-                    Logger.getInstance().logError("ExportMusicTrack", "Moving the raw file failed!");
-
                     // Could not copy the file
                     return false;
                 }
@@ -647,13 +635,9 @@ public class PlayMusicManager {
                         parcelFileDescriptor.close();
 
                     } catch (FileNotFoundException e) {
-                        Logger.getInstance().logError("ExportMusicTrack", "File not found!");
-
                         // Could not copy the file
                         return false;
                     } catch (IOException e) {
-                        Logger.getInstance().logError("ExportMusicTrack", "Failed to write the document: " + e.toString());
-
                         // Could not copy the file
                         return false;
                     }
@@ -662,12 +646,6 @@ public class PlayMusicManager {
 
             // Delete temp files
             cleanUp(uniqueID);
-
-            // Adds the file to the media system
-            //new MediaScanner(mContext, dest);
-
-        } else {
-            Logger.getInstance().logInfo("exportMusicTrack", path + " already exists, skipping.");
         }
 
         // Done
@@ -691,13 +669,7 @@ public class PlayMusicManager {
             for (String lDisplayName : pPath.split("/")) {
                 if (lDocumentFile.findFile(lDisplayName) != null) {
                     lDocumentFile = lDocumentFile.findFile(lDisplayName);
-                    if (lDocumentFile.length() == 0) {
-                        if (!lDocumentFile.isDirectory()) {
-                            Logger.getInstance().logInfo("isAlreadyThere", pPath + " File exists, but is 0 bytes in size.");
-                        }
-                    }
                 } else {
-                    Logger.getInstance().logInfo("isAlreadyThere", pPath + " does not exist yet.");
                     return false;
                 }
             }
@@ -779,7 +751,7 @@ public class PlayMusicManager {
                 // Maybe the genre is not supported
                 tagID3v2.setGenreDescription(musicTrack.getGenre());
             } catch (IllegalArgumentException e) {
-                Logger.getInstance().logWarning("TrackWriteID3", e.getMessage());
+                // Failed
             }
         }
 
@@ -827,14 +799,13 @@ public class PlayMusicManager {
 
             // Checks the magic number
             if (!allAccessExporter.hasValidMagicNumber()) {
-                Logger.getInstance().logError("TrackEncrypt", "Invalid magic number! This is not an AllAccess file");
                 return false;
             }
 
             // Saves the file
             return allAccessExporter.save(dest);
         } catch (Exception e) {
-            Logger.getInstance().logError("TrackEncrypt", e.toString());
+            // Failed
         }
 
         // Failed
