@@ -23,23 +23,23 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion '26.0.1'
 
     defaultConfig {
-        applicationId "re.jcg.playmusicexporter"
+        applicationId 're.jcg.playmusicexporter'
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         // TODO Change Version with releases
         versionCode 110
         versionName '0.9.6.0'
         vectorDrawables.useSupportLibrary = true
 
-        buildConfigField "java.util.Date", "BUILD_TIME", "new java.util.Date(" + System.currentTimeMillis() + "L)"
+        buildConfigField 'java.util.Date', 'BUILD_TIME', 'new java.util.Date(' + System.currentTimeMillis() + 'L)'
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -53,13 +53,14 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':superuser')
     compile project(':playmusiclib')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:support-vector-drawable:25.3.1'
-    compile 'com.github.paolorotolo:appintro:4.1.0'
-    compile 'ly.count.android:sdk:16.12.2'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    compile 'com.android.support:appcompat-v7:26.0.1'
+    compile 'com.android.support:support-v13:26.0.1'
+    compile 'com.android.support:design:26.0.1'
+    compile 'com.android.support:support-vector-drawable:26.0.1'
+    compile 'com.github.apl-devs:appintro:v4.2.2'
+    compile 'ly.count.android:sdk:17.05'
+    // Couldn't update leakcanary to 1.5.2 because it is broken (See "https://github.com/square/leakcanary/issues/815")
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 }
