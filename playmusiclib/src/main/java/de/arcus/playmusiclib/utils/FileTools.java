@@ -64,6 +64,7 @@ public class FileTools {
             }
         } catch (Exception e) {
             // Failed
+            // todo: Add logging
         }
         return false;
     }
@@ -139,6 +140,7 @@ public class FileTools {
              success = true;
         } catch (IOException ex) {
             // Failed
+            // todo: Add logging
             success = false;
         }
 
@@ -167,6 +169,7 @@ public class FileTools {
             success = fileCopy(inputStream, outputStream);
         } catch (IOException ex) {
             // Failed
+            // todo: Add logging
             success = false;
         }
 
@@ -178,6 +181,7 @@ public class FileTools {
                 outputStream.close();
         } catch (IOException ex) {
             // Failed
+            // todo: Add logging
             success = false;
         }
 
@@ -257,6 +261,7 @@ public class FileTools {
             }
         } catch (IOException e) {
             // Failed
+            // todo: Add logging
             e.printStackTrace();
         }
 

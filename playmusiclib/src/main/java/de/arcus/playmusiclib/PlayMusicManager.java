@@ -752,6 +752,7 @@ public class PlayMusicManager {
                 tagID3v2.setGenreDescription(musicTrack.getGenre());
             } catch (IllegalArgumentException e) {
                 // Failed
+                // todo: Add logging
             }
         }
 
@@ -806,6 +807,7 @@ public class PlayMusicManager {
             return allAccessExporter.save(dest);
         } catch (Exception e) {
             // Failed
+            // todo: Add logging
         }
 
         // Failed
