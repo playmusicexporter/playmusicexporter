@@ -58,6 +58,7 @@ public class ArtworkLoader {
                 bitmap = ImageTools.decodeByteArraySubsampled(bitmapData, artworkSize, artworkSize);
             } catch (Exception e) {
                 // Error
+                // todo: Add logging
             }
         }
 
@@ -73,6 +74,7 @@ public class ArtworkLoader {
                     }
                 } catch (Exception e) {
                     // Error
+                    // todo: Add logging
                 }
             }
         }

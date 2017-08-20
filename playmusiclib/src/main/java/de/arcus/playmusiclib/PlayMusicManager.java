@@ -600,14 +600,16 @@ public class PlayMusicManager {
                 if (!trackWriteID3(musicTrack, fileTmp, dest)) {
                     // Failed, moving without meta data
                     if (!FileTools.fileMove(fileTmp, dest)) {
-                        // Could not copy the file
+                        // Could not copy the file, moving the raw file failed
+                        // todo: Add logging
                         return false;
                     }
                 }
             } else {
                 // Moving the file
                 if (!FileTools.fileMove(fileTmp, dest)) {
-                    // Could not copy the file
+                    // Could not copy the file, moving the raw file failed
+                    // todo: Add logging
                     return false;
                 }
             }
@@ -635,10 +637,12 @@ public class PlayMusicManager {
                         parcelFileDescriptor.close();
 
                     } catch (FileNotFoundException e) {
-                        // Could not copy the file
+                        // Could not copy the file, file not found
+                        // todo: Add logging
                         return false;
                     } catch (IOException e) {
-                        // Could not copy the file
+                        // Could not copy the file, failed to write the documen
+                        // todo: Add logging
                         return false;
                     }
                 }
@@ -800,6 +804,8 @@ public class PlayMusicManager {
 
             // Checks the magic number
             if (!allAccessExporter.hasValidMagicNumber()) {
+                // Failed
+                // todo: Add logging
                 return false;
             }
 

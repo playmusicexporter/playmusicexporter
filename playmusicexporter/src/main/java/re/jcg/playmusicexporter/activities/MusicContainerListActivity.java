@@ -218,6 +218,7 @@ public class MusicContainerListActivity extends AppCompatActivity
 
             } catch (Exception e) {
                 // Failed
+                // todo: Add logging
             }
         }
 
