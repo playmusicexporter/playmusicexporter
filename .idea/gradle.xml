@@ -10,7 +10,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/playmusicexporter" />
             <option value="$PROJECT_DIR$/playmusiclib" />
-            <option value="$PROJECT_DIR$/superuser" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -29,7 +29,7 @@ import android.text.TextUtils;
 
 import java.net.URL;
 
-import rc.jcg.superuser.SuperUserTools;
+import re.jcg.superuser.SuperUserTools;
 import de.arcus.playmusiclib.utils.ImageTools;
 import de.arcus.playmusiclib.items.ArtworkEntry;
 

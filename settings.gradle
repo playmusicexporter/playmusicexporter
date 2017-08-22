@@ -22,4 +22,4 @@
 
 
 
-include ':playmusicexporter', ':superuser', ':playmusiclib'
+include ':playmusicexporter', ':playmusiclib'

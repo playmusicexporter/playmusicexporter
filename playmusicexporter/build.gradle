@@ -50,9 +50,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':superuser')
     compile project(':playmusiclib')
+    compile 'com.github.playmusicexporter:superuserlib:v1.0.0'
     compile 'com.android.support:appcompat-v7:26.0.1'
     compile 'com.android.support:support-v13:26.0.1'
     compile 'com.android.support:design:26.0.1'

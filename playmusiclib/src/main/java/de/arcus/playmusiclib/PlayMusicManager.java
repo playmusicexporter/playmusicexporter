@@ -56,8 +56,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import rc.jcg.superuser.SuperUser;
-import rc.jcg.superuser.SuperUserTools;
+import re.jcg.superuser.SuperUser;
+import re.jcg.superuser.SuperUserTools;
 import de.arcus.playmusiclib.utils.FileTools;
 import de.arcus.playmusiclib.enums.ID3v2Version;
 import de.arcus.playmusiclib.exceptions.CouldNotOpenDatabaseException;
